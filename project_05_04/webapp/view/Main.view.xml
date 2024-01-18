@@ -1,0 +1,22 @@
+<mvc:View controllerName="project0504.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content> <!--다양한 Control-->
+            <VBox >
+                <Button text="버튼"></Button>
+                <Input value="입력창 입니다."></Input>
+                <Text text="텍스트입니다."></Text>
+                <DatePicker ></DatePicker>
+                <Select ></Select> <!--무조건 리스트 선택됨--><!--자주쓰는 예시: 성별 = 여자 || 남자-->
+                <ComboBox ></ComboBox> <!--리스트 선택해도 지울 수 있음, 사용자가 입력 및 삭제 가능-->
+                <DateRangeSelection ></DateRangeSelection><!--날짜 from - to 선택 언제부터 언제까지-->
+                <Label text="라벨입니다."></Label>
+                <StepInput ></StepInput>
+                <TimePicker ></TimePicker>
+                <RadioButton ></RadioButton> <!--그룹화 가능-->
+                <CheckBox ></CheckBox> <!--그룹화 없음-->
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

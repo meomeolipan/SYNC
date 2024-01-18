@@ -1,0 +1,61 @@
+<mvc:View controllerName="project0508.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:t="sap.ui.table">
+    <Page id="page" title="{i18n>title}">
+        <!-- sap.ui.table.Table -->
+        <!--다중 삭제 구현-->
+        <!--테이블객체.getSelectedIndices()-->
+        <!--현재 선택된 Row의 Index 전부 담긴 배열 값을 얻을 수 있음-->
+        <!--반복문을 사용하여 선택된 Row들만 삭제-->
+
+        <!--테스트-->
+        <!--1,3,5 데이터를 선택 후 Delete 버튼 클릭 시, 선택된 것만 삭제된다.-->
+        <!--rowActionCount 최대 4개까지 가능-->
+        <t:Table
+            id="idTable"
+			rows="{/list}"
+			selectionMode="MultiToggle"
+            rowActionCount="1"
+			paste="onPaste"
+			ariaLabelledBy="title">
+            <t:rowActionTemplate>
+                <t:RowAction >
+                    <t:items>
+                        <t:RowActionItem type="Delete" press="onRowDelete" icon="sap-icon://delete"/>
+                    </t:items>
+                </t:RowAction>
+            </t:rowActionTemplate>
+            <t:extension>
+                <OverflowToolbar >
+                    <content>
+                        <Title text="Table" level="H2"></Title>
+                        <ToolbarSpacer ></ToolbarSpacer>
+                        <Button text="Add"
+                                press="onAdd"
+                                type="Emphasized"
+                                icon="sap-icon://add"></Button>
+                        <Button text="Delete"
+                                press="onDelete"
+                                type="Emphasized"
+                                icon="sap-icon://delete"></Button>        
+                    </content>
+                </OverflowToolbar>
+            </t:extension>
+			<t:columns>
+				<t:Column hAlign="Center">
+					<Label text="Name" width="100%" textAlign="Center"/>
+					<t:template>
+						<Input value="{name}"/>
+					</t:template>
+				</t:Column>
+                <t:Column hAlign="End">
+					<Label text="Age" width="100%" textAlign="Center"/>
+					<t:template>
+						<Input value="{age}"/>
+					</t:template>
+				</t:Column>
+			</t:columns> 
+        </t:Table>
+    </Page>
+</mvc:View>

@@ -1,0 +1,66 @@
+<c:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core">
+        <!--https://ui5.sap.com/#/api/sap.m.Dialog%23associations-->
+        <Dialog id="idCustomerDialog"
+                contentWidth="40%"
+                title="Customer ID"
+                contentHeight="50%"
+                draggable="true"
+                resizable="true">
+                <!--draggable 팝업창 움직이게 가능한가
+                    resizable 사이즈 변경 가능한가-->
+            <content>
+                <Table
+						sticky="HeaderToolbar,ColumnHeaders"
+						inset="false"
+						items="{/Customers}"
+						mode="SingleSelectMaster"
+						selectionChange="onSelectionChange"
+						class="sapFDynamicPageAlignContent"
+						width="auto"> 
+					<headerToolbar>
+						<Toolbar>
+							<Title text="Customers" level="H2"/>
+						</Toolbar>
+					</headerToolbar>
+					<columns>
+						<Column width="12em">
+							<Text text="CustomerID" />
+						</Column>
+						<Column width="12em">
+							<Text text="CompanyName"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="ContactName"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="ContactTitle"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="Address"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="City"></Text>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{CustomerID}" />
+								<Text text="{CompanyName}" />
+								<Text text="{ContactName}" />
+								<Text text="{ContactTitle}" />
+								<Text text="{Address}" />
+								<Text text="{City}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+            </content>
+
+            <endButton>
+                <Button text="close" icon="sap-icon://decline" press="onClose"></Button>
+            </endButton>
+        </Dialog>
+</c:FragmentDefinition>

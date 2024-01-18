@@ -1,0 +1,183 @@
+<mvc:View controllerName="project0511.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:cm="sap.suite.ui.commons"
+    xmlns:t="sap.ui.table"
+    xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+    xmlns:micro="sap.suite.ui.microchart"
+    >
+    <Page id="page" title="{i18n>title}">
+        <viz:VizFrame id="idLineChart" width="400px" height="400px"
+            vizType="stacked_column"
+            uiConfig="{ 'applicationSet' : 'fiori' }"
+            vizProperties="{
+                'title' : {'visible' : true, 'text' : '차트 타이틀'},
+                'legendGroup' : { 
+                    'layout' : {'position' : 'bottom' }
+                },
+                'plotArea' : {
+                    'drawingEffect' : 'glossy',
+                    'dataLabel' : { 'visible' : true, 'type' : 'value' },
+                    'colorPalette' : ['#A566FF', '#b7F0b1']
+                }
+            }" >
+
+            <viz:dataset>
+                <viz.data:FlattenedDataset data="{chart>/chartDataset}">
+                    <viz.data:dimensions>
+                        <viz.data:DimensionDefinition name="연도" value="{chart>year}"/>
+                    </viz.data:dimensions>
+                    <viz.data:measures>
+                        <viz.data:MeasureDefinition name="매출" value="{chart>priceSum}" />
+                    </viz.data:measures>
+                </viz.data:FlattenedDataset>
+            </viz:dataset>
+
+            <viz:feeds>
+                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="연도"/>
+                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="매출"/>
+            </viz:feeds>
+        </viz:VizFrame>
+        <cm:ChartContainer
+            id="chartContainer"
+			showFullScreen="true"
+			showPersonalization="false"
+			autoAdjustHeight="false"
+			personalizationPress="attachPersonalizationPress"				
+            contentChange="attachContentChange"
+			title="Unit Chart">
+            <cm:content>
+                <cm:ChartContainerContent 
+                    icon="sap-icon://horizontal-bar-chart-2"
+                    title="Chart">
+                    <cm:content>
+                        <viz:VizFrame id="idStackChart"
+                            vizType="stacked_column"
+                            uiConfig="{ 'applicationSet' : 'fiori' }"
+                            vizProperties="{
+                                'title' : {'visible' : true, 'text' : '차트 타이틀'},
+                                'legendGroup' : { 
+                                    'layout' : {'position' : 'bottom' }
+                                },
+                                'plotArea' : {
+                                    'drawingEffect' : 'glossy',
+                                    'dataLabel' : { 'visible' : true, type : 'value' },
+                                    'colorPalette' : ['#A566FF', '#b7F0b1']
+                                }
+                            }" >
+                            <viz:dataset>
+                                <viz.data:FlattenedDataset data="{/Products}">
+                                    <viz.data:dimensions>
+                                        <viz.data:DimensionDefinition name="Name" value="{ProductName}"/>
+                                    </viz.data:dimensions>  
+                                    <viz.data:measures>
+                                        <viz.data:MeasureDefinition name="Stock" value="{UnitsInStock}" />
+                                        <viz.data:MeasureDefinition name="Order" value="{UnitsOnOrder}" />
+                                    </viz.data:measures>
+                                </viz.data:FlattenedDataset>
+                            </viz:dataset>
+                            <viz:feeds>
+                                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Name"/>
+                                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Stock,Order"/>
+                            </viz:feeds>
+                        </viz:VizFrame>     
+                    </cm:content>
+                </cm:ChartContainerContent>
+                <cm:ChartContainerContent
+                    icon="sap-icon://table-view"
+                    title="Table">
+                    <cm:content>
+                        <!--sap.ui.table.Table-->
+                        <t:Table
+                            rows="{/Products}"
+                            selectionMode="MultiToggle"
+                            paste="onPaste"
+                            ariaLabelledBy="title">
+                            <t:extension>
+                                <OverflowToolbar style="Clear">
+                                    <Title id="title" text="Products"/>
+                                </OverflowToolbar>
+                            </t:extension>
+                            <t:columns>
+                                <t:Column width="11rem">
+                                    <Label text="Product ID" />
+                                    <t:template>
+                                        <Text text="{ProductID}" textAlign="Center" width="100%" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Product Name" />
+                                    <t:template>
+                                        <Text text="{ProductName}" wrapping="false" width="100%" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Supplier ID" />
+                                    <t:template>
+                                        <Text text="{SupplierID}" wrapping="false" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Category ID" />
+                                    <t:template>
+                                        <Text text="{CategoryID}" wrapping="false" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="QuantityPerUnit" />
+                                    <t:template>
+                                        <Text text="{QuantityPerUnit}" wrapping="false" textAlign="Right" width="100%"/>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Unit Price" />
+                                    <t:template>
+                                        <Text text="{UnitPrice}" textAlign="Right" width="100%"/>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Units In Stock" />
+                                    <t:template>
+                                        <!-- <Text text="{UnitsInStock}" wrapping="false" /> -->
+                                        <!--표현식 바인딩의 경우에는 띄어쓰기도 오류나니 조심-->
+                                        <micro:RadialMicroChart 
+                                            size="S" 
+                                            width="100%"
+                                            alignContent="Center"
+                                            height="18px" 
+                                            percentage="{= ${UnitsInStock}/100}" 
+                                            valueColor="{= ${UnitsInStock}/100 > 0.3 ? 'Good' :'Error'}" 
+                                            press="press" 
+                                            total="{Target}"/>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Units On Order" />
+                                    <t:template>
+                                        <ObjectNumber number="{UnitsOnOrder}" textAlign="Right"/>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Reorder Level" />
+                                    <t:template>
+                                        <Text text="{ReorderLevel}" wrapping="false" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column width="11rem">
+                                    <Label text="Discontinued   " />
+                                    <t:template>
+                                        <c:Icon src="{path: 'Discontinued', formatter: '.formatIcon'}" color="red" visible="{Discontinued}"/>
+                                    </t:template>
+                                </t:Column>
+                            </t:columns>
+                        </t:Table>
+                    </cm:content>
+                </cm:ChartContainerContent>
+            </cm:content>
+        </cm:ChartContainer>
+    </Page>
+</mvc:View>

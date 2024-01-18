@@ -1,0 +1,61 @@
+<mvc:View 
+    controllerName="sync.project0512.controller.Employee"
+    xmlns:mvc="sap.ui.core.mvc" 
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Input id="idInput" type="Text" submit="onValueChange"></Input>
+    <Table 
+        id="Employee"
+		inset="false"
+		items="{chart>/list}">
+		<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="Employee" level="H2"/>
+					<ToolbarSpacer />
+					<ComboBox id="idPopinLayout"
+						placeholder="Popin layout options"
+						change="onPopinLayoutChanged">
+						<items>
+							<core:Item  text="Block"
+								key="Block"/>
+							<core:Item  text="Grid Large"
+								key="GridLarge"/>
+							<core:Item  text="Grid Small"
+								key="GridSmall"/>
+						</items>
+					</ComboBox>
+					<Label text="Sticky options:" />
+					<CheckBox text="ColumnHeaders"
+						select="onSelect"/>
+					<CheckBox text="HeaderToolbar"
+						select="onSelect"/>
+					<CheckBox text="InfoToolbar"
+						select="onSelect"/>
+					<ToggleButton id="toggleInfoToolbar"
+						text="Hide/Show InfoToolbar"
+						press="onToggleInfoToolbar" />
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
+		<infoToolbar>
+			<OverflowToolbar>
+				<Label text="Wide range of available Employee"/>
+			</OverflowToolbar>
+		</infoToolbar>
+		<columns>
+			<Column
+				width="12em">
+				<Text text="Name" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem vAlign="Middle">
+				<cells>
+					<Text text="{chart>name}" />
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</mvc:View>

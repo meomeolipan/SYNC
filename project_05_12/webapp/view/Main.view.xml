@@ -1,0 +1,14 @@
+<mvc:View controllerName="sync.project0512.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Button text="Detail" press="onGoDetail"></Button>
+            <Button text="Display Not Found" press="onGoNotFound"></Button>
+            <Button text="Employee" press="onGoEmployee"></Button>
+            <!-- Employee 페이지 구성은 마음대로 해서,
+                해당 버튼 클릭 시 Employee.view.xml로 이동!-->
+
+        </content>
+    </Page>
+</mvc:View>

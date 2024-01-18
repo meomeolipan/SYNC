@@ -1,0 +1,56 @@
+<mvc:View controllerName="sap.btp.ux410solving.controller.Main" 
+    xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f" 
+    xmlns:fb="sap.ui.comp.filterbar" xmlns:c="sap.ui.core" 
+    xmlns:viz="sap.viz.ui5.controls" xmlns:viz.data="sap.viz.ui5.data" 
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    <f:DynamicPage id="dynamicPageId">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Viz Frame"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<fb:FilterBar id="filterbar" search=".onSearch" filterChange=".onFilterChange" filterContainerWidth="12rem" useToolbar="false">
+					<fb:filterGroupItems>
+						<fb:FilterGroupItem name="OrderID" label="Order ID" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+                                <ComboBox id="ComboOrderID" items="{ path: '/Orders', sorter: { path: 'OrderID' } }">
+		                            <c:ListItem key="{OrderID}" text="{OrderID}" additionalText="{CustomerID}"/>
+                                </ComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+                        <fb:FilterGroupItem name="Type" label="Type" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+	                            <ComboBox id="ComboType" selectedKey="bar" required="true" change="onChangeComboType" items="{ path: 'typeList>/types', sorter: { path: 'type' } }">
+	                                <c:ListItem key="{typeList>type}" text="{typeList>type}"/>
+                                </ComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+					</fb:filterGroupItems>
+				</fb:FilterBar>
+			</f:DynamicPageHeader>
+		</f:header>
+        <f:content>
+            <viz:VizFrame id="idLineChart" vizType="bar" uiConfig="{ 'applicationSet' : 'fiori' }" selectData="onSelectionChange" width="100%" height="100%">
+                <viz:dataset>
+                    <viz.data:FlattenedDataset data="{/Order_Details}" id="idDataset">
+                        <viz.data:dimensions>
+                            <viz.data:DimensionDefinition name="OrderID" value="{OrderID}"/>
+                            <viz.data:DimensionDefinition name="ProductID" value="{ProductID}"/>
+                        </viz.data:dimensions>
+                        <viz.data:measures>
+                            <viz.data:MeasureDefinition name="UnitPrice" value="{UnitPrice}"/>
+                        </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+                <viz:feeds>
+                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="OrderID,ProductID"/>
+                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="UnitPrice"/>
+                </viz:feeds>
+            </viz:VizFrame>
+        </f:content>
+	</f:DynamicPage>
+</mvc:View>

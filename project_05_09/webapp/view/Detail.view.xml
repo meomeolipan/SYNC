@@ -1,0 +1,156 @@
+<mvc:View controllerName="odata.project0509.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form" 
+    >
+    <Page id="OrderPage" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <f:Form id="idForm"
+				editable="true">
+				<f:title>
+					<core:Title text="Order Detail" />
+				</f:title>
+				<f:layout>
+					<f:ColumnLayout
+						columnsM="2"
+						columnsL="3"
+						columnsXL="4"
+					/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="Address">
+						<f:formElements>
+						<f:FormElement label="Order ID">
+								<f:fields>
+									<Text text="{OrderID}" id="OrderID"/>
+								</f:fields>
+							</f:FormElement>
+						<f:FormElement label="Customer ID">
+								<f:fields>
+									<Text text="{CustomerID}" id="CustomerID"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{EmployeeID}" id="name02"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{OrderDate}" id="name03"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{RequiredDate}" id="name04"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Street">
+								<f:fields>
+									<Text text="{ShippedDate}" />
+									<Text text="{HouseNumber}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="2" cellsLarge="1" />
+										</layoutData>
+									</Text>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="ZIP Code/City">
+								<f:fields>
+									<Text text="{ZIPCode}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="3" cellsLarge="2" />
+										</layoutData>
+									</Text>
+									<Text text="{City}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Country">
+								<f:fields>
+									<Select id="country" selectedKey="{Country}">
+										<items>
+											<core:Item text="England" key="England"/>
+											<core:Item text="Germany" key="Germany"/>
+											<core:Item text="USA" key="USA"/>
+										</items>
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Web">
+								<f:fields>
+									<Text text="{Url}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer title="Group 2">
+						<f:formElements>
+						<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{SupplierName}" id="name05"/>
+								</f:fields>
+							</f:FormElement>
+						<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{SupplierName}" id="name06"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{SupplierName}" id="name07"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{SupplierName}" id="name08"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Text text="{SupplierName}" id="name09"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Street">
+								<f:fields>
+									<Text text="{Street}" />
+									<Text text="{HouseNumber}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="2" cellsLarge="1" />
+										</layoutData>
+									</Text>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="ZIP Code/City">
+								<f:fields>
+									<Text text="{ZIPCode}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="3" cellsLarge="2" />
+										</layoutData>
+									</Text>
+									<Text text="{City}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Country">
+								<f:fields>
+									<Select id="Nation" selectedKey="{Country}">
+										<items>
+											<core:Item text="England" key="England"/>
+											<core:Item text="Germany" key="Germany"/>
+											<core:Item text="USA" key="USA"/>
+										</items>
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Web">
+								<f:fields>
+									<Text text="{Url}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+        </content>
+    </Page>
+</mvc:View>

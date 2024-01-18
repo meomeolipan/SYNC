@@ -1,0 +1,21 @@
+<c:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core">
+        <!--https://ui5.sap.com/#/api/sap.m.Dialog%23associations-->
+        <Dialog id="idDialog"
+                contentWidth="40%"
+                title="제목"
+                contentHeight="50%"
+                draggable="true"
+                resizable="true">
+                <!--draggable 팝업창 움직이게 가능한가
+                    resizable 사이즈 변경 가능한가-->
+            <content>
+                <Text text="Hello Dialog"></Text>
+            </content>
+
+            <endButton>
+                <Button text="close" icon="sap-icon://decline" press="onClose"></Button>
+            </endButton>
+        </Dialog>
+</c:FragmentDefinition>

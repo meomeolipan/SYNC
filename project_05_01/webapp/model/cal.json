@@ -1,0 +1,9 @@
+{
+    "Operator" : [
+        {"key" : "+", "text" : "plus"},
+        {"key" : "-", "text" : "minus"},
+        {"key" : "*", "text" : "multiple"},
+        {"key" : "/", "text" : "divide"}
+    ],
+    "title" : { "subTitle" : "Calculator Program"}
+}

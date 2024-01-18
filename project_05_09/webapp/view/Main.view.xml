@@ -1,0 +1,175 @@
+<mvc:View controllerName="odata.project0509.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+	xmlns:layout="sap.ui.layout"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:c="sap.ui.core">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Header Title"/>
+				</f:heading>
+					
+				<!-- <f:actions>
+					<Button id="idSearchButton" text="Search" press="onSearch"/>
+				</f:actions> -->
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- DynamicPage Header -->
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<!-- <layout:HorizontalLayout allowWrapping="true">
+					<layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <Label id="idOrder" text="OrderID:"/>
+						<Input id="idOrderID" showValueHelp="true" valueHelpRequest="onValueHelpRequest"/>
+					</layout:VerticalLayout>
+
+					<layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <Label id="idCustomer" text="CustomerID:"/>
+						<Input id="idCustomerID" showValueHelp="true" valueHelpRequest="onValueHelpRequest"/>
+					</layout:VerticalLayout>
+
+					<layout:VerticalLayout>
+						<ObjectAttribute title="Availability"/>
+						<ObjectStatus text="In Stock" state="Success" />
+					</layout:VerticalLayout>
+				</layout:HorizontalLayout> -->
+				<fb:FilterBar id="filterbar" persistencyKey="myPersKey" filterContainerWidth="12rem" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+					<fb:filterGroupItems>
+						<fb:FilterGroupItem name="OrderID" label="Order ID" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+								<Input 
+									id="idOrderID" 
+									value="{search>/OrderID}"
+									showValueHelp="true" 
+									valueHelpRequest="onValueHelpRequest"/>
+							</fb:control>
+						</fb:FilterGroupItem>
+						<fb:FilterGroupItem name="CustomerID" label="Customer ID" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+								<Input 
+									id="idCustomerID" 
+									value="{search>/CustomerID}"
+									showValueHelp="true"
+									valueHelpRequest="onValueHelpRequest"/>
+							</fb:control>
+						</fb:FilterGroupItem>
+						<fb:FilterGroupItem name="OrderDate" label="Order Date" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+									<!-- <DatePicker id="idOrderDate" displayFormat="yyyy-MM-dd"></DatePicker> -->
+									<!--선택날짜 가져오기 => .getDateValue()-->
+									<DateRangeSelection 
+										id="idOrderDate" 
+										dateValue="{search>/OrderDate_start}"
+										secondDateValue="{search>/OrderDate_end}"
+										displayFormat="yyyy/MM/dd"/>
+									<!--선택날짜 가져오기 => .getDateValue(), .getSecondDateValue()-->
+							</fb:control>
+						</fb:FilterGroupItem>
+					</fb:filterGroupItems>
+				</fb:FilterBar>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+			<VBox>
+				<!--sap.m.table-->
+				<!--items에 Orders경로 지정 가능-->
+				<!--manifest.json에 models 객체 아래에
+					이름 없는 모델이라면 {/Orders} 처럼 사용가능-->
+				<!--js 파일에서 이미 Odata를 사용하고 있는데
+					또 이름 없는 JSONModel 객체를 생성하면
+					오류도 안나고 그냥 덮어씌우기 때문에
+					주의!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+					<!--items="{
+							path: '/Orders',
+							filters: [{
+								path: 'CustomerID', 
+								operator: 'EQ', 
+								value1: 'VINET'
+							}],
+							sorter: {
+								path : 'EmployeeID',
+								descending: false
+							}
+							}"-->
+				<Table id="idTable"
+						sticky="HeaderToolbar,ColumnHeaders"
+						inset="false"
+						items="{/Orders}"
+						mode="SingleSelectMaster"
+						selectionChange="onSelectionChange"
+						class="sapFDynamicPageAlignContent"
+						width="auto"> 
+					<headerToolbar>
+						<Toolbar>
+							<Title text="Products" level="H2"/>
+						</Toolbar>
+					</headerToolbar>
+					<columns>
+						<Column width="12em">
+							<Text text="OrderID" /> <!--column의 Label 느낌-->
+						</Column>
+						<Column width="12em">
+							<Text text="CustomerID"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="EmployeeID"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="OrderDate"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="RequiredDate"></Text>
+						</Column>
+						<Column width="12em">
+							<Text text="ShippedDate"></Text>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<!--columns 안의 Column개수와-->
+							<!--cells 안의 Obj 개수가 동일해야함-->
+							<cells>
+								<Text text="{OrderID}" />
+								<Text text="{CustomerID}" />
+								<Text text="{EmployeeID}" />
+								<Text text="{
+									path: 'OrderDate',
+									formatter: '.fnDateToString'
+								}" />
+								<Text text="{
+									path: 'RequiredDate',
+									formatter: '.fnDateToString'
+								}" />
+								<Text text="{
+									path: 'ShippedDate',
+									formatter: '.fnDateToString'
+								}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+				<!--vbox 추가한 이유 알아보기-->
+				<!--09프로젝트의 루트패스는 odata. 부터임 index.xml에서 확인 가능-->
+				<c:Fragment fragmentName="odata.project0509.view.fragment.CustomerID"/>
+			</VBox>
+		</f:content>
+		<!-- DynamicPage Footer --> 
+		<f:footer>
+			<OverflowToolbar>
+				<Button icon="sap-icon://message-popup"
+						text="{/messagesLength}"
+						type="Emphasized"
+						press="onMessageButtonPress"
+						visible="{= !!${/messagesLength}}"/>
+				<ToolbarSpacer/>
+				<Button type="Accept" text="Accept"/>
+				<Button type="Reject" text="Reject"/>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

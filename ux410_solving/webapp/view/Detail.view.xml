@@ -1,0 +1,60 @@
+<mvc:View controllerName="sap.btp.ux410solving.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:uxap="sap.uxap"
+    >
+    <uxap:ObjectPageLayout id="ObjectPageLayout">
+        <uxap:headerTitle>
+            <uxap:ObjectPageHeader id="ObjHeader" objectTitle="">
+                <uxap:actions>
+                    <uxap:ObjectPageHeaderActionButton icon="sap-icon://undo" text="Undo" press=".onNavBack"/>
+                </uxap:actions>
+            </uxap:ObjectPageHeader>
+        </uxap:headerTitle>
+        <uxap:headerContent>                                              
+            <Text text="Order Detail View Details"/>
+        </uxap:headerContent>
+        <uxap:sections>
+            <uxap:ObjectPageSection title="Payroll" >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="Info">
+                        <uxap:blocks>
+                            <f:SimpleForm id="SimpleFormChange354"
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                                title="Address"
+                                labelSpanXL="3"
+                                labelSpanL="3"
+                                labelSpanM="3"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="4"
+                                emptySpanL="4"
+                                emptySpanM="4"
+                                emptySpanS="0"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1"
+                                singleContainerFullSize="false" >
+                                <f:content>
+                                    <Label text="Order ID" />
+                                    <Text text="{OrderID}" />
+                                    <Label text="Product ID" />
+                                    <Text text="{ProductID}" />
+                                    <Label text="Unit Price" />
+                                    <Text text="{UnitPrice}" />
+                                    <Label text="Quantity" />
+                                    <Text text="{Quantity}" />
+                                    <Label text="Discount" />
+                                    <Text text="{Discount}" />
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

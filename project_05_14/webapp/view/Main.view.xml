@@ -1,0 +1,88 @@
+<mvc:View controllerName="project0514.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <l:Grid
+                binding="{/Member}"
+                class="sapUiSmallMarginTop"
+                hSpacing="2"
+                defaultSpan="L6 M6 S10">
+                <l:content>
+                    <l:VerticalLayout >
+                        <l:HorizontalLayout >
+                            <Label labelFor="productNoInput" text="Member Id" />
+                            <Input id="productNoInput" description="Member Id" value="{data>/Memid}" > 
+                            <layoutData>
+                                <l:GridData span="XL4 L4 M6 S12"></l:GridData>
+                            </layoutData>
+                            </Input>
+                        </l:HorizontalLayout>
+                        <Input description="Member Name" value="{data>/Memnm}">
+                            <layoutData>
+                                <l:GridData span="XL4 L4 M6 S12"></l:GridData>
+                            </layoutData>
+                        </Input>
+                        <Input description="Tel no." value="{data>/Telno}">
+                            <layoutData>
+                                <l:GridData span="XL4 L4 M6 S12"></l:GridData>
+                            </layoutData>
+                        </Input>
+                        <Input description="Email" value="{data>/Email}">
+                            <layoutData>
+                                <l:GridData span="XL4 L4 M6 S12"></l:GridData>
+                            </layoutData>
+                        </Input>
+                    </l:VerticalLayout>
+                </l:content>
+            </l:Grid>
+            <t:Table
+                id="idTable"
+                rows="{/Member}"
+                selectionMode="Single"
+                selectionBehavior="RowOnly"
+                paste="onPaste"
+                ariaLabelledBy="title"
+                rowSelectionChange="onRowSelectionChange">
+                <t:extension>
+                    <OverflowToolbar style="Clear">
+                        <Title id="title" text="Products"/>
+                        <ToolbarSpacer ></ToolbarSpacer>
+                        <Button text="Read Entity" type="Emphasized" press="onEntity"></Button>
+                        <Button text="EntitySet" type="Emphasized" press="onEntitySet"></Button>
+                        <Button text="Create" type="Emphasized" press="onCreate"></Button>
+                        <Button text="Update" type="Emphasized" press="onUpdate"></Button>
+                        <Button text="Delete" type="Emphasized" press="onDelete"></Button>
+                        <Button icon="sap-icon://reset" press="onReset"></Button>
+                    </OverflowToolbar>
+                </t:extension>
+                <t:columns>
+                    <t:Column width="11rem">    
+                        <Label text="Member Id" />
+                        <t:template>
+                            <Text text="{Memid}" textAlign="Center" width="100%" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                        <Label text="Member Name" />
+                        <t:template>
+                            <Text text="{Memnm}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                        <Label text="Tel no." />
+                        <t:template>
+                            <Text text="{Telno}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                        <Label text="Email" />
+                        <t:template>
+                            <Text text="{Email}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                </t:columns>
+            </t:Table>
+        </content>
+    </Page>
+</mvc:View>

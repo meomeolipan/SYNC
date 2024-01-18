@@ -1,0 +1,315 @@
+<mvc:View controllerName="project0505.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+    <Page id="page" title="{i18n>title}">
+        <!--content는 default 값이라 지워도 알아서 됨-->
+        <Panel headerText="VerticalLayout" expandable="true" expanded="false">
+        <!--expandable 접고 펼치기 가능여부, expanded 처음부터 펼쳐지게-->
+			<headerToolbar> <!--이걸 굳이 하는 이유를 여쭤보자..-->
+				<Toolbar > <!--Button을 추가하려면 Toolbar추가하면 가능-->
+					<Title text="VerticalLayout within Toolbar"/>
+					<ToolbarSpacer ></ToolbarSpacer>
+					<Button icon="sap-icon://save"></Button>
+				</Toolbar>
+			</headerToolbar>
+            <l:VerticalLayout > <!--세로 정렬 -->
+                <!--Input, Text, StepInput, Select, DatePicker, DateRangeSelection-->
+                <Input value="입력창 입니다."></Input>
+                <Text text="텍스트입니다."></Text>
+                <StepInput ></StepInput>
+                <Select ></Select>
+                <DatePicker displayFormat="yyyy-mm-dd"></DatePicker> <!--2022-10-23-->
+                <DateRangeSelection ></DateRangeSelection>
+            </l:VerticalLayout>
+        </Panel>
+        <Panel headerText="HorizontalLayout" expandable="true" expanded="false">
+            <l:HorizontalLayout ><!--가로 정렬-->
+                <Input value="입력창 입니다."></Input>
+                <Text text="텍스트입니다."></Text>
+                <StepInput ></StepInput>
+                <Select ></Select>
+                <DatePicker ></DatePicker>
+                <DateRangeSelection ></DateRangeSelection>
+             </l:HorizontalLayout>
+        </Panel>
+        <Panel headerText="Form" expandable="true" expanded="false">
+			<!--sap.ui.layout.form.Form-->
+			<f:Form id="FormChangeColumn_threeGroups234"
+				editable="true">
+				<f:title>
+					<core:Title text="Supplier" />
+				</f:title>
+				<f:layout>
+					<f:ColumnLayout
+						columnsM="2"
+						columnsL="3"
+						columnsXL="4"
+					/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="Address">
+						<f:formElements>
+						<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name00"/>
+								</f:fields>
+							</f:FormElement>
+						<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name01"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name02"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name03"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name04"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Street">
+								<f:fields>
+									<Input value="{Street}" />
+									<Input value="{HouseNumber}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="2" cellsLarge="1" />
+										</layoutData>
+									</Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="ZIP Code/City">
+								<f:fields>
+									<Input value="{ZIPCode}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="3" cellsLarge="2" />
+										</layoutData>
+									</Input>
+									<Input value="{City}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Country">
+								<f:fields>
+									<Select id="country" selectedKey="{Country}">
+										<items>
+											<core:Item text="England" key="England"/>
+											<core:Item text="Germany" key="Germany"/>
+											<core:Item text="USA" key="USA"/>
+										</items>
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Web">
+								<f:fields>
+									<Input value="{Url}" type="Url"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer title="Group 2">
+						<f:formElements>
+						<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name05"/>
+								</f:fields>
+							</f:FormElement>
+						<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name06"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name07"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name08"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Name">
+								<f:fields>
+									<Input value="{SupplierName}" id="name09"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Street">
+								<f:fields>
+									<Input value="{Street}" />
+									<Input value="{HouseNumber}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="2" cellsLarge="1" />
+										</layoutData>
+									</Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="ZIP Code/City">
+								<f:fields>
+									<Input value="{ZIPCode}">
+										<layoutData>
+											<f:ColumnElementData cellsSmall="3" cellsLarge="2" />
+										</layoutData>
+									</Input>
+									<Input value="{City}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Country">
+								<f:fields>
+									<Select id="Nation" selectedKey="{Country}">
+										<items>
+											<core:Item text="England" key="England"/>
+											<core:Item text="Germany" key="Germany"/>
+											<core:Item text="USA" key="USA"/>
+										</items>
+									</Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Web">
+								<f:fields>
+									<Input value="{Url}" type="Url"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</Panel>
+		<Panel headerText="SimpleForm" expandable="true" expanded="false">
+			<f:SimpleForm id="SimpleFormDisplayColumn_threeGroups234"
+			editable="false"
+			layout="ColumnLayout"
+			title="Supplier"
+			columnsM="2"
+			columnsL="3"
+			columnsXL="4"
+			>
+				<f:content>
+					<core:Title text="Address" />
+					<Label text="Name" />
+					<Input id="nameText" />
+					<Label text="Street/No." />
+					<Input id="Street" />
+					<Input id="HouseNumber" >
+						<layoutData>
+							<!--GridData XL2 L3 M4 S4 사이즈를 의미-->
+							<!--예 : 사이즈가 XL일 때 2칸차지-->
+							<l:GridData span="XL2 L3 M4 S4"/>
+						</layoutData>
+					</Input>
+					<Label text="ZIP Code/City" />
+					<Text text="{ZIPCode} {City}" />
+					<Label text="Country" />
+					<Text id="countryText" text="{Country}" />
+					<Label text="Web" />
+					<Link text="Url" href="{Url}" />
+					<core:Title text="Contact" />
+					<Label text="Twitter" />
+					<Text text="{Twitter}" />
+					<Label text="Email" />
+					<Text text="{Email}" />
+					<Label text="Tel." />
+					<Text text="{Tel}" />
+					<core:Title text="Other" />
+					<Label text="SMS" />
+					<Text text="{Sms}" />
+					<Label text="Mobile" />
+					<Text text="{Mobile}" />
+					<Label text="Pager" />
+					<Text text="{Pager}" />
+					<Label text="Fax" />
+					<Text text="{Fax}" />
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+		<!--sap.ui.layout.Grid-->
+		<!-- <Panel headerText="Grid00" expandable="true" expanded="true">
+			<l:Grid >
+				<Input value="Test00">
+					<layoutData>
+						<l:GridData span="XL6 L2 M4 S12"></l:GridData>
+					</layoutData>
+				</Input>
+				<Input value="Test01">
+					<layoutData>
+						<l:GridData span="XL6 L6 M4 S12"></l:GridData>
+					</layoutData>
+				</Input>
+				<Input value="Test02">
+					<layoutData>
+						<l:GridData span="XL6 L4 M4 S12"></l:GridData>
+					</layoutData>
+				</Input>
+				<Input value="Test03">
+					<layoutData>
+						<l:GridData span="XL6 L2 M4 S12"></l:GridData>
+					</layoutData>
+				</Input>
+				<Input value="Test04">
+					<layoutData>
+						<l:GridData span="XL6 L2 M4 S12"></l:GridData>
+					</layoutData>
+				</Input>
+				<Input value="Test05">
+					<layoutData>
+						<l:GridData span="XL6 L2 M4 S12"></l:GridData>
+					</layoutData>
+				</Input>
+			</l:Grid>
+		</Panel> -->
+		<Panel headerText="Grid01" expandable="true" expanded="true">
+			<l:Grid >
+				<VBox> <!--Vertical Box 세로 정렬-->
+					<layoutData>
+						<l:GridData span="XL6 L3 M6 S12"></l:GridData>
+					</layoutData>
+					<Input value="First VBox"></Input>
+					<Input value="First VBox"></Input>
+					<Input value="First VBox"></Input>
+				</VBox>
+				<VBox>
+					<layoutData>
+						<l:GridData span="XL6 L9 M6 S12"></l:GridData>
+					</layoutData>
+					<Input value="Second VBox"></Input>
+					<Input value="Second VBox"></Input>
+					<Input value="Second VBox"></Input>
+					<Table id="idProductsTable"
+		        	inset="false"
+		        	items="{ path: '/ProductCollection', sorter: { path: 'Name'}}">
+						<headerToolbar>
+							<OverflowToolbar>
+								<content>
+									<Title text="Products" level="H2"/>
+									<ToolbarSpacer />
+								</content>
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column
+								hAlign="End">
+								<Text text="Price" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem vAlign="Middle">
+								<cells>
+									<Text
+										text="{SupplierName}" />
+								</cells>
+							</ColumnListItem>
+						</items>
+           			</Table>				
+				</VBox>
+			</l:Grid>
+		</Panel>
+    </Page>
+</mvc:View>

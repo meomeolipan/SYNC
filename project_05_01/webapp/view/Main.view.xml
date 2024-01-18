@@ -1,0 +1,168 @@
+<mvc:View controllerName="project0501.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table">
+    <Page id="page" title="{i18n>title}">
+        <content> <!--<content></content> == <content />-->
+            <!-- <Button text="click" enabled="false" type="Emphasized"></Button>
+            <Button text="Accept" type="Accept" textDirection="LTR"/>
+            <Button text="Attention" type="Attention"/>
+            <Button text="Back" type="Back" textDirection="RTL"/>
+            <Button text="Critical" type="Critical"/>
+            <Button text="Default" type="Default"/>
+            <Button text="Emphasized" type="Emphasized"/>
+            <Button text="Ghost" type="Ghost"/>
+            <Button text="Negative" type="Negative"/>
+            <Button text="Neutral" type="Neutral"/>
+            <Button text="Reject" type="Reject"/>
+            <Button text="Success" type="Success"/>
+            <Button text="Transparent" type="Transparent"/>
+            <Button text="Unstyled" type="Unstyled"/>
+            <Button text="Up" type="Up"/> -->
+            <!--width로 해결했을 때 글씨가 내려가는게 보기 싫으면-->
+            <!--즉 부트스트랩 내에서 해결이 안된다면 HTML 단계로 가서 직접수정해야함-->
+
+            <!--Context Binding-->
+            <!--<l:VerticalLayout id="test">-->
+            <!--위에 버티컬 레이아웃의 아이디 값을-->
+            <!--메인 JS 온 이닛 함수에서 경로 지정하면-->
+            <!--그 안에 귀속되는 모든 경로는 다 지정됨-->
+            <l:VerticalLayout width="30%">
+                <!--Context Binding-->
+                <!-- <Title binding="{/title}" text="{subTitle}"></Title> -->
+
+                <Title id="idTitle" text="{title/subTitle}"></Title>
+                <Input id="idInput" value="write number" textDirection="RTL"/>
+                <Select 
+                    id="idSelect" 
+                    textDirection="RTL" 
+                    width="100%" 
+                    showSecondaryValues="true" 
+                    items = "{/Operator}">
+                        <core:ListItem 
+                            key="{key}" 
+                            text="{text}"
+                            additionalText="{key}"/>
+                    <!-- <items> -->
+                        <!-- <core:Item key="plus" text="+" textDirection="RTL"></core:Item>
+                        <core:Item key="minus" text="-" textDirection="RTL"></core:Item>
+                        <core:Item key="multiple" text="*" textDirection="RTL"></core:Item>
+                        <core:Item key="divide" text="/" textDirection="RTL"></core:Item> -->
+                        <!-- <core:ListItem key="plus" text="+" additionalText="plus" textDirection="RTL"/>
+                        <core:ListItem key="minus" text="-" additionalText="minus" textDirection="RTL"/>
+                        <core:ListItem key="multiple" text="*" additionalText="multiple" textDirection="RTL"/>
+                        <core:ListItem key="divide" text="/" additionalText="divide" textDirection="RTL"/> -->
+                    <!-- </items> -->
+                </Select>
+                <Input id="idInput2" textDirection="RTL"/>
+                <Button width="100%" text="calculate" press="onClick"/>
+            </l:VerticalLayout>
+
+            <!-- sap.ui.table.Table -->
+            <t:Table
+				rows="{local>/history}"
+				selectionMode="MultiToggle"
+				paste="onPaste"
+				ariaLabelledBy="title">
+				<t:columns>
+                    <!-- <t:Column width="11rem"> 쓰면 자리 저만큼 차지함  -->
+					<t:Column hAlign="End">
+						<Label text="Number One" width="100%" textAlign="Center"/>
+						<t:template>
+							<Text text="{local>Num1}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="Center">
+						<Label text="Operator" width="100%" textAlign="Center"/>
+						<t:template>
+							<Text text="{local>Oper}" wrapping="false" />
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="End">
+						<Label text="Number Two" width="100%" textAlign="Center"/>
+						<t:template>
+							<Text text="{local>Num2}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="End">
+						<Label text="Result" width="100%" textAlign="Center"/>
+						<t:template>
+							<Text text="{local>Result}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="Center">
+						<Label text="Status" width="100%" textAlign="Center"/>
+						<t:template>
+							<core:Icon
+                                src="sap-icon://circle-task-2"
+                                class="size1"
+                                color="{
+                                    path : 'local>Result',
+                                    formatter : '.fnColorFormat'
+                                }" 
+                            >
+                                <!--visible="{= ${local>Result} > 100}"-->
+                                <!--formatter가 있으면 거쳐서 컬러에 적용함-->
+                                <!--
+                                    core:Icon에서 프로퍼티 컬러
+                                    Result값이 100을 넘을 때 색상 바꾸는 것 참고                
+                                    color="{= ${local>Result} > 100 ? '#020715' : '#930724'}" 
+                                -->
+                                <!--개발자 도구에서 색상 카피 가능-->
+                                <!--Expression Binding 위와 같은 조건식으로 사용-->
+                                <!--배열.length : 배열의 길이-->
+                                <!--${local>/list.length}-->
+                                <!-- 
+                                    ">" 부등호는 그냥 입력해도 되는데,
+                                    "<" 왼쪽의 부등호는 코드값으로 입력해야 한다.
+                                    코드값 : &lt;
+                                    즉, "<" 대신 &lt;를 입력하면 된다.
+                                -->
+                                <core:layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </core:layoutData>
+                            </core:Icon>
+						</t:template>
+					</t:Column>
+				</t:columns> 
+            </t:Table>
+
+            <!-- sap.m.Table -->
+            <Table id="idProductsTable"
+		        inset="false"
+		        items="{ 
+                    path: '/ProductCollection', 
+                    sorter: { path: 'Name'}}">
+		        <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="Products" level="H2"/>
+                            <ToolbarSpacer />
+                        </content>
+                    </OverflowToolbar>
+		        </headerToolbar>
+                <columns>
+                    <Column
+                        hAlign="End">
+                        <Text text="Price" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text
+                                text="{SupplierName}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+        <footer>
+            <!-- Bar 타입을 가진 클래스를 적용할 수 있음-->
+            <Toolbar >
+                <ToolbarSpacer />
+                <Button text="보내기" press="onClick"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>
