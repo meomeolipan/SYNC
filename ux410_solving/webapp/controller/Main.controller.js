@@ -41,7 +41,6 @@ sap.ui.define([
                 this.byId("ComboType").setValueState("Error").setValueStateText("Invalid entry");
             }
         },
-
         onSelectionChange: function (oEvent) {
             var oSelectedData = oEvent.getParameter("data")[0];
             if (oSelectedData) {

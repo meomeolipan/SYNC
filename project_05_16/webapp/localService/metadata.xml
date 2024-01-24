@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWMEMBER_SB05_SRV_01" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Member" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Memid"/>
+                </Key>
+                <Property Name="Memid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Member ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Memnm" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Char20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Telno" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="Char15" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Char20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="WorkSet" Relationship="ZGWMEMBER_SB05_SRV_01.MemToWork" FromRole="FromRole_MemToWork" ToRole="ToRole_MemToWork"/>
+            </EntityType>
+            <EntityType Name="Work" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Memid"/>
+                    <PropertyRef Name="Workno"/>
+                </Key>
+                <Property Name="Memid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Member ID" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Workno" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="numc5" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Worknm" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Erdat" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Created on" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Memo" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Char" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="MemToWork" sap:content-version="1">
+                <End Type="ZGWMEMBER_SB05_SRV_01.Member" Multiplicity="1" Role="FromRole_MemToWork"/>
+                <End Type="ZGWMEMBER_SB05_SRV_01.Work" Multiplicity="*" Role="ToRole_MemToWork"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_MemToWork">
+                        <PropertyRef Name="Memid"/>
+                    </Principal>
+                    <Dependent Role="ToRole_MemToWork">
+                        <PropertyRef Name="Memid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZGWMEMBER_SB05_SRV_01_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="Member" EntityType="ZGWMEMBER_SB05_SRV_01.Member" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="WorkSet" EntityType="ZGWMEMBER_SB05_SRV_01.Work" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="MemToWorkSet" Association="ZGWMEMBER_SB05_SRV_01.MemToWork" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="Member" Role="FromRole_MemToWork"/>
+                    <End EntitySet="WorkSet" Role="ToRole_MemToWork"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/SAP/ZGWMEMBER_SB05_SRV_01/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/SAP/ZGWMEMBER_SB05_SRV_01/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

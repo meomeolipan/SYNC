@@ -1,0 +1,10 @@
+<mvc:View controllerName="project0515.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Text text="이 것 보세요오오오오!! 어?!?! 어어어!?!?!?"></Text>
+        </content>
+    </Page>
+</mvc:View>
+ 

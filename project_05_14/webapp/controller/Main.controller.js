@@ -2,12 +2,14 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+    "sap/ui/core/Fragment",
+    "sap/ui/model/Filter"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, MessageBox, MessageToast) {
+    function (Controller, JSONModel, MessageBox, MessageToast, Fragment, Filter) {
         "use strict";
 
         return Controller.extend("project0514.controller.Main", {
@@ -16,7 +18,8 @@ sap.ui.define([
                     Memid: "",
                     Memnm: "",
                     Telno: "",
-                    Email: ""
+                    Email: "",
+                    WorkSet: []
                 }), 'data');
 
             },
@@ -41,14 +44,73 @@ sap.ui.define([
             },
             onEntitySet: function (oEvent) {
                 var oDataModel = this.getView().getModel();
+
+                var oButton = oEvent.getSource(),
+                    oView = this.getView();
+
+                // create popover
+                if (!this._pPopover) {
+                    this._pPopover = Fragment.load({
+                        id: oView.getId(), // 해당 코드가 없으면 추후에 있을 코드는 sap.ui.getCore().byId()로 써야함
+
+                        name: "project0514.view.fragment.Popover",
+                        controller: this
+                    }).then(function (oPopover) {
+                        oPopover.setModel(new JSONModel(
+
+                        ), 'popover');
+                        oView.addDependent(oPopover);
+                        return oPopover;
+                    });
+                }
+                this._pPopover.then(function (oPopover) {
+                    oPopover.openBy(oButton);
+                });
+
+                // oDataModel.read("/Member", {
+                //     success: function () {
+                //         MessageBox.success("\"Member \" 데이터 전체 조회 성공");
+                //     },
+                //     error: function () {
+                //         MessageBox.error("\"Member \" 데이터 전체 조회 오류");
+                //     }
+                // });
+            },
+            onRead: function () {
+                // var oPop*over = sap.ui.getCore().byId("myPopover");
+
+                //Fragment.load() 사용 시,
+                // view id를 같이 넘겨줬기 때문에 view 안에 popover가 붙게됨
+                // 따라서 this.byId()로 접근 가능
+                var oPopover = this.byId("myPopover");
+                var oPopoverData = oPopover.getModel('popover').getData();
+
+                console.log(oPopoverData);
+                /*
+                    해당 모델 데이터로 {Membername : "입력값"} 얻을 수 있음
+                    입력값을 가지고 필터 객체 생성 후, ODataModel.read()
+                    사용하여 데이터 조회해보기. 필터 조건은 Contains
+                */
+
+                var oFilter = new Filter("Memnm", "EQ", oPopoverData.Membername);
+
+                var oDataModel = this.getView().getModel();
+
                 oDataModel.read("/Member", {
-                    success: function () {
-                        MessageBox.success("\"Member \" 데이터 전체 조회 성공");
+                    urlParameters: {
+                        "$expand": "WorkSet",
+                        "$select": "Memid,WorkSet"
+                    },
+                    filters: [oFilter],
+                    success: function (oReturn) {
+
+                        console.log(`검색어(${oPopoverData.Membername}) : `, oReturn.results);
                     },
                     error: function () {
-                        MessageBox.error("\"Member \" 데이터 전체 조회 오류");
+                        console.log("전체조회 중 오류 발생 ", oError);
                     }
                 });
+
             },
             onCreate: function () {
                 var oDataModel = this.getView().getModel();
@@ -57,23 +119,40 @@ sap.ui.define([
                     Memid: oJSONData.Memid,
                     Memnm: oJSONData.Memnm,
                     Telno: oJSONData.Telno,
-                    Email: oJSONData.Email
-                }
+                    Email: oJSONData.Email,
+                    WorkSet: [
+                        {
+                            Memid: oJSONData.Memid,
+                            Workno: "00001",
+                            Worknm: "집",
+                            Erdat: "2024-01-19T16:00:00",
+                            Memo: "가고싶다"
+                        },
+                        {
+                            Memid: oJSONData.Memid,
+                            Workno: "00002",
+                            Worknm: "침대",
+                            Erdat: "2024-01-19T16:00:00",
+                            Memo: "눕고싶다"
+                        }
+                    ]
+                };
 
-                oDataModel.create("/Member", oBody, this.showMessageBox("create", oJSONData.Memid));
+                // 바로 아래 코드 수정 필요
+                // oDataModel.create("/Member", oBody, { this.showMessageBox("create", oJSONData.Memid) });
 
-                // oDataModel.create("/Member", oBody, {
-                //     // 서버 요청 끝난 후 작업은 해당 함수 안에서 구현
-                //     // 해당 함수 안에서는  this가 달라지기 때문에,
-                //     // 이전에 사용하던 this를 그대로 넘겨주기 위해서
-                //     // .bind(this)를 적용시킴
-                //     success: function () {
-                //         MessageBox.success("\"Member \" 데이터 중 " + oJSONData.Memid + " 생성 성공");
-                //     },
-                //     error: function () {
-                //         MessageBox.error("\"Member \" 데이터 중 " + oJSONData.Memid + " 생성 오류");
-                //     }
-                // });
+                oDataModel.create("/Member", oBody, {
+                    // 서버 요청 끝난 후 작업은 해당 함수 안에서 구현
+                    // 해당 함수 안에서는  this가 달라지기 때문에,
+                    // 이전에 사용하던 this를 그대로 넘겨주기 위해서
+                    // .bind(this)를 적용시킴
+                    success: function () {
+                        MessageBox.success("\"Member \" 데이터 중 " + oJSONData.Memid + " 생성 성공");
+                    },
+                    error: function () {
+                        MessageBox.error("\"Member \" 데이터 중 " + oJSONData.Memid + " 생성 오류");
+                    }
+                });
             },
             onEntity: function () {
                 var oDataModel = this.getView().getModel();

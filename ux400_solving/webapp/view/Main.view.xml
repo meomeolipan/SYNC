@@ -16,15 +16,15 @@
 				paste="onPaste"
 				ariaLabelledBy="title">
 				<t:extension>
-					<m:OverflowToolbar style="Clear">
-						<m:Title id="title" text="랜덤 목록 리스트"/>
-					</m:OverflowToolbar>
+					<OverflowToolbar style="Clear">
+						<Title id="title" text="랜덤 목록 리스트"/>
+					</OverflowToolbar>
 				</t:extension>
 				<t:columns>
 					<t:Column width="11rem">
-						<m:Label text="Value" />
+						<Label text="Value" />
 						<t:template>
-							<m:Text text="{sRan>value}" wrapping="false" />
+							<Text text="{sRan>value}" wrapping="false" />
 						</t:template>
 					</t:Column>
 				</t:columns>

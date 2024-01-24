@@ -1,0 +1,107 @@
+<mvc:View controllerName="project0516.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:l="sap.ui.layout">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <l:Grid containerQuery="true" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                <VBox >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12"></l:GridData>
+                    </layoutData>
+                    <!--&nsp; amp-->
+                    <Text text="이미지 배포해서 띄우기" width="100%"></Text>
+                    <Image src="https://i.pinimg.com/736x/a3/eb/40/a3eb4007c376d95a7ded781a102b47dd.jpg" width="100%" />
+                    <Image src="../image/00000004.jpg" width="100%" />
+                    <Image id="idImage" width="100%" />
+                </VBox>
+                <VBox >
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12"></l:GridData>
+                    </layoutData>
+                    <Text ></Text>
+                    <Image id="idImage2" width="100%" />
+                    <Image id="idImage3" width="100%" />
+                    <Image id="idImage4" width="100%" />
+                </VBox>
+                <VBox >
+                    <layoutData>
+                        <l:GridData span="XL8 L8 M12 S12"></l:GridData>
+                    </layoutData>
+                    <!-- <Table
+                        headerText="Member"
+                        items="{
+                            path:'/Member',
+                            sorter: {
+                                path: 'Memid',
+                                descending: false
+                            }
+                        }" > -->
+                    <Table items="{/Member}">
+                        <columns>
+                            <Column
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Center" >
+                                <header>
+                                    <Text text="Image" />
+                                </header>
+                            </Column>
+                            <Column mergeDuplicates="true">
+                                <header>
+                                    <Text text="Memid" />
+                                </header>
+                            </Column>
+                            <Column mergeDuplicates="true">
+                                <header>
+                                    <Text text="Memnm" />
+                                </header>
+                            </Column>
+                            <Column
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="End" >
+                                <header>
+                                    <Text text="Telno" />
+                                </header>
+                            </Column>
+                            <Column
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Center" >
+                                <header>
+                                    <Text text="Email" />
+                                </header>
+                            </Column>
+                        </columns>
+                        <ColumnListItem vAlign="Middle">
+                            <Image src="{
+                                path:'Memid',
+                                formatter : '.fnImage'
+                                }" 
+                                width="100%"/>
+                            <Text text="{Memid}" />
+                            <Text text="{Memnm}" />
+                            <Text text="{Telno}" />
+                            <Text text="{Email}" />
+                            <!-- <ObjectIdentifier title="{Name}" text="{ProductId}" />
+                            <Text text="{Width} x {Depth} x {Height} {DimUnit}" />
+                            <ObjectNumber
+                                number="{WeightMeasure}" unit="{WeightUnit}"
+                                state="{
+                                    path: 'WeightMeasure',
+                                    formatter: 'sap.m.sample.TableMergeCells.Formatter.weightState'
+                                }" />
+                            <ObjectNumber
+                                    number="{
+                                        parts:[{path:'Price'},{path:'CurrencyCode'}],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: {showMeasure: false}
+                                    }"
+                                    unit="{CurrencyCode}" /> -->
+                        </ColumnListItem>
+                    </Table>
+                </VBox>
+            </l:Grid>
+        </content>
+    </Page>
+</mvc:View>

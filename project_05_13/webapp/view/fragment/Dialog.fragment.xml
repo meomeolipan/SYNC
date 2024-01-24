@@ -1,0 +1,62 @@
+<c:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+	xmlns:t="sap.ui.table">
+        <Dialog id="idDialog"
+                contentWidth="45%"
+                title="Customer ID"
+                contentHeight="45%"
+                draggable="true"
+                resizable="true">
+            <content>
+                <t:Table
+					id="idDialogTable"
+					rows="{/Products}"
+					selectionMode="Single"
+					selectionBehavior="RowOnly"
+					paste="onPaste"
+					ariaLabelledBy="title">
+					<t:extension>
+						<OverflowToolbar style="Clear">
+							<Title id="dialogTitle" text="Products"/>
+						</OverflowToolbar>
+					</t:extension>
+					<t:columns>
+						<t:Column width="11rem">    
+							<Label text="Product No" />
+							<t:template>
+								<Text text="{Productno}" textAlign="Center" width="100%" />
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem">
+							<Label text="Product Name" />
+							<t:template>
+								<Text text="{Productname}" wrapping="false" />
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem">
+							<Label text="First Name" />
+							<t:template>
+								<Text text="{Fname}" wrapping="false" />
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem">
+							<Label text="Last Name" />
+							<t:template>
+								<Text text="{Lname}" wrapping="false" />
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem">
+							<Label text="Memo" />
+							<t:template>
+								<Text text="{Memo}" wrapping="false" />
+							</t:template>
+						</t:Column>
+					</t:columns>
+				</t:Table>
+            </content>
+            <endButton>
+                <Button text="close" icon="sap-icon://decline" press="onClose"></Button>
+            </endButton>
+        </Dialog>
+</c:FragmentDefinition>

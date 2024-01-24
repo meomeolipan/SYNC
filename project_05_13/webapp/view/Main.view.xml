@@ -1,6 +1,7 @@
 <mvc:View controllerName="odata.project0513.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout">
+    xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout"
+    xmlns:c="sap.ui.core">
     <Page id="page" title="{i18n>title}">
         <content>
             <l:Grid
@@ -18,7 +19,7 @@
                             </layoutData>
                             </Input>
                         </l:HorizontalLayout>
-                        <Input description="Product Name" value="{x}">
+                        <Input description="Product Name" value="{data>/Productname}">
                             <layoutData>
                                 <l:GridData span="XL4 L4 M6 S12"></l:GridData>
                             </layoutData>
@@ -51,7 +52,7 @@
                 rowSelectionChange="onRowSelectionChange">
                 <t:extension>
                     <OverflowToolbar style="Clear">
-                        <Title id="title" text="Products"/>
+                        <Title id="mainTitle" text="Products"/>
                         <ToolbarSpacer ></ToolbarSpacer>
                         <Button text="Read Entity" type="Emphasized" press="onEntity"></Button>
                         <Button text="EntitySet" type="Emphasized" press="onEntitySet"></Button>
@@ -63,31 +64,33 @@
                     </OverflowToolbar>
                 </t:extension>
                 <t:columns>
-                    <t:Column width="11rem">    
+                    <!--Column filterProperty 기능 구현 조회를 구현 -->
+                    <!--Column sortProperty 기능 구현 정렬을 구현 -->
+                    <t:Column sortProperty="Productno" filterProperty="Productno" width="11rem">    
                         <Label text="Product No" />
                         <t:template>
                             <Text text="{Productno}" textAlign="Center" width="100%" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column sortProperty="Productname" filterProperty="Productname" width="11rem">
                         <Label text="Product Name" />
                         <t:template>
                             <Text text="{Productname}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column sortProperty="Fname" filterProperty="Fname" width="11rem">
                         <Label text="First Name" />
                         <t:template>
                             <Text text="{Fname}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column sortProperty="Lname" filterProperty="Lname" width="11rem">
                         <Label text="Last Name" />
                         <t:template>
                             <Text text="{Lname}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column sortProperty="Memo" filterProperty="Memo" width="11rem">
                         <Label text="Memo" />
                         <t:template>
                             <Text text="{Memo}" wrapping="false" />
@@ -95,6 +98,7 @@
                     </t:Column>
                 </t:columns>
             </t:Table>
+            <c:Fragment fragmentName="odata.project0513.view.fragment.Dialog"/>
         </content>
     </Page>
 </mvc:View>

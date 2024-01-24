@@ -1,11 +1,12 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/Filter"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel) {
+    function (Controller, JSONModel, Filter) {
         "use strict";
 
         return Controller.extend("odata.project0513.controller.Main", {
@@ -31,6 +32,8 @@ sap.ui.define([
                 //this.getView().setModel(new JSONModel(oData), 'data');
             },
             onRowSelectionChange: function (oEvent) {
+                if (!oEvent.getParameter('rowContext')) return;
+
                 var sPath = oEvent.getParameter('rowContext').getPath();
                 // Row 선택 시, 모델 데이터를 가져와서 각각의 Input에 세팅
                 //이 때, 세팅하는 방법은 id말고, JSONModel데이터로 해보기
@@ -60,12 +63,44 @@ sap.ui.define([
             onEntitySet: function (oEvent) {
                 // Odata 전체 조회 구현
                 // GET 요청 : "/Products"
+
+                //filter 사용
+                /*
+                    new Filter("path", "조건(operator)", 값1, 값2)
+                 */
+
+                var oFilter = new Filter("Productname", "EQ", "안녕");
+
+                // var oController = this; // 현재 컨트롤러를 다른 변수에 저장
+
                 var oDataModel = this.getView().getModel();
+
+
                 oDataModel.read("/Products", {
-                    //filters: [], /*필터 객체 조회*/
+
+                    filters: [oFilter],
+
                     success: function (oReturn) {
+
+                        //강사님이 사용하신 방법
+                        //이런 경우에 popup 이름이 있기 때문에
+
+                        //Dialog 뷰에 바인딩을 해야함
+                        // 테이블에는 popup>/results 이렇게 바인딩
+                        // 그 뒤 테이블 안에는 popup>key
+                        //read 함수 윗 단계에 Dialog 변수를 만든 뒤
+                        //사용 할 Dialog 뷰를 넣어주면
+                        // .bind(this) 없이도 사용 가능함
+                        //oDialog.setModel(new JSONModel(oReturn),'popup');
+
+
+                        this.byId("idDialog").setModel(new JSONModel({
+                            Products: oReturn.results
+                        }));
+                        this.byId("idDialog").open();
                         console.log("전체조회: ", oReturn);
-                    },
+                        //{ results : [ {}, {}, {}, ...]
+                    }.bind(this),
                     error: function () {
                         console.log("전체조회 중 오류 발생 ", oError);
                     }
@@ -194,6 +229,9 @@ sap.ui.define([
                         console.log("전체조회 중 오류 발생 ", oError);
                     }
                 });
+            },
+            onClose: function (oEvent) {
+                oEvent.getSource().getParent().close();
             }
         });
     });

@@ -1,6 +1,7 @@
 <mvc:View controllerName="project0514.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout">
+    xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout"
+    xmlns:c="sap.ui.core">
     <Page id="page" title="{i18n>title}">
         <content>
             <l:Grid
@@ -49,7 +50,7 @@
                         <Title id="title" text="Products"/>
                         <ToolbarSpacer ></ToolbarSpacer>
                         <Button text="Read Entity" type="Emphasized" press="onEntity"></Button>
-                        <Button text="EntitySet" type="Emphasized" press="onEntitySet"></Button>
+                        <Button text="EntitySet" type="Emphasized" press="onEntitySet" ></Button>
                         <Button text="Create" type="Emphasized" press="onCreate"></Button>
                         <Button text="Update" type="Emphasized" press="onUpdate"></Button>
                         <Button text="Delete" type="Emphasized" press="onDelete"></Button>

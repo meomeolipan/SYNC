@@ -1,0 +1,162 @@
+<mvc:View controllerName="exam.exprogram05.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form" xmlns:c="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <l:Grid defaultSpan="XL12 L12 M12 S12">
+                <VBox class="sapUiSmallMargin">
+                    <layoutData>
+                        <l:GridData span="XL2 L2 M12 S12"/>
+                    </layoutData>
+                    <f:SimpleForm 
+                        id="idSimpleForm"
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        title=""
+                        labelSpanXL="4"
+                        labelSpanL="3"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="4"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="2"
+                        columnsL="1"
+                        columnsM="1"
+                        singleContainerFullSize="false" >
+                        <Toolbar>
+                            <ToolbarSpacer ></ToolbarSpacer>
+                            <Button press="onSearch" icon="sap-icon://search" type="Emphasized" text="Search"/>
+                        </Toolbar>
+                        <f:content>
+                            <Label text="ID:" />
+                            <Input id="idInput" />
+                            <Label text="Category Name:" />
+                            <Input id="cateInput" />
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+                <VBox class="sapUiSmallMargin">
+                    <layoutData>    
+                        <l:GridData span="XL10 L10 M12 S12" />
+                    </layoutData>
+                    <Panel class="sapUiSmallMarginBottom" headerText="카테고리 조회" expanded="true" expandable="true" width="auto">
+                        <Table id="idTableSearch"
+                            inset="false"
+                            growing="true"
+                            growingThreshold="3"
+                            selectionChange="onSelectionChange"
+                            mode="SingleSelectMaster"
+                            items="{/Categories}">
+                            <columns>
+                                <Column>
+                                    <Text text="카테고리 ID" />
+                                </Column>
+                                <Column>
+                                    <Text text="카테고리명" />
+                                </Column>
+                                <Column>
+                                    <Text text="설명" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle">
+                                    <cells>
+                                        <Text text="{CategoryID}" />
+                                        <Text text="{CategoryName}" />
+                                        <Text text="{Description}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>	
+                    </Panel>
+                    <HBox >
+                        <t:Table
+                            id="idTablePro"
+                            width="500px"
+                            rows="{Prod>/lProd}"
+                            visibleRowCount="12"
+                            selectionMode="None"
+                            >
+                            <t:extension>
+                                <OverflowToolbar style="Clear">
+                                    <Title id="title" text="상품조회"/>
+                                </OverflowToolbar>
+                            </t:extension>
+                            <t:columns>
+                                <t:Column width="10%">
+                                    <Label text="ID" />
+                                    <t:template>
+                                        <Text text="{Prod>CategoryID}" wrapping="false" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column >
+                                    <Label text="상품명" />
+                                    <t:template>
+                                        <Text text="{Prod>ProductName}" wrapping="false" width="100%" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column hAlign="End" width="10%">
+                                    <Label text="재고" />
+                                    <t:template>
+                                        <Text text="{Prod>UnitsInStock}" wrapping="false" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column hAlign="End">
+                                    <Label text="단위 주문 수량" />
+                                    <t:template>
+                                        <ObjectNumber number="{Prod>UnitsOnOrder}" textAlign="Right"/>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column hAlign="Center">
+                                    <Label text="주문 가능여부" />
+                                    <t:template>
+                                        <c:Icon src="{= ${Prod>UintsInStock} > ${Prod>UnitsOnOrder} ? 'sap-icon://circle-task' : 'sap-icon://decline' }" 
+                                            color="{= ${Prod>UnitsInStock} > ${Prod >UnitsOnOrder} ? '#1DDB16' : '#FF0000'}"/>
+                                    </t:template>
+                                </t:Column>
+                            </t:columns>
+                        </t:Table>
+                        <viz:VizFrame id="idChart"
+                            vizType="pie"
+                            uiConfig="{ 'applicationSet' : 'fiori' }"
+                            vizProperties="{
+                                'title' : {'visible' : true, 'text' : '상품별 매출량 비교'},
+                                'legendGroup' : { 
+                                    'layout' : {'position' : 'right' }
+                                },
+                                'plotArea' : {
+                                    'drawingEffect' : 'glossy',
+                                    'dataLabel' : { 'visible' : true, type : 'value' },
+                                    'colorPalette' : ['#B5B2FF', '#B2EBF4', '#B7F0B1', '#FFE08C', '#FFC19E', '#FFA7A7']
+                                }
+                            }" 
+                            selectData="onSelectionChangeViz"
+                            width="500px">
+                            <viz:dataset >
+                                <viz.data:FlattenedDataset data="{SbyC>/lSbyC}" id="idDataset">
+                                    <viz.data:dimensions>
+                                        <viz.data:DimensionDefinition name="Name" value="{SbyC>ProductName}"/>
+                                    </viz.data:dimensions>  
+                                    <viz.data:measures>
+                                        <viz.data:MeasureDefinition name="Sales" value="{SbyC>ProductSales}" />
+                                    </viz.data:measures>
+                                </viz.data:FlattenedDataset>
+                            </viz:dataset>
+                            <viz:feeds>
+                                <viz.feeds:FeedItem uid="color" type="Dimension" values="Name"/>
+                                <viz.feeds:FeedItem uid="size" type="Measure" values="Sales"/>
+                            </viz:feeds>
+                        </viz:VizFrame>
+                    </HBox>
+                </VBox>
+            </l:Grid>
+        </content>
+    </Page>
+</mvc:View>

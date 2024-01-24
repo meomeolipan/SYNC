@@ -4,7 +4,7 @@
     xmlns:t="sap.ui.table">
     <Page id="page" title="{i18n>title}">
         <content> <!--<content></content> == <content />-->
-            <!-- <Button text="click" enabled="false" type="Emphasized"></Button>
+            <Button text="click" enabled="false" type="Emphasized"></Button>
             <Button text="Accept" type="Accept" textDirection="LTR"/>
             <Button text="Attention" type="Attention"/>
             <Button text="Back" type="Back" textDirection="RTL"/>
@@ -18,7 +18,7 @@
             <Button text="Success" type="Success"/>
             <Button text="Transparent" type="Transparent"/>
             <Button text="Unstyled" type="Unstyled"/>
-            <Button text="Up" type="Up"/> -->
+            <Button text="Up" type="Up"/>
             <!--width로 해결했을 때 글씨가 내려가는게 보기 싫으면-->
             <!--즉 부트스트랩 내에서 해결이 안된다면 HTML 단계로 가서 직접수정해야함-->
 

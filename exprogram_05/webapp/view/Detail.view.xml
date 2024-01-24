@@ -1,0 +1,64 @@
+<mvc:View controllerName="exam.exprogram05.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:uxap="sap.uxap"
+    >
+    <Page >
+        <Table
+            id="idTableDetail"
+            inset="false"
+            mode="SingleSelectMaster"
+            items="{
+                path : '/Order_Details_Extendeds',
+                sorter : [
+                    {path: 'ExtendedPrice', descending: false}
+                ]
+            }">
+            <columns>
+               <Column
+                    width="12em">
+                    <Text text="주문 ID" />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true">
+                    <Text text="상품 이름" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End">
+                    <Text text="상품 금액" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center">
+                    <Text text="수량" />
+                </Column>
+                <Column
+                    hAlign="End">
+                    <Text text="할인율" />
+                </Column>
+                <Column
+                    hAlign="End">
+                    <Text text="총 금액" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem vAlign="Middle">
+                    <cells>
+                        <Text text="{OrderID}"/>
+                        <Text text="{ProductName}"/>
+                        <ObjectIdentifier title="{UnitPrice}"/>
+                        <Text text="{Quantity}"/>
+                        <Text text="{Discount}"/>
+                        <ObjectIdentifier title="{ExtendedPrice}"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>
