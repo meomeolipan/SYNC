@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC401_B77_MAIN_22</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC401_B77_MAIN_22</h2>
+<h3> Description: Program ZBC401_B77_MAIN_22</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC401_B77_MAIN_22<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC401_B77_MAIN_22.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS&nbsp;lcl_airplane&nbsp;DEFINITION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />
+*------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_AIRPLANE DEFINITION.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONSTRUCTOR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STRING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;TYPE&nbsp;SAPLANE-PLANETYPE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRONG_PLANETYPE,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_N_O_AIRPLANES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_N_O_AIRPLANES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING&nbsp;VALUE(RV_COUNT)&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C_POS_1&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;30.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STRING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_PLANETYPE&nbsp;TYPE&nbsp;SAPLANE-PLANETYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_WEIGHT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SAPLANE-WEIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_TANKCAP&nbsp;&nbsp;&nbsp;TYPE&nbsp;SAPLANE-TANKCAP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_AIRPLANES&nbsp;TYPE&nbsp;I.<br />
+<br />
+ENDCLASS.                    "lcl_airplane DEFINITION<br />
+<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS&nbsp;lcl_airplane&nbsp;IMPLEMENTATION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />
+*------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_AIRPLANE IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LS_PLANETYPE&nbsp;TYPE&nbsp;SAPLANE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;IV_NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_PLANETYPE&nbsp;=&nbsp;IV_PLANETYPE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;SAPLANE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;LS_PLANETYPE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;PLANETYPE&nbsp;=&nbsp;IV_PLANETYPE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;WRONG_PLANETYPE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_WEIGHT&nbsp;&nbsp;=&nbsp;LS_PLANETYPE-WEIGHT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_TANKCAP&nbsp;=&nbsp;LS_PLANETYPE-TANKCAP.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_AIRPLANES&nbsp;=&nbsp;GV_N_O_AIRPLANES&nbsp;+&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"constructor<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;ICON_WS_PLANE&nbsp;AS&nbsp;ICON,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'Name&nbsp;of&nbsp;Airplane'(001)&nbsp;,&nbsp;AT&nbsp;C_POS_1&nbsp;MV_NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'Type&nbsp;of&nbsp;Airplane:'(002),&nbsp;AT&nbsp;C_POS_1&nbsp;MV_PLANETYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'Weight:'(003),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT&nbsp;C_POS_1&nbsp;MV_WEIGHT&nbsp;LEFT-JUSTIFIED,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'Tank&nbsp;capacity:'(004),&nbsp;&nbsp;&nbsp;&nbsp;AT&nbsp;C_POS_1&nbsp;MV_TANKCAP&nbsp;LEFT-JUSTIFIED.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"display_attributes<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_AIRPLANES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SKIP.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'Number&nbsp;of&nbsp;airplanes:'(CA1),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AT&nbsp;C_POS_1&nbsp;GV_N_O_AIRPLANES&nbsp;LEFT-JUSTIFIED.<br />
+&nbsp;&nbsp;ENDMETHOD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"display_n_o_airplanes<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_N_O_AIRPLANES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RV_COUNT&nbsp;=&nbsp;GV_N_O_AIRPLANES.<br />
+&nbsp;&nbsp;ENDMETHOD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"get_n_o_airplanes<br />
+ENDCLASS.                    "lcl_airplane IMPLEMENTATION<br />
+<br />
+DATA:<br />
+&nbsp;&nbsp;GO_AIRPLANE&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_AIRPLANE,<br />
+&nbsp;&nbsp;GT_AIRPLANES&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;REF&nbsp;TO&nbsp;LCL_AIRPLANE,<br />
+&nbsp;&nbsp;GV_COUNT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I.<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*******************<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LCL_AIRPLANE=&gt;DISPLAY_N_O_AIRPLANES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_AIRPLANE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'LH&nbsp;Berlin'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'A321'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRONG_PLANETYPE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GO_AIRPLANE&nbsp;TO&nbsp;GT_AIRPLANES.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_AIRPLANE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'AA&nbsp;New&nbsp;York'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'747-400'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRONG_PLANETYPE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GO_AIRPLANE&nbsp;TO&nbsp;GT_AIRPLANES.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_AIRPLANE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'US&nbsp;Hercules'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'747-200F'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRONG_PLANETYPE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GO_AIRPLANE&nbsp;TO&nbsp;GT_AIRPLANES.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_AIRPLANES&nbsp;INTO&nbsp;GO_AIRPLANE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_AIRPLANE-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;GV_COUNT&nbsp;=&nbsp;LCL_AIRPLANE=&gt;GET_N_O_AIRPLANES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;SKIP&nbsp;2.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'Number&nbsp;of&nbsp;airplanes'(CA1),&nbsp;GV_COUNT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_INTERFACE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_INTERFACE</h2>
+<h3> Description: Program ZB00_INTERFACE</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_INTERFACE&nbsp;&nbsp;(정의&nbsp;O&nbsp;구현&nbsp;X&nbsp;,&nbsp;다형성)<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SAP&nbsp;ABAP&nbsp;인터페이스의&nbsp;이점&nbsp;및&nbsp;적용<br />
+<br />
+*동일한&nbsp;메소드이지만&nbsp;다른&nbsp;기능:<br />
+*인터페이스에서&nbsp;선언된&nbsp;메소드는&nbsp;다른&nbsp;클래스에서&nbsp;사용될&nbsp;때&nbsp;다른&nbsp;기능을&nbsp;가질&nbsp;수&nbsp;있습니다.<br />
+*이는&nbsp;인터페이스에서&nbsp;메소드를&nbsp;구현할&nbsp;수&nbsp;없기&nbsp;때문에&nbsp;해당&nbsp;메소드만&nbsp;선언할&nbsp;수&nbsp;있기&nbsp;때문입니다.<br />
+*클래스는&nbsp;필요에&nbsp;따라&nbsp;해당&nbsp;기능을&nbsp;구현하거나&nbsp;사용합니다.<br />
+*또한&nbsp;프로그램을&nbsp;더&nbsp;읽기&nbsp;쉽게&nbsp;만드는&nbsp;공통&nbsp;기능을&nbsp;그룹화합니다.<br />
+<br />
+*다중&nbsp;상속:&nbsp;상속은&nbsp;다중&nbsp;상속을&nbsp;지원합니다.<br />
+*즉,&nbsp;두&nbsp;개&nbsp;이상의&nbsp;클래스가&nbsp;동일한&nbsp;메서드&nbsp;이름을&nbsp;가지지만&nbsp;기능은&nbsp;다릅니다.<br />
+*클래스는&nbsp;여러&nbsp;인터페이스를&nbsp;구현할&nbsp;수&nbsp;있고&nbsp;인터페이스에서&nbsp;선언된&nbsp;메서드를&nbsp;상속할&nbsp;수&nbsp;있지만<br />
+*클래스는&nbsp;단일&nbsp;상속만&nbsp;지원합니다.<br />
+<br />
+*다형성(Polymorphism):&nbsp;다형성은&nbsp;괴짜&nbsp;단어인&nbsp;폴리(Poly)에서&nbsp;파생된&nbsp;것으로&nbsp;다수를&nbsp;의미하고<br />
+*모르프(Morph)는&nbsp;형태를&nbsp;의미합니다.&nbsp;상속의&nbsp;주요&nbsp;목적은&nbsp;런타임&nbsp;다형성을&nbsp;달성하는&nbsp;것입니다.<br />
+*상속은&nbsp;인터페이스에서&nbsp;선언된&nbsp;단일&nbsp;메서드가&nbsp;다른&nbsp;기능을&nbsp;가진&nbsp;다른&nbsp;클래스에서&nbsp;사용될&nbsp;수&nbsp;있으므로<br />
+*다형성에&nbsp;대한&nbsp;기반을&nbsp;제공합니다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_interface.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*-&nbsp;interface&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+INTERFACE my_interface1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;declaring&nbsp;data&nbsp;variable<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;num1&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num2&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res&nbsp;&nbsp;TYPE&nbsp;i.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Declaring&nbsp;abstract&nbsp;methods<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHODS&nbsp;:&nbsp;add.<br />
+&nbsp;&nbsp;METHODS&nbsp;:&nbsp;subtract.<br />
+<br />
+ENDINTERFACE.<br />
+<br />
+INTERFACE my_interface2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;declaring&nbsp;data&nbsp;variable<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;num1&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num2&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res&nbsp;&nbsp;TYPE&nbsp;i.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Declaring&nbsp;abstract&nbsp;methods<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHODS&nbsp;:&nbsp;add.<br />
+&nbsp;&nbsp;METHODS&nbsp;:&nbsp;subtract.<br />
+<br />
+ENDINTERFACE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*-&nbsp;Class&nbsp;생성&nbsp;:&nbsp;정의&nbsp;구현&nbsp;(본인&nbsp;클래스에&nbsp;맞게)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS my_class1 DEFINITION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Declaring&nbsp;public&nbsp;section&nbsp;because&nbsp;interface&nbsp;can&nbsp;implement&nbsp;only&nbsp;in&nbsp;the&nbsp;public&nbsp;section<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Using&nbsp;interface&nbsp;inside&nbsp;class&nbsp;and&nbsp;assigning&nbsp;value&nbsp;of&nbsp;data&nbsp;attributes&nbsp;of&nbsp;interface<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES&nbsp;my_interface1&nbsp;DATA&nbsp;VALUES&nbsp;num1&nbsp;=&nbsp;5&nbsp;num2&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES&nbsp;my_interface2&nbsp;DATA&nbsp;VALUES&nbsp;num1&nbsp;=&nbsp;5&nbsp;num2&nbsp;=&nbsp;10.<br />
+<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-&nbsp;Class&nbsp;implementing&nbsp;Interface<br />
+   </div>
+   <div class="code">
+CLASS my_class1 IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;my_interface1~add.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;각&nbsp;interface&nbsp;별&nbsp;이름&nbsp;구별&nbsp;:&nbsp;~<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;my_interface1~res&nbsp;=&nbsp;my_interface1~num1&nbsp;+&nbsp;my_interface1~num2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;my_interface1~res.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;my_interface1~subtract.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;my_interface1~res&nbsp;=&nbsp;my_interface1~num2&nbsp;-&nbsp;my_interface1~num1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;&nbsp;/&nbsp;my_interface1~res.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD&nbsp;.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;my_interface2~add.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;my_interface2~res&nbsp;=&nbsp;my_interface2~num1&nbsp;+&nbsp;my_interface2~num2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;my_interface2~res.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;my_interface2~subtract.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;my_interface2~res&nbsp;=&nbsp;my_interface2~num2&nbsp;-&nbsp;my_interface2~num1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;my_interface2~res.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*-&nbsp;Class&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS my_class2 DEFINITION.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTERFACES&nbsp;my_interface1&nbsp;DATA&nbsp;VALUES&nbsp;num1&nbsp;=&nbsp;5&nbsp;num2&nbsp;=&nbsp;10.<br />
+<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-&nbsp;Class&nbsp;implementing&nbsp;Interface<br />
+   </div>
+   <div class="code">
+CLASS my_class2 IMPLEMENTATION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Using&nbsp;method&nbsp;inside&nbsp;implementing&nbsp;class<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;my_interface1~add.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;my_interface1~res&nbsp;=&nbsp;my_interface1~num1&nbsp;+&nbsp;my_interface1~num2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;my_interface1~res.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD&nbsp;.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;my_interface1~subtract.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;my_interface1~res&nbsp;=&nbsp;my_interface1~num2&nbsp;-&nbsp;my_interface1~num1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;my_interface1~res.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD&nbsp;.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*creating&nbsp;object<br />
+*&---------------------------------------------------------------------*<br />
+*-&nbsp;START-OF-SELECTION<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lo_object1&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;my_class1.<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lo_object2&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;my_class2.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_object1.<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_object2.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'Addition&nbsp;of&nbsp;given&nbsp;number&nbsp;is'.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_object1-&gt;my_interface1~add.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_object1-&gt;my_interface1~subtract.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_object1-&gt;my_interface2~add.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_object1-&gt;my_interface2~subtract.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_object2-&gt;my_interface1~add.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_object2-&gt;my_interface1~subtract.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

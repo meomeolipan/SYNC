@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_DYNAMIC_WHERE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_DYNAMIC_WHERE</h2>
+<h3> Description: Program ZB15_DYNAMIC_WHERE</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_DYNAMIC_WHERE<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZB15_DYNAMIC_WHERE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Workarea&nbsp;for&nbsp;data&nbsp;fetch<br />
+   </div>
+   <div class="code">
+DATA: gs_flight TYPE dv_flights,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_flight&nbsp;TYPE&nbsp;TABLE&nbsp;of&nbsp;dv_flights.<br />
+<br />
+DATA : GC_GRID TYPE REF TO CL_SALV_TABLE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_where&nbsp;TYPE&nbsp;string."c&nbsp;LENGTH&nbsp;72.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Constant&nbsp;for&nbsp;CASE&nbsp;statement<br />
+   </div>
+   <div class="code">
+CONSTANTS gc_mark VALUE 'X'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selections&nbsp;for&nbsp;connections<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: so_car FOR gs_flight-carrid MEMORY ID car,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_con&nbsp;FOR&nbsp;gs_flight-connid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selections&nbsp;for&nbsp;flights<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS so_fdt FOR gs_flight-fldate NO-EXTENSION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Output&nbsp;parameter<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK radio WITH FRAME.<br />
+PARAMETERS: pa_all RADIOBUTTON GROUP rbg1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_nat&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;rbg1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_int&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;rbg1&nbsp;DEFAULT&nbsp;'X'.<br />
+SELECTION-SCREEN END OF BLOCK radio.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Initialize&nbsp;select-options&nbsp;for&nbsp;CARRID"&nbsp;OPTIONAL<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;MOVE:&nbsp;'AA'&nbsp;TO&nbsp;so_car-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'QF'&nbsp;TO&nbsp;so_car-high,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'BT'&nbsp;TO&nbsp;so_car-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'I'&nbsp;&nbsp;TO&nbsp;so_car-sign.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_car.<br />
+&nbsp;&nbsp;MOVE:&nbsp;'AZ'&nbsp;TO&nbsp;so_car-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'EQ'&nbsp;TO&nbsp;so_car-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'E'&nbsp;&nbsp;TO&nbsp;so_car-sign.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&&nbsp;&nbsp;&nbsp;Event&nbsp;START-OF-SELECTION<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Checking&nbsp;the&nbsp;output&nbsp;parameters<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;gc_mark.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_all.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radiobutton&nbsp;ALL&nbsp;is&nbsp;marked<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_where&nbsp;=&nbsp;''.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_nat.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radiobutton&nbsp;NATIONAL&nbsp;is&nbsp;marked<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_where&nbsp;=&nbsp;'countryto&nbsp;=&nbsp;dv_flights~countryfr'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_int.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radiobutton&nbsp;INTERNATIONAL&nbsp;is&nbsp;marked<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_where&nbsp;=&nbsp;&nbsp;'countryto&nbsp;&lt;&gt;&nbsp;dv_flights~countryfr'.<br />
+<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_car<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;IN&nbsp;so_con<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;fldate&nbsp;IN&nbsp;so_fdt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;(gv_where).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;TRY.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;cl_salv_table=&gt;factory<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;=&nbsp;gc_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_flight.<br />
+<br />
+&nbsp;&nbsp;gc_grid-&gt;display(&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

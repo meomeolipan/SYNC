@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_AIRFLT_INFO</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_AIRFLT_INFO</h2>
+<h3> Description: Program ZB15_AIRFLT_INFO</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_AIRFLT_INFO<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_airflt_info.<br />
+<br />
+"파라미터 변수<br />
+PARAMETERS pcarrid TYPE s_carr_id.<br />
+<br />
+"importing 변수 선언 - gs_spfli는 gt_spfli의 workarea<br />
+DATA: gs_airline TYPE zsscarr_b15,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_spfli&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztspfli_b15,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_spfli&nbsp;&nbsp;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_spfli.<br />
+<br />
+"function call<br />
+CALL FUNCTION 'ZB15_GET_AIRLINE_INFO'<br />
+&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;iv_carrid&nbsp;&nbsp;=&nbsp;pcarrid<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;es_airline&nbsp;=&nbsp;gs_airline<br />
+&nbsp;&nbsp;TABLES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;et_spfli&nbsp;&nbsp;&nbsp;=&nbsp;gt_spfli<br />
+&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;no_data&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+" 만약 정상적인 처리가 되지 않았을 때 subrc 이용해 판단<br />
+IF sy-subrc &lt;&gt; 0.<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;'해당하는&nbsp;데이터가&nbsp;없습니다.'(ndt).<br />
+ELSE.<br />
+&nbsp;&nbsp;WRITE:<br />
+&nbsp;&nbsp;/&nbsp;'항공사&nbsp;번호:&nbsp;'&nbsp;,&nbsp;pcarrid,<br />
+&nbsp;&nbsp;/&nbsp;'항공사&nbsp;이름:&nbsp;'&nbsp;,&nbsp;gs_airline-carrname,<br />
+&nbsp;&nbsp;/&nbsp;'화폐&nbsp;코드:&nbsp;',&nbsp;gs_airline-currcode,<br />
+&nbsp;&nbsp;/&nbsp;'항공사&nbsp;url:&nbsp;',&nbsp;gs_airline-url.<br />
+&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;"&nbsp;gt_spfli가&nbsp;빈&nbsp;데이터일&nbsp;때<br />
+&nbsp;&nbsp;IF&nbsp;gt_spfli&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;'항공사의&nbsp;비행&nbsp;스케줄이&nbsp;없습니다.'.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;print_schedule.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;print_schedule<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM print_schedule .<br />
+&nbsp;&nbsp;"loop&nbsp;이용해&nbsp;가져온&nbsp;spfli데이터를&nbsp;한&nbsp;줄&nbsp;(row)씩&nbsp;출력<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_spfli&nbsp;INTO&nbsp;gs_spfli.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'CONNID:',gs_spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'COUNTRYFR:',&nbsp;gs_spfli-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'CITYFROM:',&nbsp;gs_spfli-cityfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'AIRPFROM:',&nbsp;gs_spfli-airpfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'COUNTRYTO:',&nbsp;gs_spfli-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'CITYTO:',&nbsp;gs_spfli-cityto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'AIRPTO:',&nbsp;gs_spfli-airpto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'FLTIME:',&nbsp;gs_spfli-fltime,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'DEPTIME:',&nbsp;gs_spfli-deptime,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'ARRTIME:',&nbsp;gs_spfli-arrtime,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'DISTANCE:',&nbsp;gs_spfli-distance,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'DISTID:',gs_spfli-distid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'FLTYPE:',gs_spfli-fltype,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'PERIOD:',gs_spfli-period.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

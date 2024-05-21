@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B16_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B16_C</h2>
+<h3> Description: [CL2-B16] 도서 대여 현황 조회 및 반납 처리</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZREXAM3_B16<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;백민경&nbsp;:&nbsp;거의&nbsp;모든&nbsp;기능을&nbsp;잘&nbsp;구현했어~&nbsp;연체료를&nbsp;마지막에&nbsp;적용하지&nbsp;않은&nbsp;것과&nbsp;디비&nbsp;업데이트&nbsp;부분만&nbsp;보완하면&nbsp;될&nbsp;듯해<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b16_top_c.html">ZREXAM3_B16_TOP_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zrexam3_b16_top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Global&nbsp;Data<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b16_c01_c.html">ZREXAM3_B16_C01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zrexam3_b16_c01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Local&nbsp;class<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b16_o01_c.html">ZREXAM3_B16_O01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zrexam3_b16_o01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PBO-Modules<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b16_i01_c.html">ZREXAM3_B16_I01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zrexam3_b16_i01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PAI-Modulesy<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b16_e01_c.html">ZREXAM3_B16_E01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zrexam3_b16_e01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Event<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b16_f01_c.html">ZREXAM3_B16_F01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zrexam3_b16_f01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;FORM-Routines<br />
+<br />
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;TITLE_0100&nbsp;--&gt;&nbsp;[CL2-B16]&nbsp;회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;TITLE_0200&nbsp;--&gt;&nbsp;[CL2-B16]&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;조회조건<br />
+*&nbsp;002&nbsp;선택조건<br />
+*&nbsp;003&nbsp;반납&nbsp;처리가&nbsp;취소되었습니다.<br />
+*&nbsp;004&nbsp;한&nbsp;건씩만&nbsp;선택하세요.<br />
+*&nbsp;005&nbsp;반납처리&nbsp;대상을&nbsp;선택하세요.<br />
+*&nbsp;006&nbsp;반납이&nbsp;완료되었습니다.<br />
+*&nbsp;007&nbsp;반납처리에&nbsp;오류가&nbsp;발생하였습니다.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_REN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;PA_REU&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+*&nbsp;PA_ST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원상태<br />
+*&nbsp;SO_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원번호<br />
+*&nbsp;SO_RET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반납예정일<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB16<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+*010&nbsp;&nbsp;&nbsp;조건에&nbsp;해당하는&nbsp;회원의&nbsp;대여정보가&nbsp;존재하지&nbsp;않습니다<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

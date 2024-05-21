@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC401_B05_SCREEN_S1B_E01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC401_B05_SCREEN_S1B_E01</h2>
+<h3> Description: Include ZBC401_B05_SCREEN_S1B_E01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC401_B05_SCREEN_S1B_E01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+&nbsp;&nbsp;MOVE:&nbsp;'AA'&nbsp;TO&nbsp;so_car-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'QF'&nbsp;TO&nbsp;so_car-high,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'BT'&nbsp;TO&nbsp;so_car-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'I'&nbsp;TO&nbsp;so_car-sign.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_car.<br />
+<br />
+&nbsp;&nbsp;MOVE:&nbsp;'AZ'&nbsp;TO&nbsp;so_car-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'EQ'&nbsp;TO&nbsp;so_car-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'E'&nbsp;TO&nbsp;so_car-sign.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_car.<br />
+<br />
+&nbsp;&nbsp;"이런&nbsp;방식도&nbsp;됨<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;so_air-sign&nbsp;=&nbsp;'I'.<br />
+*&nbsp;&nbsp;so_air-option&nbsp;=&nbsp;'BT'.<br />
+*&nbsp;&nbsp;so_air-low&nbsp;=&nbsp;'AA'.<br />
+*&nbsp;&nbsp;so_air-high&nbsp;=&nbsp;'QF'.<br />
+*<br />
+*&nbsp;&nbsp;APPEND&nbsp;so_air.<br />
+*&nbsp;&nbsp;CLEAR&nbsp;so_air.<br />
+*<br />
+*&nbsp;&nbsp;so_air-sign&nbsp;=&nbsp;'E'.<br />
+*&nbsp;&nbsp;so_air-option&nbsp;=&nbsp;'EQ'.<br />
+*&nbsp;&nbsp;so_air-low&nbsp;=&nbsp;'AZ'.<br />
+*<br />
+*&nbsp;&nbsp;APPEND&nbsp;so_air.<br />
+*&nbsp;&nbsp;CLEAR&nbsp;so_air.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;t1&nbsp;=&nbsp;'Connections'(001).<br />
+&nbsp;&nbsp;t2&nbsp;=&nbsp;'Date'(002).<br />
+&nbsp;&nbsp;t3&nbsp;=&nbsp;'국내&nbsp;/&nbsp;국외선'(003).<br />
+<br />
+&nbsp;&nbsp;flight-activetab&nbsp;=&nbsp;'DATE'.<br />
+&nbsp;&nbsp;flight-dynnr&nbsp;=&nbsp;1200.<br />
+&nbsp;&nbsp;"&nbsp;SYST&nbsp;ucomm&nbsp;완전히&nbsp;일치하거나&nbsp;완전&nbsp;대문자거나&nbsp;ABAP&nbsp;Dictionary에&nbsp;있는&nbsp;용어는&nbsp;다&nbsp;대문자로<br />
+<br />
+&nbsp;&nbsp;gv_txt&nbsp;=&nbsp;'Hide&nbsp;Details'(p02).<br />
+<br />
+AT SELECTION-SCREEN ON BLOCK param.<br />
+&nbsp;&nbsp;CHECK&nbsp;pa_nat&nbsp;=&nbsp;'X'&nbsp;AND&nbsp;pa_ctry&nbsp;=&nbsp;space.<br />
+&nbsp;&nbsp;MESSAGE&nbsp;e003(bc405).<br />
+<br />
+AT SELECTION-SCREEN OUTPUT.<br />
+&nbsp;&nbsp;CASE&nbsp;sy-dynnr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1100.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-group1&nbsp;=&nbsp;'DET'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;gv_switch.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gv_switch&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_txt&nbsp;=&nbsp;TEXT-p02.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_txt&nbsp;=&nbsp;TEXT-p01.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REFRESH:&nbsp;so_start,&nbsp;so_dest.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;CASE&nbsp;sscrfields-ucomm.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'DETAILS'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHECK&nbsp;sy-dynnr&nbsp;=&nbsp;1100.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gv_switch&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_switch&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_switch&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;gc_mark.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_all.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights&nbsp;INTO&nbsp;TABLE&nbsp;gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_car<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;IN&nbsp;so_con<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;fldate&nbsp;IN&nbsp;so_fdt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;cityfrom&nbsp;IN&nbsp;so_start<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;cityto&nbsp;IN&nbsp;so_dest.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_nat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights&nbsp;INTO&nbsp;TABLE&nbsp;gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_car<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;IN&nbsp;so_con<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;fldate&nbsp;IN&nbsp;so_fdt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;cityfrom&nbsp;IN&nbsp;so_start<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;cityto&nbsp;IN&nbsp;so_dest<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;countryto&nbsp;=&nbsp;dv_flights~countryfr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;countryto&nbsp;=&nbsp;pa_ctry.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights&nbsp;INTO&nbsp;TABLE&nbsp;gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_car<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;IN&nbsp;so_con<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;fldate&nbsp;IN&nbsp;so_fdt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;cityfrom&nbsp;IN&nbsp;so_start<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;cityto&nbsp;IN&nbsp;so_dest<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;countryto&nbsp;&lt;&gt;&nbsp;dv_flights~countryfr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Case&nbsp;When<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'관련&nbsp;항공&nbsp;정보가&nbsp;없습니다.'.<br />
+&nbsp;&nbsp;ELSEIF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;gs_flight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-cityfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-airpfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-cityto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-airpto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-seatsocc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'잘못된&nbsp;접근입니다.'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

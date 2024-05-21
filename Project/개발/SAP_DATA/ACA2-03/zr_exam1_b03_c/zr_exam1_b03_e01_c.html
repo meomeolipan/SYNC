@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZR_EXAM1_B03_E01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZR_EXAM1_B03_E01_C</h2>
+<h3> Description: Include ZR_EXAM1_B03_E01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZR_EXAM1_B03_E01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+&nbsp;&nbsp;"&nbsp;1&nbsp;버튼&nbsp;설정<br />
+&nbsp;&nbsp;CONCATENATE&nbsp;icon_space&nbsp;&nbsp;'Call&nbsp;Subscreen'&nbsp;INTO&nbsp;sscrfields-functxt_01.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;2&nbsp;항공기&nbsp;초기화&nbsp;설정<br />
+&nbsp;&nbsp;"&nbsp;2-1&nbsp;AA와&nbsp;동일<br />
+&nbsp;&nbsp;so_carid-sign&nbsp;&nbsp;&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;so_carid-option&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;so_carid-low&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'AA'.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_carid.&nbsp;clear&nbsp;so_carid.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;2-2&nbsp;AC~AZ&nbsp;범위<br />
+&nbsp;&nbsp;so_carid-sign&nbsp;&nbsp;&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;so_carid-option&nbsp;=&nbsp;'BT'.<br />
+&nbsp;&nbsp;so_carid-low&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'AC'.<br />
+&nbsp;&nbsp;so_carid-high&nbsp;=&nbsp;'AZ'.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_carid.&nbsp;clear&nbsp;so_carid.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;2-3&nbsp;LT&nbsp;제외<br />
+&nbsp;&nbsp;so_carid-sign&nbsp;&nbsp;&nbsp;=&nbsp;'E'.<br />
+&nbsp;&nbsp;so_carid-option&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;so_carid-low&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'LT'.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_carid.&nbsp;clear&nbsp;so_carid.<br />
+<br />
+<br />
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;"&nbsp;1&nbsp;버튼&nbsp;클릭&nbsp;시&nbsp;메시지<br />
+&nbsp;&nbsp;CASE&nbsp;sscrfields-ucomm.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'FC01'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;TEXT-m01&nbsp;TYPE&nbsp;'I'.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+AT SELECTION-SCREEN OUTPUT.<br />
+"4 출력 필드로 비활성화<br />
+&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-name&nbsp;EQ&nbsp;'P_CARID3'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-input&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

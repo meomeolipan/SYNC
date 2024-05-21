@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_02</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_02</h2>
+<h3> Description: READ AND LOOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZCA_02<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZCA_02.<br />
+<br />
+<br />
+"헤더가 있는 테이블<br />
+DATA : LT_STAND1 TYPE TABLE OF SFLIGHT WITH HEADER LINE.<br />
+<br />
+"헤더가 없는 테이블<br />
+DATA : LT_STAND2 TYPE TABLE OF SFLIGHT.<br />
+DATA : LS_STAND2 LIKE LINE OF LT_STAND2.<br />
+<br />
+LT_STAND1-CARRID = 'AA'.<br />
+LT_STAND1-CONNID = '1234'.<br />
+LT_STAND1-CURRENCY = 'KRW'.<br />
+APPEND LT_STAND1.<br />
+<br />
+LT_STAND1-CARRID = 'AA'.<br />
+LT_STAND1-CONNID = '1235'.<br />
+LT_STAND1-CURRENCY = 'KRW'.<br />
+APPEND LT_STAND1.<br />
+<br />
+LT_STAND1-CARRID = 'AB'.<br />
+LT_STAND1-CONNID = '1200'.<br />
+LT_STAND1-CURRENCY = 'KRW'.<br />
+APPEND LT_STAND1.<br />
+<br />
+LT_STAND1-CARRID = 'AA'.<br />
+LT_STAND1-CONNID = '1234'.<br />
+LT_STAND1-CURRENCY = 'KRW'.<br />
+<br />
+INSERT LT_STAND1 INTO TABLE LT_STAND1. "INDEX 사용<br />
+"= INSERT LT_STAND1 INTO LT_STAND1 INDEX 2.<br />
+<br />
+<br />
+LS_STAND2-CARRID = 'AB'.<br />
+LS_STAND2-CONNID = '9999'.<br />
+LS_STAND2-CURRENCY = 'KRW'.<br />
+APPEND LS_STAND2 TO LT_STAND2.<br />
+<br />
+LS_STAND2-CARRID = 'AC'.<br />
+LS_STAND2-CONNID = '9900'.<br />
+LS_STAND2-CURRENCY = 'KRW'.<br />
+APPEND LS_STAND2 TO LT_STAND2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+APPEND LINES OF LT_STAND1 TO LT_STAND2.<br />
+INSERT LINES OF LT_STAND1 INTO TABLE LT_STAND2.<br />
+"1번 테이블 데이터 전체를 2번에 추가할 때<br />
+<br />
+APPEND LINES OF LT_STAND1 FROM 1 TO 3 TO LT_STAND2.<br />
+INSERT LINES OF LT_STAND1 FROM 1 TO 3 INTO TABLE LT_STAND2.<br />
+"1번 테이블의 1 ~ 3 라이늘 2번에 추가할 때<br />
+<br />
+<br />
+APPEND LS_STAND2 TO LT_STAND2 SORTED BY CARRID.<br />
+"APPEND 후 SORTED 해주면 정렬됨. (정렬은 내림차순)<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+"READ AND LOOP<br />
+<br />
+"헤더에 지정<br />
+READ TABLE LT_STAND1 WITH KEY CARRID = 'AA'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;=&nbsp;'1235'.<br />
+<br />
+READ TABLE LT_STAND1 INDEX 4.<br />
+<br />
+<br />
+"Work Area 지정<br />
+READ TABLE LT_STAND2 WITH KEY CARRID = 'AA'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;=&nbsp;'1235'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;LS_STAND2.<br />
+<br />
+READ TABLE LT_STAND2 INDEX 3 INTO LS_STAND2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*기본&nbsp;사용<br />
+*LOOP&nbsp;AT&nbsp;LT_STAND2&nbsp;INTO&nbsp;LS_STAND2.<br />
+*<br />
+*ENDLOOP.<br />
+*<br />
+**조건절&nbsp;추가<br />
+*LOOP&nbsp;AT&nbsp;LT_STAND2&nbsp;INTO&nbsp;LS_STAND2<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;'AA'.<br />
+*<br />
+*ENDLOOP.<br />
+*<br />
+**INDEX로&nbsp;읽기<br />
+*LOOP&nbsp;AT&nbsp;LT_STAND2&nbsp;INTO&nbsp;LS_STAND2<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;1&nbsp;TO&nbsp;4.<br />
+*<br />
+*ENDLOOP.<br />
+<br />
+**********************************************************************<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+**********************************************************************<br />
+<br />
+   </div>
+   <div class="code">
+DELETE LT_STAND2 INDEX SY-TABIX.<br />
+<br />
+DELETE LT_STAND2 WHERE CARRID = 'AB'.<br />
+<br />
+DELETE TABLE LT_STAND2 FROM LS_STAND2.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

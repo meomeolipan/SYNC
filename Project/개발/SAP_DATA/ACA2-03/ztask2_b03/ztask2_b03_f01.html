@@ -1,0 +1,510 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZTASK2_B03_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTASK2_B03_F01</h2>
+<h3> Description: Include ZTASK2_B03_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZTASK2_B03_F01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;GET_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;조회&nbsp;조건에&nbsp;맞는&nbsp;데이터&nbsp;조회<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data.<br />
+&nbsp;&nbsp;SELECT&nbsp;c~carrid&nbsp;c~carrname&nbsp;p~connid&nbsp;p~countryfr&nbsp;p~countryto<br />
+&nbsp;&nbsp;&nbsp;&nbsp;b~fldate&nbsp;b~customid&nbsp;b~passname&nbsp;b~bookid&nbsp;b~order_date&nbsp;b~smoker&nbsp;b~cancelled<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_flight<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;scarr&nbsp;AS&nbsp;c<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;spfli&nbsp;AS&nbsp;p<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;c~carrid&nbsp;EQ&nbsp;p~carrid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;sbook&nbsp;AS&nbsp;b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;p~connid&nbsp;EQ&nbsp;b~connid<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;c~carrid&nbsp;EQ&nbsp;pv_carid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;p~connid&nbsp;IN&nbsp;so_conid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;b~fldate&nbsp;IN&nbsp;so_fdate<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;b~customid&nbsp;IN&nbsp;so_cusid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;b~order_date&nbsp;IN&nbsp;so_odate.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s001.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s002&nbsp;WITH&nbsp;sy-tfill.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;MAKE_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;가공&nbsp;및&nbsp;처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM make_data.<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;STATUS&nbsp;-&nbsp;비행&nbsp;일정&nbsp;완료&nbsp;여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-fldate&nbsp;&lt;&nbsp;sy-datum.&nbsp;"이미&nbsp;출발한&nbsp;비행&nbsp;일정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-status&nbsp;=&nbsp;icon_checked.&nbsp;"체크&nbsp;표시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-status&nbsp;=&nbsp;icon_space.&nbsp;"공란&nbsp;표시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;LIGHT&nbsp;-&nbsp;예약&nbsp;여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-cancelled&nbsp;=&nbsp;'X'.&nbsp;"예약&nbsp;취소<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-light&nbsp;=&nbsp;'1'.&nbsp;"빨간&nbsp;아이콘<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-line_color&nbsp;=&nbsp;'C610'.&nbsp;"라인&nbsp;색상&nbsp;빨강<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-light&nbsp;=&nbsp;'3'.&nbsp;"초록&nbsp;아이콘<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SMOKER&nbsp;-&nbsp;흡연&nbsp;여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-smoker&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-fname&nbsp;=&nbsp;'SMOKER'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-color-col&nbsp;=&nbsp;col_negative.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-color-inv&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;gs_fieldcol&nbsp;TO&nbsp;gs_flight-cell_color.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_flight&nbsp;FROM&nbsp;gs_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;status&nbsp;light&nbsp;line_color&nbsp;cell_color.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DISPLAY_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_data.<br />
+&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;100.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CREATE_GRID<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;CONTAINER&nbsp;OBJECT&nbsp;생성&nbsp;+&nbsp;ALV&nbsp;GRID&nbsp;생성&nbsp;+&nbsp;연결<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM create_grid.<br />
+&nbsp;&nbsp;"컨테이너&nbsp;오브젝트&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_cont<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name&nbsp;=&nbsp;'CONT'.&nbsp;"컨테이너&nbsp;obj.과&nbsp;100번&nbsp;스크린의&nbsp;Custom&nbsp;Control&nbsp;연결<br />
+<br />
+&nbsp;&nbsp;"ALV&nbsp;GRID&nbsp;오브젝트&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont.&nbsp;"ALV&nbsp;GRID&nbsp;참조&nbsp;변수를&nbsp;생성하여&nbsp;컨테이너에&nbsp;연결<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DISPLAY_GRID<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_grid.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_structure_name&nbsp;=&nbsp;'SFLIGHT'&nbsp;"아웃풋&nbsp;테이블&nbsp;필드<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout&nbsp;"레이아웃<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_flight&nbsp;"화면&nbsp;출력&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_fieldcat&nbsp;"필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_sort&nbsp;"정렬<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_filter.&nbsp;"필터링<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CREATE_CATALOG<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;인터널&nbsp;테이블&nbsp;필드로&nbsp;필드&nbsp;카탈로그&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM create_catalog.<br />
+&nbsp;&nbsp;DATA:&nbsp;lt_fieldcat&nbsp;TYPE&nbsp;kkblo_t_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'K_KKB_FIELDCAT_MERGE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_program&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sy-repid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_tabname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'GS_FLIGHT'&nbsp;"필드&nbsp;카탈로그가&nbsp;필요한&nbsp;Structure<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_inclname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sy-repid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_bypassing_buffer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;abap_on<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_buffer_active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;abap_off<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ct_fieldcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lt_fieldcat&nbsp;"KKBLO&nbsp;만들어진&nbsp;필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inconsistent_interface&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'LVC_TRANSFER_FROM_KKBLO'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcat_kkblo&nbsp;=&nbsp;lt_fieldcat<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_fieldcat_lvc&nbsp;&nbsp;&nbsp;=&nbsp;gt_fieldcat&nbsp;"최종&nbsp;필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_data_missing&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_CATALOG<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;카탈로그&nbsp;구성<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_catalog.<br />
+&nbsp;&nbsp;DATA&nbsp;ls_fieldcat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_fieldcat&nbsp;INTO&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;STATUS&nbsp;필드명&nbsp;+&nbsp;OUPUT&nbsp;순서&nbsp;+&nbsp;정렬<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'STATUS'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'일정완료여부'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-col_pos&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'C'.&nbsp;"가운데<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_fieldcat&nbsp;FROM&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;LIGHT&nbsp;필드명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'LIGHT'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'예약상태'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_fieldcat&nbsp;FROM&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;CANCELLED&nbsp;필드&nbsp;숨김&nbsp;처리<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'CANCELLED'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-no_out&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_fieldcat&nbsp;FROM&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SMOKER&nbsp;필드&nbsp;체크박스&nbsp;+&nbsp;OUTPUT&nbsp;순서<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'SMOKER'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-checkbox&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-col_pos&nbsp;=&nbsp;8.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_fieldcat&nbsp;FROM&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;BOOKID&nbsp;필드&nbsp;HOTSPOT&nbsp;이벤트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'BOOKID'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_fieldcat-hotspot&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_fieldcat&nbsp;FROM&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_LAYOUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;요소&nbsp;Layout&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout.<br />
+&nbsp;&nbsp;gs_layout-excp_fname&nbsp;=&nbsp;'LIGHT'.&nbsp;"&nbsp;예외사항&nbsp;필드&nbsp;변경<br />
+&nbsp;&nbsp;gs_layout-ctab_fname&nbsp;=&nbsp;'CELL_COLOR'.&nbsp;"&nbsp;필드&nbsp;셀&nbsp;색상&nbsp;설정<br />
+&nbsp;&nbsp;gs_layout-info_fname&nbsp;=&nbsp;'LINE_COLOR'.&nbsp;"&nbsp;라인&nbsp;색상&nbsp;설정<br />
+&nbsp;&nbsp;gs_layout-cwidth_opt&nbsp;=&nbsp;'X'.&nbsp;"&nbsp;컬럼&nbsp;길이&nbsp;자동조절<br />
+<br />
+&nbsp;&nbsp;gs_layout-sel_mode&nbsp;=&nbsp;'D'.&nbsp;"&nbsp;선택&nbsp;모드&nbsp;:&nbsp;멀티&nbsp;선택&nbsp;가능<br />
+&nbsp;&nbsp;gs_layout-zebra&nbsp;=&nbsp;'X'.&nbsp;"&nbsp;줄무늬&nbsp;패턴<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_SORT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;요소&nbsp;정렬&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_sort.<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_sort&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;CUSTMOMID를&nbsp;기준으로&nbsp;오름차순&nbsp;정렬<br />
+&nbsp;&nbsp;ls_sort-fieldname&nbsp;=&nbsp;'CUSTOMID'.<br />
+&nbsp;&nbsp;ls_sort-up&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_sort&nbsp;TO&nbsp;gt_sort.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_FLITER<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;요소&nbsp;필터링&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_fliter USING pv_fieldname.<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_filter&nbsp;TYPE&nbsp;lvc_s_filt.<br />
+&nbsp;&nbsp;"&nbsp;인자로&nbsp;받은&nbsp;필드명과&nbsp;동일한&nbsp;필드명의&nbsp;값이&nbsp;'X'&nbsp;인&nbsp;데이터&nbsp;필터&nbsp;설정<br />
+&nbsp;&nbsp;ls_filter-fieldname&nbsp;=&nbsp;pv_fieldname.<br />
+&nbsp;&nbsp;ls_filter-sign&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;ls_filter-option&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;ls_filter-low&nbsp;=&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_filter&nbsp;TO&nbsp;gt_filter.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_HANDLER<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;이벤트&nbsp;핸들러&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_handler.<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_handler.<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER:&nbsp;go_handler-&gt;handle_toolbar&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_double_click&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_hotspot_click&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_user_command&nbsp;FOR&nbsp;go_grid.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;double_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;Double&nbsp;CLICK&nbsp;이벤트&nbsp;핸들러<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_ROW<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_COLUMN<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM double_click  USING    p_row TYPE lvc_s_row<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_column&nbsp;TYPE&nbsp;lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ps_row_no&nbsp;TYPE&nbsp;lvc_s_roid.<br />
+&nbsp;&nbsp;"선택한&nbsp;행&nbsp;ID를&nbsp;INDEX&nbsp;조건으로&nbsp;인터널&nbsp;테이블&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;ps_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;조회된&nbsp;데이터와&nbsp;일치하는&nbsp;항공&nbsp;예약&nbsp;DB&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;spfli&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;gs_booking<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;gs_flight-carrid&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;=&nbsp;gs_flight-connid.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;조회&nbsp;데이터를&nbsp;모달&nbsp;다이얼로그&nbsp;박스&nbsp;스크린으로&nbsp;출력<br />
+&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;110&nbsp;STARTING&nbsp;AT&nbsp;10&nbsp;08<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDING&nbsp;AT&nbsp;70&nbsp;15.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;user_command<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;USER&nbsp;COMMAND&nbsp;이벤트&nbsp;핸들러<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_UCOMM<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM user_command  USING    p_e_ucomm.<br />
+&nbsp;&nbsp;DATA:&nbsp;l_scroll&nbsp;TYPE&nbsp;lvc_s_stbl.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;p_e_ucomm.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'SMOKER'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_fliter&nbsp;USING&nbsp;'SMOKER'.&nbsp;"흡연자&nbsp;필드&nbsp;필터링&nbsp;설정<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_grid.&nbsp;"GRID&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'CANCELLED'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_fliter&nbsp;USING&nbsp;'CANCELLED'."예약&nbsp;취소&nbsp;필드&nbsp;필터링&nbsp;설정<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_grid.&nbsp;"GRID&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'REFRESH'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"선택한&nbsp;행/렬&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_scroll-row&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l_scroll-col&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;refresh_table_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_stable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;l_scroll<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_soft_refresh&nbsp;=&nbsp;'&nbsp;'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"필터&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;gt_filter.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"GRID&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_grid.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;hotspot_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;HOTSPOT&nbsp;이벤트&nbsp;핸들러<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_ROW_ID<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_COLUMN_ID<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM hotspot_click  USING    p_row_id TYPE lvc_s_row<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_column_id&nbsp;TYPE&nbsp;lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ps_row_no&nbsp;TYPE&nbsp;lvc_s_roid&nbsp;&nbsp;.<br />
+&nbsp;&nbsp;"선택한&nbsp;row&nbsp;id를&nbsp;index&nbsp;조건으로&nbsp;인터널&nbsp;테이블&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;ps_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;p_column_id-fieldname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'BOOKID'.&nbsp;"예약번호&nbsp;칼럼&nbsp;클릭&nbsp;시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i011&nbsp;WITH&nbsp;gs_flight-fldate.&nbsp;"fldate&nbsp;메세지&nbsp;출력<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;toolbar<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;GRID&nbsp;toolbar&nbsp;이벤트&nbsp;핸들러<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_OBJECT<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_INTERACTIVE<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM toolbar  USING   e_object TYPE REF TO cl_alv_event_toolbar_set<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_interactive&nbsp;TYPE&nbsp;char01.<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_toolbar&nbsp;TYPE&nbsp;stb_button.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_toolbar.<br />
+&nbsp;&nbsp;"&nbsp;초기화&nbsp;툴바&nbsp;구현<br />
+&nbsp;&nbsp;ls_toolbar-function&nbsp;=&nbsp;'REFRESH'.<br />
+&nbsp;&nbsp;ls_toolbar-icon&nbsp;=&nbsp;icon_refresh.<br />
+&nbsp;&nbsp;ls_toolbar-quickinfo&nbsp;=&nbsp;'Refresh'.<br />
+&nbsp;&nbsp;ls_toolbar-text&nbsp;=&nbsp;'REFRESH'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_toolbar&nbsp;TO&nbsp;e_object-&gt;mt_toolbar.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;흡연자&nbsp;조회&nbsp;툴바&nbsp;구현<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_toolbar.<br />
+&nbsp;&nbsp;ls_toolbar-function&nbsp;=&nbsp;'SMOKER'.<br />
+&nbsp;&nbsp;ls_toolbar-icon&nbsp;=&nbsp;icon_negative.<br />
+&nbsp;&nbsp;ls_toolbar-quickinfo&nbsp;=&nbsp;'Smoker'.<br />
+&nbsp;&nbsp;ls_toolbar-text&nbsp;=&nbsp;'SMOKER'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_toolbar&nbsp;TO&nbsp;e_object-&gt;mt_toolbar.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;취소&nbsp;예약&nbsp;조회&nbsp;툴바&nbsp;구현<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_toolbar.<br />
+&nbsp;&nbsp;ls_toolbar-function&nbsp;=&nbsp;'CANCELLED'.<br />
+&nbsp;&nbsp;ls_toolbar-icon&nbsp;=&nbsp;icon_cancel.<br />
+&nbsp;&nbsp;ls_toolbar-quickinfo&nbsp;=&nbsp;'Cancelled&nbsp;Flight'.<br />
+&nbsp;&nbsp;ls_toolbar-text&nbsp;=&nbsp;'CANCELLED&nbsp;FLIGHT'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_toolbar&nbsp;TO&nbsp;e_object-&gt;mt_toolbar.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

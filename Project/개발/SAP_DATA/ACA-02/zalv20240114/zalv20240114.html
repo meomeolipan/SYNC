@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZALV20240114</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZALV20240114</h2>
+<h3> Description: Program ZALV1</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="code">
+REPORT zalv20240114.<br />
+<br />
+TABLES: smenu.<br />
+TYPE-POOLS: slis.                                 "ALV Declarations<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Data&nbsp;Declaration<br />
+<br />
+*----------------<br />
+<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF t_smenu,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_carr_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menunumber&nbsp;TYPE&nbsp;s_menu,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;starter&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_starter,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainCourse&nbsp;TYPE&nbsp;s_macourse,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dessert&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_dessert,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;t_smenu.<br />
+<br />
+DATA: it_smenu TYPE STANDARD TABLE OF t_smenu INITIAL SIZE 0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_smenu&nbsp;TYPE&nbsp;t_smenu.<br />
+<br />
+DATA: fieldcatalog TYPE slis_t_fieldcat_alv WITH HEADER LINE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_tab_group&nbsp;TYPE&nbsp;slis_t_sp_group_alv,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_layout&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;slis_layout_alv,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_repid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sy-repid.<br />
+<br />
+DATA : t TYPE slis_t_sp_group_alv .<br />
+<br />
+   </div>
+   <div class="codeComment">
+************************************************************************<br />
+<br />
+*Start-of-selection.<br />
+<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;PERFORM&nbsp;data_retrieval.<br />
+&nbsp;&nbsp;PERFORM&nbsp;build_fieldcatalog.<br />
+&nbsp;&nbsp;PERFORM&nbsp;build_layout.<br />
+&nbsp;&nbsp;PERFORM&nbsp;display_alv_report.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;BUILD_FIELDCATALOG<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build&nbsp;Fieldcatalog&nbsp;for&nbsp;ALV&nbsp;Report<br />
+<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM build_fieldcatalog.<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'CARRID'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'Airline&nbsp;Code'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;fieldcatalog-outputlen&nbsp;&nbsp;&nbsp;=&nbsp;10.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'MenuNumber'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'Menu&nbsp;Number'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;fieldcatalog-lzero&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+*&nbsp;fieldcatalog-NO_OUT&nbsp;=&nbsp;'X'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;fieldcatalog-just&nbsp;=&nbsp;'C'&nbsp;.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'Starter'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'Menu&nbsp;appetizer'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'MainCourse'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'Main&nbsp;course'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'Dessert'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'Dessert&nbsp;from&nbsp;menu'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+ENDFORM.                    " BUILD_FIELDCATALOG<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;BUILD_LAYOUT<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build&nbsp;layout&nbsp;for&nbsp;ALV&nbsp;grid&nbsp;report<br />
+<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM build_layout.<br />
+<br />
+&nbsp;&nbsp;gd_layout-no_input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gd_layout-colwidth_optimize&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gd_layout-zebra&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gd_layout-info_fieldname&nbsp;=&nbsp;'LINE_COLOR'.<br />
+&nbsp;&nbsp;gd_layout-no_hline&nbsp;=&nbsp;'X'&nbsp;.&nbsp;"&nbsp;수평선&nbsp;X<br />
+&nbsp;&nbsp;gd_layout-no_vline&nbsp;=&nbsp;'X'&nbsp;.&nbsp;"&nbsp;수직선&nbsp;X<br />
+&nbsp;&nbsp;gd_layout-no_colhead&nbsp;=&nbsp;'X'.&nbsp;"&nbsp;column&nbsp;header&nbsp;숨기기<br />
+<br />
+ENDFORM.                    " BUILD_LAYOUT​<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;DISPLAY_ALV_REPORT<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display&nbsp;report&nbsp;using&nbsp;ALV&nbsp;grid<br />
+<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM display_alv_report.<br />
+<br />
+&nbsp;&nbsp;gd_repid&nbsp;=&nbsp;sy-repid.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'REUSE_ALV_GRID_DISPLAY'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_program&nbsp;=&nbsp;gd_repid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gd_layout<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;fieldcatalog[]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'X'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TABLES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;it_smenu<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;MESSAGE&nbsp;ID&nbsp;SY-MSGID&nbsp;TYPE&nbsp;SY-MSGTY&nbsp;NUMBER&nbsp;SY-MSGNO<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;SY-MSGV1&nbsp;SY-MSGV2&nbsp;SY-MSGV3&nbsp;SY-MSGV4.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM. " DISPLAY_ALV_REPORT​​<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;DATA_RETRIEVAL<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Retrieve&nbsp;data&nbsp;form&nbsp;EKPO&nbsp;table&nbsp;and&nbsp;populate&nbsp;itab&nbsp;it_ekko<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM data_retrieval.<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;ld_color(1)&nbsp;TYPE&nbsp;c.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;carrid&nbsp;menunumber&nbsp;starter&nbsp;maincourse&nbsp;dessert<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;smenu<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;it_smenu.<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

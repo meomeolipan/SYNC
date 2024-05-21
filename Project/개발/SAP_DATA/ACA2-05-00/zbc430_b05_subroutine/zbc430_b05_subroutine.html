@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC430_B05_SUBROUTINE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC430_B05_SUBROUTINE</h2>
+<h3> Description: Program ZBC430_B05_SUBROUTINE</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC430_B05_SUBROUTINE<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc430_b05_subroutine.<br />
+<br />
+PARAMETERS: pa_int1 TYPE i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_int2&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;3.<br />
+<br />
+DATA : gv_int1 TYPE bc400_act,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_int2&nbsp;TYPE&nbsp;bc400_max.<br />
+<br />
+DATA: gv_result TYPE p LENGTH 16 DECIMALS 2.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*ABAP교재1&nbsp;259p<br />
+   </div>
+   <div class="code">
+IF ( pa_op = 'p' OR pa_op = 'P' OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'+'&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'-'&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'*'&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'/'&nbsp;AND&nbsp;pa_int2&nbsp;&lt;&gt;&nbsp;0&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'%'&nbsp;AND&nbsp;pa_int2&nbsp;&lt;&gt;&nbsp;0&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'**'&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'DIV'&nbsp;AND&nbsp;pa_int2&nbsp;&lt;&gt;&nbsp;0&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'MOD'&nbsp;AND&nbsp;pa_int2&nbsp;&lt;&gt;&nbsp;0<br />
+<br />
+).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ABAP교재1&nbsp;259p<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;pa_op.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'+'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;+&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'-'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;-&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'*'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;*&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'/'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;/&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'**'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;**&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'DIV'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;DIV&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'MOD'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;=&nbsp;pa_int1&nbsp;MOD&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_int1&nbsp;=&nbsp;pa_int1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_int2&nbsp;=&nbsp;pa_int2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;function&nbsp;<a&nbsp;href&nbsp;="z_bc400_b05_comp_percentage/z_bc400_b05_comp_percentage.html">'Z_BC400_B05_COMP_PERCENTAGE'</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_act&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_int1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_max&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_int2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ev_percentage&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_result<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;division_by_zero&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;TEXT-001.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;calc_percentage<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING&nbsp;pa_int1&nbsp;pa_int2<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;gv_result.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'P'&nbsp;OR&nbsp;'p'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'BC400_MOS_POWER'&nbsp;"&nbsp;Fuction&nbsp;Module&nbsp;이름&nbsp;대소문자&nbsp;구분&nbsp;정확하게&nbsp;기입<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_base&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;pa_int1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_power&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;pa_int2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ev_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_result<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;power_value_too_high&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result_value_too_high&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;sy-subrc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'Max&nbsp;value&nbsp;of&nbsp;power&nbsp;is&nbsp;4'(mvp).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'Result&nbsp;value&nbsp;of&nbsp;too&nbsp;high'(rvh).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'Unknown&nbsp;error'(uer).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+&nbsp;&nbsp;WRITE:&nbsp;'결과값:'(res),&nbsp;gv_result.<br />
+ELSEIF ( pa_op = '/' AND pa_int2 = 0 OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'DIV'&nbsp;AND&nbsp;pa_int2&nbsp;=&nbsp;0&nbsp;OR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_op&nbsp;=&nbsp;'MOD'&nbsp;AND&nbsp;pa_int2&nbsp;=&nbsp;0&nbsp;).<br />
+&nbsp;&nbsp;WRITE&nbsp;TEXT-001.<br />
+ELSE.<br />
+&nbsp;&nbsp;WRITE&nbsp;'인지할&nbsp;수&nbsp;없는&nbsp;연산자입니다.'(err).<br />
+ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;calc_percentage<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;PA_INT1<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;PA_INT2<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GV_RESULT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM calc_percentage  USING    p_pa_int1 TYPE i "명확하게 하려면 타입을 선언하는게 좋음<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_pa_int2&nbsp;TYPE&nbsp;i<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;p_gv_result.<br />
+&nbsp;&nbsp;p_gv_result&nbsp;=&nbsp;p_pa_int1&nbsp;/&nbsp;p_pa_int2&nbsp;*&nbsp;100.<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;<br />
+*&nbsp;MVP&nbsp;Max&nbsp;value&nbsp;of&nbsp;power&nbsp;is&nbsp;4<br />
+*&nbsp;RVH&nbsp;Result&nbsp;value&nbsp;of&nbsp;too&nbsp;high<br />
+*&nbsp;UER&nbsp;Unknown&nbsp;error<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

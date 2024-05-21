@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_COLLECT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_COLLECT</h2>
+<h3> Description: Program ZB03_COLLECT</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB03_COLLECT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_collect.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;선언부<br />
+   </div>
+   <div class="code">
+DATA: go_alv_grid TYPE REF TO cl_salv_table.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;합계&nbsp;계산&nbsp;타입<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"좌석&nbsp;필드&nbsp;-&gt;&nbsp;합계&nbsp;좌석<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-seatsocc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsmax&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc_b&nbsp;TYPE&nbsp;sflight-seatsocc_b,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsmax_b&nbsp;TYPE&nbsp;sflight-seatsmax_b,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc_f&nbsp;TYPE&nbsp;sflight-seatsocc_f,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsmax_f&nbsp;TYPE&nbsp;sflight-seatsmax_f,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_sflight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;데이터베이스&nbsp;조회&nbsp;테이블<br />
+   </div>
+   <div class="code">
+DATA: gs_flight TYPE sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_flight&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;sflight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;좌석&nbsp;합계&nbsp;계산&nbsp;테이블<br />
+   </div>
+   <div class="code">
+DATA: gs_sflight TYPE gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sflight&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;gty_sflight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;입력&nbsp;화면<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_carid&nbsp;FOR&nbsp;gs_flight-carrid&nbsp;DEFAULT&nbsp;'AA',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_conid&nbsp;FOR&nbsp;gs_flight-connid.<br />
+<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;pv_check&nbsp;AS&nbsp;CHECKBOX.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;출력화면<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;"SFLIGHT&nbsp;DATA&nbsp;조회<br />
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;sflight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_carid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;IN&nbsp;so_conid.<br />
+<br />
+&nbsp;&nbsp;"출력&nbsp;유형&nbsp;결정<br />
+&nbsp;&nbsp;IF&nbsp;pv_check&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;sum_data&nbsp;USING&nbsp;gt_flight&nbsp;CHANGING&nbsp;gt_sflight.&nbsp;"좌석&nbsp;합계&nbsp;계산<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display&nbsp;USING&nbsp;gt_sflight.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display&nbsp;USING&nbsp;gt_flight.<br />
+&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DISPLAY<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GT_SFLIGHT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display  USING    pt_sflight.   " TYPE 지정하기<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;cl_salv_table=&gt;factory<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;=&nbsp;go_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;pt_sflight.<br />
+<br />
+&nbsp;&nbsp;go_alv_grid-&gt;display(&nbsp;).<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;sum_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GT_FLIGHT<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GT_SFLIGHT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM sum_data  USING    pt_flight LIKE gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;pt_sflight&nbsp;LIKE&nbsp;gt_sflight.<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_sflight&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;pt_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_flight&nbsp;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;pt_flight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_sorted&nbsp;&nbsp;LIKE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;ls_sflight&nbsp;WITH&nbsp;UNIQUE&nbsp;DEFAULT&nbsp;KEY,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_hashed&nbsp;&nbsp;LIKE&nbsp;HASHED&nbsp;TABLE&nbsp;OF&nbsp;ls_sflight&nbsp;WITH&nbsp;UNIQUE&nbsp;DEFAULT&nbsp;KEY.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;pt_flight&nbsp;INTO&nbsp;ls_flight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"DB&nbsp;조회&nbsp;테이블을&nbsp;합계&nbsp;계산&nbsp;구조체에&nbsp;할당<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MOVE-CORRESPONDING&nbsp;ls_flight&nbsp;TO&nbsp;ls_sflight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"COLLECT)&nbsp;인터널&nbsp;테이블&nbsp;내의&nbsp;동일한&nbsp;키&nbsp;값을&nbsp;기준으로&nbsp;숫자&nbsp;필드의&nbsp;값을&nbsp;SUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;COLLECT&nbsp;ls_sflight&nbsp;INTO&nbsp;lt_sorted.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;ls_sflight.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;"테이블&nbsp;정렬<br />
+&nbsp;&nbsp;SORT&nbsp;pt_sflight.<br />
+<br />
+&nbsp;&nbsp;pt_sflight&nbsp;=&nbsp;lt_sorted.<br />
+<br />
+ENDFORM.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PV_CHECK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;좌석&nbsp;합계<br />
+*&nbsp;SO_CARID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;항공사&nbsp;코드<br />
+*&nbsp;SO_CONID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;항공기&nbsp;코드<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

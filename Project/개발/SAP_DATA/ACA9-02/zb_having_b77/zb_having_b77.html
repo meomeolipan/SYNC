@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB_HAVING_B77</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB_HAVING_B77</h2>
+<h3> Description: Solution: GROUP BY with COUNT( DISTINCT <col> ) (connection)</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&-----------------------------------------------<br />
+*&&nbsp;&nbsp;REPORT&nbsp;ZB_HAVING_B77<br />
+*&-----------------------------------------------<br />
+   </div>
+   <div class="code">
+REPORT ZB_HAVING_B77.<br />
+<br />
+include <a href ="zb_having_b77_top.html">ZB_HAVING_B77_TOP</a>.<br />
+include <a href ="zb_having_b77_sc1.html">ZB_HAVING_B77_SC1</a>.<br />
+include <a href ="zb_having_b77_f01.html">ZB_HAVING_B77_F01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-----------------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+PERFORM GET_DATA.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*&nbsp;create&nbsp;ALV<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CL_SALV_TABLE=&gt;FACTORY(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R_SALV_TABLE&nbsp;&nbsp;&nbsp;=&nbsp;GO_ALV_GRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T_TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_FLIGHT&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+<br />
+*&nbsp;defining&nbsp;headers&nbsp;for&nbsp;ALV&nbsp;columns<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GO_COLUMNS&nbsp;=&nbsp;GO_ALV_GRID-&gt;GET_COLUMNS(&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;number&nbsp;of&nbsp;connections<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GO_COLUMN&nbsp;?=&nbsp;GO_COLUMNS-&gt;GET_COLUMN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMNNAME&nbsp;=&nbsp;'NUM_CONN'&nbsp;).<br />
+&nbsp;&nbsp;GO_COLUMN-&gt;SET_SHORT_TEXT(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;'Connect.'(CON)&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;number&nbsp;of&nbsp;flights<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GO_COLUMN&nbsp;?=&nbsp;GO_COLUMNS-&gt;GET_COLUMN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMNNAME&nbsp;=&nbsp;'NUM_FLIGHTS'&nbsp;).<br />
+&nbsp;&nbsp;GO_COLUMN-&gt;SET_SHORT_TEXT(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;'Flights'(FLG)&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;average&nbsp;of&nbsp;seatsmax<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GO_COLUMN&nbsp;?=&nbsp;GO_COLUMNS-&gt;GET_COLUMN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMNNAME&nbsp;=&nbsp;'SEATSMAX_AVG'&nbsp;).<br />
+&nbsp;&nbsp;GO_COLUMN-&gt;SET_SHORT_TEXT(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;'Avg.Cap.'(AVM)&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;average&nbsp;of&nbsp;seatsocc<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GO_COLUMN&nbsp;?=&nbsp;GO_COLUMNS-&gt;GET_COLUMN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMNNAME&nbsp;=&nbsp;'SEATSOCC_AVG'&nbsp;).<br />
+&nbsp;&nbsp;GO_COLUMN-&gt;SET_SHORT_TEXT(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;'Avg.occ.'(AVO)&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+<br />
+*&nbsp;display&nbsp;data<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GO_ALV_GRID-&gt;DISPLAY(&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;AVM&nbsp;Avg.&nbsp;cap.<br />
+*&nbsp;AVO&nbsp;Avg.&nbsp;occ.<br />
+*&nbsp;BL1&nbsp;Selections&nbsp;for&nbsp;HAVING<br />
+*&nbsp;CON&nbsp;No.&nbsp;conn.<br />
+*&nbsp;FLG&nbsp;No.&nbsp;flghts<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_AVGMX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Avarage&nbsp;capacity<br />
+*&nbsp;SO_AVGOC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Avarage&nbsp;occupation<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Airline&nbsp;Carrier<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B15_ALV_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B15_ALV_TOP</h2>
+<h3> Description: Include ZBC405_B15_ALV_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC405_B15_ALV_TOP<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;AVL&nbsp;data와&nbsp;color&nbsp;적용&nbsp;위한&nbsp;타입&nbsp;선언<br />
+<br />
+   </div>
+   <div class="code">
+TYPE-POOLS: col, icon.<br />
+<br />
+TABLES: sflight.<br />
+<br />
+TYPES: BEGIN OF gty_sflight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;sflight.<br />
+<br />
+TYPES:   light            TYPE c LENGTH 1, "exception<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color(4),"&nbsp;color&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;4,&nbsp;"row&nbsp;color<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_field_colors&nbsp;&nbsp;TYPE&nbsp;lvc_t_scol,&nbsp;"cell&nbsp;color<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changes_possible&nbsp;TYPE&nbsp;icon-id,&nbsp;"icon&nbsp;(addition)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"button<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_bookings&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;10,&nbsp;"pushbutton&nbsp;글자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_cell_style&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_styl,&nbsp;"button&nbsp;on&nbsp;grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_sflight.<br />
+<br />
+DATA: gt_flights TYPE TABLE OF gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight&nbsp;&nbsp;TYPE&nbsp;gty_sflight.<br />
+<br />
+DATA gt_bookings TYPE TABLE of sbook. "dialog data<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;-------<br />
+*&nbsp;SCREEN<br />
+   </div>
+   <div class="code">
+DATA: ok_code LIKE sy-ucomm.<br />
+<br />
+"메인 데이터<br />
+DATA: go_alv_grid  TYPE REF TO cl_gui_alv_grid, "클래스 참조변수 선언<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container.&nbsp;"global&nbsp;object&nbsp;선언<br />
+<br />
+"dialog data + 얘 grid에 붙여줘야 함.<br />
+DATA: go_dialogbox   TYPE REF TO cl_gui_dialogbox_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_booking&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+<br />
+DATA: gs_variant TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_print&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_prnt.<br />
+<br />
+" layout을 위해 필요한 data<br />
+DATA: gs_layout      TYPE lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_color&nbsp;TYPE&nbsp;lvc_s_scol.<br />
+<br />
+"제외할 버튼<br />
+DATA: gt_excluded TYPE ui_functions.<br />
+<br />
+"Sort<br />
+DATA : gs_sort TYPE lvc_s_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;TYPE&nbsp;lvc_t_sort.<br />
+<br />
+"filter<br />
+DATA: gs_filter TYPE lvc_s_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filter&nbsp;TYPE&nbsp;lvc_t_filt.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;field&nbsp;catalog<br />
+   </div>
+   <div class="code">
+DATA: gt_field_cat TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+DATA gs_cell_style TYPE lvc_s_styl.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Class<br />
+   </div>
+   <div class="code">
+CLASS: lcl_event_handler DEFINITION DEFERRED.<br />
+DATA: go_handler TYPE REF TO lcl_event_handler.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-----------------------------------<br />
+*SELECTION&nbsp;SCREEN<br />
+*-----------------------------------<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-t01.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_car&nbsp;FOR&nbsp;gs_flight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_con&nbsp;FOR&nbsp;gs_flight-connid.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+PARAMETERS: pa_lv TYPE disvariant-variant.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B15_SCREEN_S1B_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B15_SCREEN_S1B_TOP</h2>
+<h3> Description: Include ZBC405_B15_SCREEN_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC405_B15_SCREEN_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CONSTANTS gc_mark VALUE 'X'.<br />
+TABLES sscrfields.<br />
+DATA: gs_flights TYPE dv_flights,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_switch&nbsp;&nbsp;TYPE&nbsp;n&nbsp;VALUE&nbsp;'1'.<br />
+<br />
+SELECTION-SCREEN SKIP 1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF SCREEN 1100 AS SUBSCREEN.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_car&nbsp;FOR&nbsp;gs_flights-carrid&nbsp;MEMORY&nbsp;ID&nbsp;car,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_con&nbsp;FOR&nbsp;gs_flights-connid.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+&nbsp;&nbsp;"푸쉬버튼&nbsp;추가&nbsp;(위치,&nbsp;text,&nbsp;Function&nbsp;code&nbsp;'details')<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;PUSHBUTTON&nbsp;pos_low(20)&nbsp;gv_txt&nbsp;USER-COMMAND&nbsp;details.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP.<br />
+&nbsp;&nbsp;"디테일&nbsp;블록&nbsp;추가<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;bl_det&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-tld.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT-OPTIONS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"화면&nbsp;수정&nbsp;식별자&nbsp;modif&nbsp;id&nbsp;설정&nbsp;-&gt;&nbsp;modify&nbsp;스크린&nbsp;할&nbsp;때&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_start&nbsp;FOR&nbsp;gs_flights-cityfrom&nbsp;MODIF&nbsp;ID&nbsp;det,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_dest&nbsp;FOR&nbsp;gs_flights-cityto&nbsp;MODIF&nbsp;ID&nbsp;det.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;bl_det.<br />
+SELECTION-SCREEN END OF SCREEN 1100.<br />
+<br />
+SELECTION-SCREEN BEGIN OF SCREEN 1200 AS SUBSCREEN.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_fld&nbsp;FOR&nbsp;gs_flights-fldate&nbsp;NO-EXTENSION.<br />
+SELECTION-SCREEN END OF SCREEN 1200.<br />
+<br />
+SELECTION-SCREEN BEGIN OF SCREEN 1300 AS SUBSCREEN.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b1&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-tl3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;radio&nbsp;WITH&nbsp;FRAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;p1&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p3&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1&nbsp;DEFAULT&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;radio.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_ctry&nbsp;LIKE&nbsp;gs_flights-countryfr.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b1.<br />
+SELECTION-SCREEN END OF SCREEN 1300.<br />
+<br />
+SELECTION-SCREEN BEGIN OF TABBED BLOCK airlines FOR 10 LINES.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(20)&nbsp;tab1&nbsp;USER-COMMAND&nbsp;conn&nbsp;DEFAULT&nbsp;SCREEN&nbsp;1100.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(20)&nbsp;tab2&nbsp;USER-COMMAND&nbsp;date&nbsp;DEFAULT&nbsp;SCREEN&nbsp;1200.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(20)&nbsp;tab3&nbsp;USER-COMMAND&nbsp;type&nbsp;DEFAULT&nbsp;SCREEN&nbsp;1300.<br />
+SELECTION-SCREEN END OF BLOCK airlines.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

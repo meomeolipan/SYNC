@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZTASK2_B15_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTASK2_B15_TOP</h2>
+<h3> Description: Include ZTASK2_B15_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZTASK2_B15_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TABLES: scarr, spfli, sbook, sscrfields.<br />
+<br />
+data: begin of gs_temp,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;&nbsp;&nbsp;like&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryfr&nbsp;&nbsp;like&nbsp;spfli-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryto&nbsp;&nbsp;like&nbsp;spfli-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;sbook-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customid&nbsp;&nbsp;&nbsp;like&nbsp;sbook-customid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passname&nbsp;&nbsp;&nbsp;like&nbsp;sbook-passname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smoker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;sbook-smoker,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bookid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;sbook-bookid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order_date&nbsp;like&nbsp;sbook-order_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancelled&nbsp;&nbsp;like&nbsp;sbook-cancelled,<br />
+&nbsp;&nbsp;end&nbsp;of&nbsp;gs_temp.<br />
+<br />
+data: begin of gs_book,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;&nbsp;&nbsp;like&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryfr&nbsp;&nbsp;like&nbsp;spfli-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryto&nbsp;&nbsp;like&nbsp;spfli-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;sbook-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customid&nbsp;&nbsp;&nbsp;like&nbsp;sbook-customid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passname&nbsp;&nbsp;&nbsp;like&nbsp;sbook-passname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smoker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;sbook-smoker,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bookid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;sbook-bookid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order_date&nbsp;like&nbsp;sbook-order_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancelled&nbsp;&nbsp;like&nbsp;sbook-cancelled,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;light&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;c&nbsp;length&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color(4),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell_color&nbsp;type&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;icon-id,<br />
+&nbsp;&nbsp;end&nbsp;of&nbsp;gs_book.<br />
+<br />
+<br />
+<br />
+DATA: gt_temp   LIKE TABLE OF gs_temp,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_books&nbsp;&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_book,<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_switch&nbsp;TYPE&nbsp;n&nbsp;VALUE&nbsp;'1'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SCREEN&nbsp;=========<br />
+   </div>
+   <div class="code">
+DATA: ok_code LIKE sy-ucomm.<br />
+<br />
+"메인 데이터<br />
+DATA: go_alv_grid TYPE REF TO cl_gui_alv_grid, "클래스 참조변수 선언<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_docking&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container.&nbsp;"global&nbsp;object&nbsp;선언<br />
+<br />
+"dialog data + 얘 grid에 붙여줘야 함.<br />
+DATA: go_dialogbox   TYPE REF TO cl_gui_dialogbox_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_booking&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+<br />
+<br />
+" layout을 위해 필요한 data<br />
+DATA: gs_layout      TYPE lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_color&nbsp;TYPE&nbsp;lvc_s_scol.<br />
+<br />
+<br />
+"Sort<br />
+DATA : gs_sort TYPE lvc_s_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;TYPE&nbsp;lvc_t_sort.<br />
+<br />
+"filter<br />
+DATA: gs_filter TYPE lvc_s_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filter&nbsp;TYPE&nbsp;lvc_t_filt.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;field&nbsp;catalog<br />
+   </div>
+   <div class="code">
+DATA: gt_field_cat TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;gs_detail,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityfrom&nbsp;TYPE&nbsp;spfli-cityfrom,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airpfrom&nbsp;TYPE&nbsp;spfli-airpfrom,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityto&nbsp;&nbsp;&nbsp;TYPE&nbsp;spfli-cityto,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;airpto&nbsp;&nbsp;&nbsp;TYPE&nbsp;spfli-airpto,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deptime&nbsp;&nbsp;TYPE&nbsp;spfli-deptime,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrtime&nbsp;&nbsp;TYPE&nbsp;spfli-arrtime,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distance&nbsp;TYPE&nbsp;spfli-distance,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_detail,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_details&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_detail.<br />
+**<br />
+   </div>
+   <div class="code">
+DATA: gs_detail type spfli,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_details&nbsp;type&nbsp;table&nbsp;of&nbsp;spfli.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Class<br />
+   </div>
+   <div class="code">
+CLASS: lcl_event_handler DEFINITION DEFERRED.<br />
+DATA: go_handler TYPE REF TO lcl_event_handler.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-b01.<br />
+<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;pa_car&nbsp;TYPE&nbsp;scarr-carrid&nbsp;OBLIGATORY.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_con&nbsp;FOR&nbsp;spfli-connid&nbsp;NO-EXTENSION,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_fld&nbsp;FOR&nbsp;sbook-fldate&nbsp;NO-EXTENSION.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;1.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;PUSHBUTTON&nbsp;/1(17)&nbsp;gv_txt&nbsp;USER-COMMAND&nbsp;btn1.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;1.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b2&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-b02.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_cus&nbsp;FOR&nbsp;sbook-customid&nbsp;MODIF&nbsp;ID&nbsp;mod,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_ord&nbsp;FOR&nbsp;sbook-order_date&nbsp;MODIF&nbsp;ID&nbsp;mod&nbsp;NO-EXTENSION&nbsp;.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b2.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

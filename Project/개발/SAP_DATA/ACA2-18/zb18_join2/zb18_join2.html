@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB18_JOIN2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB18_JOIN2</h2>
+<h3> Description: </h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB18_JOIN<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb18_join2.<br />
+<br />
+TABLES: scarr, spfli, sflight.<br />
+<br />
+type-Pools: slis.                               "ALV Declarations<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Data&nbsp;Declaration<br />
+<br />
+*----------------<br />
+<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF t_join,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;type&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;TYPE&nbsp;spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityfrom&nbsp;TYPE&nbsp;spfli-cityfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityto&nbsp;&nbsp;&nbsp;TYPE&nbsp;spfli-cityto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;TYPE&nbsp;sflight-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;t_join.<br />
+<br />
+DATA: it_join TYPE STANDARD TABLE OF t_join INITIAL SIZE 0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_join&nbsp;TYPE&nbsp;t_join.<br />
+<br />
+DATA: fieldcatalog TYPE slis_t_fieldcat_alv WITH HEADER LINE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_tab_group&nbsp;TYPE&nbsp;slis_t_sp_group_alv,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_layout&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;slis_layout_alv,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_repid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sy-repid.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;:&nbsp;t&nbsp;TYPE&nbsp;slis_t_sp_group_alv&nbsp;.<br />
+<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK part6 WITH FRAME TITLE TEXT-006.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;s_carrid&nbsp;FOR&nbsp;scarr-carrid.<br />
+SELECTION-SCREEN END OF BLOCK part6.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Start-of-selection.<br />
+<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;PERFORM&nbsp;data_retrieval.<br />
+&nbsp;&nbsp;PERFORM&nbsp;build_fieldcatalog.<br />
+&nbsp;&nbsp;PERFORM&nbsp;build_layout.<br />
+&nbsp;&nbsp;PERFORM&nbsp;display_alv_report.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;BUILD_FIELDCATALOG<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build&nbsp;Fieldcatalog&nbsp;for&nbsp;ALV&nbsp;Report<br />
+<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM build_fieldcatalog.<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'CARRID'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'CARRID'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;fieldcatalog-outputlen&nbsp;&nbsp;&nbsp;=&nbsp;10.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'CARRNAME'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'CARRNAME'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;fieldcatalog-lzero&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'CONNID'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'CONNID'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+&nbsp;&nbsp;fieldcatalog-inttype&nbsp;=&nbsp;'C'.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'CITYFROM'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'CITYFROM'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'CITYTO'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'CITYTO'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+&nbsp;&nbsp;fieldcatalog-fieldname&nbsp;&nbsp;&nbsp;=&nbsp;'FLDATE'.<br />
+&nbsp;&nbsp;fieldcatalog-seltext_m&nbsp;&nbsp;&nbsp;=&nbsp;'FLDATE'.<br />
+&nbsp;&nbsp;fieldcatalog-col_pos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;5.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;fieldcatalog&nbsp;TO&nbsp;fieldcatalog.<br />
+&nbsp;&nbsp;CLEAR&nbsp;&nbsp;fieldcatalog.<br />
+<br />
+<br />
+<br />
+ENDFORM.                    " BUILD_FIELDCATALOG<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;BUILD_LAYOUT<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Build&nbsp;layout&nbsp;for&nbsp;ALV&nbsp;grid&nbsp;report<br />
+<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM build_layout.<br />
+&nbsp;&nbsp;gd_layout-no_input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gd_layout-colwidth_optimize&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gd_layout-zebra&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gd_layout-info_fieldname&nbsp;=&nbsp;'LINE_COLOR'.<br />
+ENDFORM.                    " BUILD_LAYOUT​<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;DISPLAY_ALV_REPORT<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display&nbsp;report&nbsp;using&nbsp;ALV&nbsp;grid<br />
+<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM display_alv_report.<br />
+<br />
+&nbsp;&nbsp;gd_repid&nbsp;=&nbsp;sy-repid.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'REUSE_ALV_GRID_DISPLAY'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_program&nbsp;=&nbsp;gd_repid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gd_layout<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;fieldcatalog[]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'X'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TABLES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;it_join<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;program_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;MESSAGE&nbsp;ID&nbsp;SY-MSGID&nbsp;TYPE&nbsp;SY-MSGTY&nbsp;NUMBER&nbsp;SY-MSGNO<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;SY-MSGV1&nbsp;SY-MSGV2&nbsp;SY-MSGV3&nbsp;SY-MSGV4.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM. " DISPLAY_ALV_REPORT​​<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;DATA_RETRIEVAL<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Retrieve&nbsp;data&nbsp;form&nbsp;EKPO&nbsp;table&nbsp;and&nbsp;populate&nbsp;itab&nbsp;it_ekko<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM data_retrieval.<br />
+<br />
+SELECT c~carrid c~carrname p~connid p~cityfrom p~cityto f~fldate<br />
+&nbsp;&nbsp;from&nbsp;scarr&nbsp;as&nbsp;c&nbsp;left&nbsp;outer&nbsp;join&nbsp;spfli&nbsp;as&nbsp;p<br />
+&nbsp;&nbsp;on&nbsp;c~carrid&nbsp;=&nbsp;p~carrid<br />
+&nbsp;&nbsp;inner&nbsp;join&nbsp;sflight&nbsp;as&nbsp;f<br />
+&nbsp;&nbsp;on&nbsp;p~carrid&nbsp;=&nbsp;f~carrid<br />
+&nbsp;&nbsp;and&nbsp;p~connid&nbsp;=&nbsp;f~connid<br />
+&nbsp;&nbsp;into&nbsp;table&nbsp;it_join<br />
+&nbsp;&nbsp;where&nbsp;c~carrid&nbsp;in&nbsp;s_carrid.<br />
+<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B21_TOP_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B21_TOP_C</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B21_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TABLES: ztrent_b21,  ztbook_b21, ztmember_b21, sscrfields.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*selec-options&nbsp;의&nbsp;low&nbsp;와&nbsp;hiigh<br />
+   </div>
+   <div class="code">
+DATA: gv_fm TYPE sy-datum,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_cd&nbsp;TYPE&nbsp;sy-datum.<br />
+   </div>
+   <div class="codeComment">
+*radio&nbsp;button&nbsp;값&nbsp;바뀔&nbsp;떄<br />
+   </div>
+   <div class="code">
+DATA: gc_x      TYPE c VALUE 'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_switch&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'1'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*도서&nbsp;대여&nbsp;현황&nbsp;it&nbsp;구성<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF gty_rent.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="ztrent_b21/dictionary-ztrent_b21.html">ztrent_b21</a>.<br />
+TYPES:   mb_nm   TYPE ztmember_b21-mb_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;TYPE&nbsp;ztbook_b21-book_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;5,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d_name&nbsp;&nbsp;TYPE&nbsp;dd07t-ddtext,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_rent.<br />
+<br />
+DATA: gs_rent TYPE gty_rent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_rent&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;gty_rent.<br />
+   </div>
+   <div class="codeComment">
+*alv&nbsp;obj<br />
+   </div>
+   <div class="code">
+DATA: go_cont   TYPE REF TO cl_gui_custom_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid_r&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+   </div>
+   <div class="codeComment">
+*도서현황&nbsp;layout<br />
+   </div>
+   <div class="code">
+DATA gs_layout_r TYPE lvc_s_layo.<br />
+   </div>
+   <div class="codeComment">
+*도서현황&nbsp;field&nbsp;catalog<br />
+   </div>
+   <div class="code">
+DATA:gt_field_cat_r TYPE lvc_t_fcat.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;도서현황&nbsp;sort<br />
+   </div>
+   <div class="code">
+DATA gt_sort_criteria TYPE lvc_t_sort.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*반납처리<br />
+*도서대여&nbsp;회원내역<br />
+   </div>
+   <div class="code">
+DATA: gs_mem TYPE ztmember_b21,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mem&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;ztmember_b21.<br />
+   </div>
+   <div class="codeComment">
+*회원정보&nbsp;layout<br />
+   </div>
+   <div class="code">
+DATA gs_layout_m TYPE lvc_s_layo.<br />
+   </div>
+   <div class="codeComment">
+*회원정보&nbsp;field&nbsp;catalog<br />
+   </div>
+   <div class="code">
+DATA:gt_field_cat_m TYPE lvc_t_fcat.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;회원정보&nbsp;sort<br />
+   </div>
+   <div class="code">
+DATA gt_sort_criteria_m TYPE lvc_t_sort.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*대여도서&nbsp;반납처리<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF gty_return.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="ztbook_b21/dictionary-ztbook_b21.html">ztbook_b21</a>.<br />
+TYPES:   rent_dt   TYPE ztrent_b21-rent_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;TYPE&nbsp;ztrent_b21-rplan_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extra_fee&nbsp;TYPE&nbsp;n&nbsp;LENGTH&nbsp;74,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency&nbsp;&nbsp;TYPE&nbsp;s_curr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;5,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_return.<br />
+<br />
+DATA: gt_return TYPE TABLE OF gty_return,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_return&nbsp;TYPE&nbsp;gty_return.<br />
+   </div>
+   <div class="codeComment">
+*반납&nbsp;layout<br />
+   </div>
+   <div class="code">
+DATA gs_layout_t TYPE lvc_s_layo.<br />
+   </div>
+   <div class="codeComment">
+*반납&nbsp;field&nbsp;catalog<br />
+   </div>
+   <div class="code">
+DATA:gt_field_cat_t TYPE lvc_t_fcat.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*공통&nbsp;요소<br />
+*variant<br />
+   </div>
+   <div class="code">
+DATA gs_variant TYPE disvariant.<br />
+   </div>
+   <div class="codeComment">
+*ok&nbsp;code<br />
+   </div>
+   <div class="code">
+DATA: ok_code   LIKE sy-ucomm,   "도서현황<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok_code_t&nbsp;LIKE&nbsp;sy-ucomm.&nbsp;&nbsp;&nbsp;"반납처리<br />
+   </div>
+   <div class="codeComment">
+*alv&nbsp;obj<br />
+   </div>
+   <div class="code">
+DATA: go_custom TYPE REF TO cl_gui_custom_container,  "main container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_split&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container,<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_con_m&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container,&nbsp;&nbsp;"회원정보<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid_m&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_con_t&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container,&nbsp;&nbsp;&nbsp;"반납처리<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid_t&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*조회조건<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-001.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p_rent&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1&nbsp;USER-COMMAND&nbsp;click,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_return&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*선택조건<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-002.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;p_id&nbsp;FOR&nbsp;ztmember_b21-mb_id.&nbsp;&nbsp;"회원번호<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p_stu&nbsp;TYPE&nbsp;ztmember_b21-mb_st&nbsp;DEFAULT&nbsp;'A'&nbsp;MODIF&nbsp;ID&nbsp;ret.&nbsp;&nbsp;&nbsp;&nbsp;"회원&nbsp;상태<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;p_rd&nbsp;FOR&nbsp;ztrent_b21-rplan_dt&nbsp;MODIF&nbsp;ID&nbsp;ret.&nbsp;&nbsp;"반납예정일<br />
+SELECTION-SCREEN END OF BLOCK b2.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

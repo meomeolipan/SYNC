@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZR_EXAM1_B03_TOP_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZR_EXAM1_B03_TOP_C</h2>
+<h3> Description: Include ZR_EXAM1_B03_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZR_EXAM1_B03_TOP<br />
+*&---------------------------------------------------------------------*<br />
+***&nbsp;선언부<br />
+   </div>
+   <div class="code">
+TABLES: sscrfields, scarr, sbuspart, saplane.<br />
+<br />
+DATA: BEGIN OF gs_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;planetype&nbsp;TYPE&nbsp;sflight-planetype,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsmax&nbsp;&nbsp;TYPE&nbsp;sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sflight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_sflight.<br />
+<br />
+CONSTANTS: cv_x TYPE c VALUE 'X'. "라디오 버튼 상수 지정<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;조건부<br />
+*&nbsp;1&nbsp;버튼<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN FUNCTION KEY 1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;2&nbsp;SELECTION&nbsp;CONDITION<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-001.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;&nbsp;p_carid&nbsp;LIKE&nbsp;gs_sflight-carrid&nbsp;DEFAULT&nbsp;'AA'.<br />
+<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_carid&nbsp;FOR&nbsp;gs_sflight-carrid.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;3&nbsp;INTEVAL&nbsp;BLOCK<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-002 NO INTERVALS.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_fltyp&nbsp;FOR&nbsp;saplane-planetype&nbsp;NO-EXTENSION.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_prod&nbsp;FOR&nbsp;saplane-producer.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_airid&nbsp;FOR&nbsp;scarr-carrid.<br />
+SELECTION-SCREEN END OF BLOCK b2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;4&nbsp;두&nbsp;필드를&nbsp;한&nbsp;줄에<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF LINE.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;3(10)&nbsp;TEXT-004&nbsp;FOR&nbsp;FIELD&nbsp;p_carid2.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;25(15)&nbsp;TEXT-005&nbsp;FOR&nbsp;FIELD&nbsp;p_carid3.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;POSITION&nbsp;15.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;p_carid2&nbsp;LIKE&nbsp;scarr-carrid.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;POSITION&nbsp;40.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;p_carid3&nbsp;LIKE&nbsp;scarr-carrid&nbsp;.<br />
+SELECTION-SCREEN END OF LINE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;5&nbsp;한줄&nbsp;공백&nbsp;생성<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN SKIP 1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;6&nbsp;중첩&nbsp;BOLCK<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b3 WITH FRAME TITLE TEXT-006 NO INTERVALS.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;p_carid5&nbsp;LIKE&nbsp;sbuspart-buspartnum&nbsp;.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b4&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-007&nbsp;NO&nbsp;INTERVALS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;p_opt1&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt2&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1&nbsp;&nbsp;DEFAULT&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt3&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b4.<br />
+SELECTION-SCREEN END OF BLOCK b3.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;7&nbsp;체크박스<br />
+   </div>
+   <div class="code">
+PARAMETERS: p_opt4 AS CHECKBOX DEFAULT 'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt5&nbsp;AS&nbsp;CHECKBOX.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

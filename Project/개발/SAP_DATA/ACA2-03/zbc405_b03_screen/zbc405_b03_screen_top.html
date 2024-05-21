@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B03_SCREEN_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B03_SCREEN_TOP</h2>
+<h3> Description: Include ZBC405_B03_SCREEN_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC405_B03_SCREEN_TOP<br />
+*&---------------------------------------------------------------------*<br />
+**&nbsp;선언부<br />
+   </div>
+   <div class="code">
+DATA: gt_flight TYPE TABLE OF dv_flights,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_flight.<br />
+<br />
+CONSTANTS: cv_x TYPE c VALUE 'X'. "라디오 버튼 상수 지정<br />
+<br />
+TABLES: sscrfields."function code<br />
+<br />
+DATA gv_switch TYPE n VALUE '1'."details - push button flag<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;조회&nbsp;조건<br />
+*&nbsp;조건&nbsp;1&nbsp;-&nbsp;다중&nbsp;입력<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF SCREEN 1100 AS SUBSCREEN.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_car&nbsp;FOR&nbsp;gs_flight-carrid&nbsp;MEMORY&nbsp;ID&nbsp;car,&nbsp;"airline&nbsp;-&nbsp;interval&nbsp;value<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_con&nbsp;FOR&nbsp;gs_flight-connid.&nbsp;"flight&nbsp;connection&nbsp;number<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;PUSHBUTTON&nbsp;pos_low(20)&nbsp;gv_txt&nbsp;USER-COMMAND&nbsp;details.&nbsp;"pushbutton&nbsp;-&nbsp;user&nbsp;command&nbsp;설정<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;"항공편&nbsp;도시&nbsp;선택<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;bl&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-tld.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_from&nbsp;FOR&nbsp;gs_flight-cityfrom&nbsp;MODIF&nbsp;ID&nbsp;det,&nbsp;"'DET'&nbsp;group&nbsp;지정&nbsp;-&nbsp;select-options&nbsp;변경&nbsp;가능<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_to&nbsp;FOR&nbsp;gs_flight-cityto&nbsp;MODIF&nbsp;ID&nbsp;det.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;bl.<br />
+SELECTION-SCREEN END OF SCREEN 1100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;조건&nbsp;2&nbsp;-&nbsp;flight&nbsp;date<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF SCREEN 1200 AS SUBSCREEN.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_fdt&nbsp;FOR&nbsp;gs_flight-fldate&nbsp;NO-EXTENSION.<br />
+SELECTION-SCREEN END OF SCREEN 1200.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;조건&nbsp;3&nbsp;-&nbsp;라디오&nbsp;버튼<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF SCREEN 1300 AS SUBSCREEN.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b1&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-b01.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;radio&nbsp;WITH&nbsp;FRAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;p_all&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.&nbsp;&nbsp;"모든&nbsp;항공편<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;p_nat&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.&nbsp;&nbsp;"국내선<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;p_int&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1&nbsp;DEFAULT&nbsp;'X'.&nbsp;&nbsp;"국제선&nbsp;-&nbsp;기본값<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;radio.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;p_cont&nbsp;LIKE&nbsp;gs_flight-countryfr.&nbsp;"국내선&nbsp;-&nbsp;국가<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b1.<br />
+SELECTION-SCREEN END OF SCREEN 1300.<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;&nbsp;TABSTRIPS&nbsp;-&nbsp;스크린과&nbsp;탭&nbsp;연결<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF TABBED BLOCK airlines FOR 10 LINES.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(20)&nbsp;tab1&nbsp;USER-COMMAND&nbsp;conn&nbsp;DEFAULT&nbsp;SCREEN&nbsp;1100.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(20)&nbsp;tab2&nbsp;USER-COMMAND&nbsp;date&nbsp;DEFAULT&nbsp;SCREEN&nbsp;1200.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(20)&nbsp;tab3&nbsp;USER-COMMAND&nbsp;type&nbsp;DEFAULT&nbsp;SCREEN&nbsp;1300.<br />
+SELECTION-SCREEN END OF BLOCK airlines.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

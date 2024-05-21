@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_INHERITANCE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_INHERITANCE</h2>
+<h3> Description: Include ZB15_INHERITANCE</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_INHERITANCE<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_inheritance.<br />
+<br />
+CLASS lcl_parent DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;constructor&nbsp;IMPORTING&nbsp;iv_name&nbsp;TYPE&nbsp;string.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;introduce_me.<br />
+<br />
+&nbsp;&nbsp;PROTECTED&nbsp;SECTION.&nbsp;"상속받은&nbsp;클래스만&nbsp;접근&nbsp;가능<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;mv_name&nbsp;TYPE&nbsp;string.&nbsp;"name&nbsp;변수&nbsp;선언<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_parent IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;constructor.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;mv_name&nbsp;=&nbsp;iv_name.&nbsp;"protected&nbsp;변수&nbsp;값을&nbsp;변경<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;introduce_me.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'내&nbsp;이름은',&nbsp;mv_name,&nbsp;'입니다.'.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_child DEFINITION INHERITING FROM lcl_parent. "부모클래스 상속<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;constructor&nbsp;IMPORTING&nbsp;iv_name&nbsp;TYPE&nbsp;string<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_team&nbsp;TYPE&nbsp;string.&nbsp;"상속클래스&nbsp;메소드&nbsp;정의<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;introduce_me&nbsp;REDEFINITION.&nbsp;"메소드&nbsp;재정의<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;mv_team&nbsp;TYPE&nbsp;string.<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_child IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;constructor.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"상위&nbsp;클래스&nbsp;생성자&nbsp;호출<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;super-&gt;constructor<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_name&nbsp;=&nbsp;iv_name.&nbsp;"mv_name&nbsp;을&nbsp;변경해줌<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;super-&gt;constructor(&nbsp;iv_name&nbsp;).&nbsp;"short&nbsp;ver.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;mv_team&nbsp;=&nbsp;iv_team.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;하위클래스의&nbsp;생성자임을&nbsp;명시<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;mv_team&nbsp;=&nbsp;'토트넘'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;introduce_me.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'내&nbsp;이름은',&nbsp;mv_name,&nbsp;'이고,&nbsp;소속은',&nbsp;'토트넘','입니다.'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'내&nbsp;이름은',&nbsp;mv_name,&nbsp;'이고,&nbsp;소속은',&nbsp;mv_team,'입니다.'.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lo_parent&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_parent.<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lo_child&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_child.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_parent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_name&nbsp;=&nbsp;'손웅정'.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_child<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_name&nbsp;=&nbsp;'손흥민'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;child의&nbsp;constructor&nbsp;호출<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_team&nbsp;=&nbsp;'토트넘'.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_parent-&gt;introduce_me.&nbsp;"본인의&nbsp;메소드를&nbsp;호출<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_child-&gt;introduce_me.&nbsp;"부모의&nbsp;메소드를&nbsp;재정의해서&nbsp;호출<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

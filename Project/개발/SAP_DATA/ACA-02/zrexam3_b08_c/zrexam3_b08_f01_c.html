@@ -1,0 +1,639 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B08_F01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B08_F01_C</h2>
+<h3> Description: Include ZREXAM3_B08_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B08_F01<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM GET_DATA1.<br />
+<br />
+SELECT  A~MB_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A~MB_NM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B~BOOK_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B~BOOK_NM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C~RENT_DT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C~RPLAN_DT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C~RETURN_ST<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C~RETURN_DT<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_DATA1<br />
+&nbsp;&nbsp;FROM&nbsp;ZTMEMBER_B08&nbsp;AS&nbsp;A<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ZTRENT_B08&nbsp;AS&nbsp;C<br />
+&nbsp;&nbsp;ON&nbsp;A~MB_ID&nbsp;=&nbsp;C~MB_ID<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ZTBOOK_B08&nbsp;AS&nbsp;B<br />
+&nbsp;&nbsp;ON&nbsp;B~BOOK_ID&nbsp;=&nbsp;C~BOOK_ID<br />
+&nbsp;&nbsp;WHERE&nbsp;A~MB_ST&nbsp;=&nbsp;PA_MST<br />
+&nbsp;&nbsp;AND&nbsp;A~MB_ID&nbsp;IN&nbsp;SO_MID<br />
+&nbsp;&nbsp;AND&nbsp;C~RPLAN_DT&nbsp;IN&nbsp;SO_RPD.<br />
+<br />
+&nbsp;&nbsp;SORT&nbsp;GT_DATA1&nbsp;BY&nbsp;MB_ID&nbsp;BOOK_ID.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM GET_DATA2.<br />
+<br />
+SELECT  A~MB_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A~MB_NM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A~TELNO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A~EMAIL<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B~RETURN_ST<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_DATA2<br />
+&nbsp;&nbsp;FROM&nbsp;ZTMEMBER_B08&nbsp;AS&nbsp;A<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ZTRENT_B08&nbsp;AS&nbsp;B<br />
+&nbsp;&nbsp;ON&nbsp;A~MB_ID&nbsp;=&nbsp;B~MB_ID<br />
+&nbsp;&nbsp;WHERE&nbsp;A~MB_ID&nbsp;IN&nbsp;SO_MID<br />
+&nbsp;&nbsp;AND&nbsp;B~RETURN_ST&nbsp;=&nbsp;'A'.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM MAKE_DATA1.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_DATA1&nbsp;INTO&nbsp;GS_DATA1.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;GS_DATA1-RETURN_ST&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GS_DATA1-RPLAN_DT&nbsp;&lt;&nbsp;SY-DATUM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA1-LIGHT&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;GS_DATA1-RPLAN_DT&nbsp;&gt;&nbsp;SY-DATUM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA1-LIGHT&nbsp;=&nbsp;'2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ELSEIF&nbsp;GS_DATA1-RETURN_ST&nbsp;=&nbsp;'B'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA1-LIGHT&nbsp;=&nbsp;'3'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;MODIFY&nbsp;GT_DATA1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;GS_DATA1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;LIGHT.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM MAKE_DATA2.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM MAKE_DATA3.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_DATA3&nbsp;INTO&nbsp;GS_DATA3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GS_DATA3-PAYMENT&nbsp;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_COLOR-FNAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'PAYMENT'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_COLOR-COLOR-COL&nbsp;=&nbsp;COL_NEGATIVE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_COLOR-COLOR-INT&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_COLOR-COLOR-INV&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_COLOR&nbsp;TO&nbsp;GS_DATA3-CELL_COLOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;GT_DATA3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;GS_DATA3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;CELL_COLOR.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DISPLAY_DATA .<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;LV_LIN&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;IF&nbsp;PA_1&nbsp;=&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;PERFORM&nbsp;GET_DATA1.<br />
+&nbsp;&nbsp;&nbsp;PERFORM&nbsp;MAKE_DATA1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;GT_DATA1&nbsp;LINES&nbsp;LV_LIN.<br />
+<br />
+&nbsp;&nbsp;&nbsp;IF&nbsp;GT_DATA1&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S010&nbsp;WITH&nbsp;LV_LIN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;100.<br />
+&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S011&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;LIST-PROCESSING.<br />
+&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;ELSEIF&nbsp;PA_2&nbsp;=&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;PERFORM&nbsp;GET_DATA2.<br />
+&nbsp;&nbsp;&nbsp;PERFORM&nbsp;MAKE_DATA2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;GT_DATA2&nbsp;LINES&nbsp;LV_LIN.<br />
+<br />
+&nbsp;&nbsp;&nbsp;IF&nbsp;GT_DATA2&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S010&nbsp;WITH&nbsp;LV_LIN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;200.<br />
+&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S011&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;LIST-PROCESSING.<br />
+&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_LAYOUT1.<br />
+<br />
+GS_LAYOUT1-SEL_MODE = 'A'.<br />
+GS_LAYOUT1-ZEBRA = 'X'.<br />
+GS_LAYOUT1-EXCP_FNAME = 'LIGHT'.<br />
+GS_LAYOUT1-EXCP_LED = 'X'.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_LAYOUT2.<br />
+<br />
+&nbsp;&nbsp;GS_LAYOUT2-SEL_MODE&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;GS_LAYOUT2-ZEBRA&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;GS_LAYOUT2-GRID_TITLE&nbsp;=&nbsp;'도서대여&nbsp;회원내역'.<br />
+&nbsp;&nbsp;GS_LAYOUT2-SMALLTITLE&nbsp;=&nbsp;'X'.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_LAYOUT3.<br />
+<br />
+&nbsp;&nbsp;GS_LAYOUT3-SEL_MODE&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;GS_LAYOUT3-ZEBRA&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;GS_LAYOUT3-GRID_TITLE&nbsp;=&nbsp;'대여도서&nbsp;반납처리'.<br />
+&nbsp;&nbsp;GS_LAYOUT3-SMALLTITLE&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;GS_LAYOUT3-CTAB_FNAME&nbsp;&nbsp;=&nbsp;'CELL_COLOR'.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM FIELD_CATALOG1.<br />
+<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'LIGHT'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'상태'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;&nbsp;&nbsp;=&nbsp;'회원번호'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-KEY&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'회원이름'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-KEY&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'BOOK_ID'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'도서번호'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'BOOK_NM'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'도서명'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'20'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'RENT_DT'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'대여일'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'RPLAN_DT'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'반납예정일'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'RETURN_ST'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'반납여부'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT1-FIELDNAME&nbsp;=&nbsp;'RETURN_DT'.<br />
+&nbsp;&nbsp;GS_FCAT1-COLTEXT&nbsp;=&nbsp;'반납완료일'.<br />
+&nbsp;&nbsp;GS_FCAT1-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT1-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT1&nbsp;TO&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT1.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM FIELD_CATALOG2.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT2-FIELDNAME&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;GS_FCAT2-COLTEXT&nbsp;&nbsp;&nbsp;=&nbsp;'회원번호'.<br />
+&nbsp;&nbsp;GS_FCAT2-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT2-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;GS_FCAT2-KEY&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT2&nbsp;TO&nbsp;GT_FCAT2.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT2.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT2-FIELDNAME&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;GS_FCAT2-COLTEXT&nbsp;=&nbsp;'회원이름'.<br />
+&nbsp;&nbsp;GS_FCAT2-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT2-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;GS_FCAT2-KEY&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT2&nbsp;TO&nbsp;GT_FCAT2.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT2.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT2-FIELDNAME&nbsp;=&nbsp;'TELNO'.<br />
+&nbsp;&nbsp;GS_FCAT2-COLTEXT&nbsp;=&nbsp;'연락처'.<br />
+&nbsp;&nbsp;GS_FCAT2-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT2-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT2&nbsp;TO&nbsp;GT_FCAT2.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT2.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT2-FIELDNAME&nbsp;=&nbsp;'EMAIL'.<br />
+&nbsp;&nbsp;GS_FCAT2-COLTEXT&nbsp;=&nbsp;'이메일'.<br />
+&nbsp;&nbsp;GS_FCAT2-OUTPUTLEN&nbsp;=&nbsp;'20'.<br />
+&nbsp;&nbsp;GS_FCAT2-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT2&nbsp;TO&nbsp;GT_FCAT2.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT2.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM FIELD_CATALOG3.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT3-FIELDNAME&nbsp;=&nbsp;'BOOK_ID'.<br />
+&nbsp;&nbsp;GS_FCAT3-COLTEXT&nbsp;&nbsp;&nbsp;=&nbsp;'도서번호'.<br />
+&nbsp;&nbsp;GS_FCAT3-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT3-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT3&nbsp;TO&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT3.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT3-FIELDNAME&nbsp;=&nbsp;'BOOK_NM'.<br />
+&nbsp;&nbsp;GS_FCAT3-COLTEXT&nbsp;=&nbsp;'도서명'.<br />
+&nbsp;&nbsp;GS_FCAT3-OUTPUTLEN&nbsp;=&nbsp;'15'.<br />
+&nbsp;&nbsp;GS_FCAT3-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT3&nbsp;TO&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT3.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT3-FIELDNAME&nbsp;=&nbsp;'RENT_DT'.<br />
+&nbsp;&nbsp;GS_FCAT3-COLTEXT&nbsp;=&nbsp;'대여일'.<br />
+&nbsp;&nbsp;GS_FCAT3-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT3-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT3&nbsp;TO&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT2.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT3-FIELDNAME&nbsp;=&nbsp;'RPLAN_DT'.<br />
+&nbsp;&nbsp;GS_FCAT3-COLTEXT&nbsp;=&nbsp;'반납예정일'.<br />
+&nbsp;&nbsp;GS_FCAT3-OUTPUTLEN&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;GS_FCAT3-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT3&nbsp;TO&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT3.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT3-FIELDNAME&nbsp;=&nbsp;'PAYMENT'.<br />
+&nbsp;&nbsp;GS_FCAT3-COLTEXT&nbsp;=&nbsp;'연체료'.<br />
+&nbsp;&nbsp;GS_FCAT3-OUTPUTLEN&nbsp;=&nbsp;'15'.<br />
+&nbsp;&nbsp;GS_FCAT3-JUST&nbsp;=&nbsp;'R'.<br />
+&nbsp;&nbsp;GS_FCAT3-DO_SUM&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT3&nbsp;TO&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT3.<br />
+<br />
+&nbsp;&nbsp;GS_FCAT3-FIELDNAME&nbsp;=&nbsp;'CURRENCY'.<br />
+&nbsp;&nbsp;GS_FCAT3-COLTEXT&nbsp;=&nbsp;'통화'.<br />
+&nbsp;&nbsp;GS_FCAT3-OUTPUTLEN&nbsp;=&nbsp;'5'.<br />
+&nbsp;&nbsp;GS_FCAT3-JUST&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;GS_FCAT3&nbsp;TO&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT3.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_SORTING1.<br />
+<br />
+GS_SCRITERION1-FIELDNAME = 'MB_ID'.<br />
+APPEND GS_SCRITERION1 TO GT_SCRITERIA1.<br />
+CLEAR GS_SCRITERION1.<br />
+<br />
+GS_SCRITERION1-FIELDNAME = 'MB_NM'.<br />
+APPEND GS_SCRITERION1 TO GT_SCRITERIA1.<br />
+CLEAR GS_SCRITERION1.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_SORTING2.<br />
+<br />
+GS_SCRITERION2-FIELDNAME = 'MB_ID'.<br />
+APPEND GS_SCRITERION2 TO GT_SCRITERIA2.<br />
+CLEAR GS_SCRITERION2.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_VARIANT.<br />
+<br />
+GV_VARIANT-REPORT = SY-CPROG.<br />
+GV_SAVE = 'A'.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM TOOLBAR USING E_OBJECT TYPE REF TO CL_ALV_EVENT_TOOLBAR_SET.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;LS_BUTTON&nbsp;TYPE&nbsp;STB_BUTTON.<br />
+<br />
+&nbsp;&nbsp;LS_BUTTON-BUTN_TYPE&nbsp;=&nbsp;3.<br />
+&nbsp;&nbsp;INSERT&nbsp;LS_BUTTON&nbsp;INTO&nbsp;TABLE&nbsp;E_OBJECT-&gt;MT_TOOLBAR.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;LS_BUTTON.<br />
+&nbsp;&nbsp;LS_BUTTON-FUNCTION&nbsp;=&nbsp;'RETURN'.<br />
+&nbsp;&nbsp;LS_BUTTON-TEXT&nbsp;=&nbsp;'반납처리'.<br />
+&nbsp;&nbsp;LS_BUTTON-QUICKINFO&nbsp;=&nbsp;TEXT-001.<br />
+&nbsp;&nbsp;LS_BUTTON-BUTN_TYPE&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;INSERT&nbsp;LS_BUTTON&nbsp;INTO&nbsp;TABLE&nbsp;E_OBJECT-&gt;MT_TOOLBAR.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DISPLAY_GRID1.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;GO_GRID1&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_GRID1-&gt;SET_TABLE_FOR_FIRST_DISPLAY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GS_LAYOUT1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_VARIANT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GV_VARIANT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SAVE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GV_SAVE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_DATA1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_SORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_SCRITERIA1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FIELDCATALOG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_FCAT1.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DISPLAY_GRID2.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;GO_GRID2&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_GRID2-&gt;SET_TABLE_FOR_FIRST_DISPLAY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GS_LAYOUT2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_DATA2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_SORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_SCRITERIA2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FIELDCATALOG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_FCAT2.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DISPLAY_GRID3.<br />
+<br />
+IF  GO_GRID3 IS NOT INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_GRID3-&gt;SET_TABLE_FOR_FIRST_DISPLAY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GS_LAYOUT3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_DATA3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FIELDCATALOG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_FCAT3.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DOCKING_CONTAINER.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;GO_DOCK1&nbsp;IS&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_DOCK1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;SY-REPID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DYNNR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;SY-DYNNR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GO_DOCK1-&gt;DOCK_AT_TOP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXTENSION&nbsp;=&nbsp;100.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(수치를&nbsp;바꿔야&nbsp;풀&nbsp;화면&nbsp;사이즈)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;CREATE_DOCK_GRID.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM CREATE_DOCK_GRID.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_GRID1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;GO_DOCK1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SPLIT_CONTAINER.<br />
+<br />
+IF GO_DOCK2 IS INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_DOCK2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REPID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;SY-REPID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DYNNR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;SY-DYNNR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GO_DOCK2-&gt;DOCK_AT_TOP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXTENSION&nbsp;=&nbsp;1000.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_SPLIT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARENT&nbsp;&nbsp;=&nbsp;GO_DOCK2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROWS&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMNS&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_SPLIT-&gt;GET_CONTAINER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMN&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER&nbsp;=&nbsp;GO_CONT2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_SPLIT-&gt;GET_CONTAINER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLUMN&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER&nbsp;=&nbsp;GO_CONT3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_SPLIT-&gt;SET_ROW_HEIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HEIGHT&nbsp;=&nbsp;50.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;CREATE_CONT_GRID.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM CREATE_CONT_GRID.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_GRID2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;GO_CONT2.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_GRID3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;GO_CONT3.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SET_HANDLER.<br />
+<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;LCL_EVENT_HANDLER=&gt;HANDLE_DOUBLE_CLICK&nbsp;FOR&nbsp;GO_GRID2.<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;LCL_EVENT_HANDLER=&gt;HANDLE_TOOLBAR&nbsp;FOR&nbsp;GO_GRID3.<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;LCL_EVENT_HANDLER=&gt;HANDLE_USER_COMMAND&nbsp;FOR&nbsp;GO_GRID3.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DOUBLE_CLICK USING E_ROW TYPE LVC_S_ROW<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E_COLUMN&nbsp;TYPE&nbsp;LVC_S_COL<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ES_ROW_NO&nbsp;TYPE&nbsp;LVC_S_ROID.<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_DATA2&nbsp;INTO&nbsp;GS_DATA2&nbsp;INDEX&nbsp;ES_ROW_NO-ROW_ID.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;GT_DATA3.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;A~BOOK_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A~BOOK_NM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B~RENT_DT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B~RPLAN_DT<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_DATA3<br />
+&nbsp;&nbsp;FROM&nbsp;ZTBOOK_B08&nbsp;AS&nbsp;A<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ZTRENT_B08&nbsp;AS&nbsp;B<br />
+&nbsp;&nbsp;ON&nbsp;A~BOOK_ID&nbsp;=&nbsp;B~BOOK_ID<br />
+&nbsp;&nbsp;WHERE&nbsp;B~MB_ID&nbsp;=&nbsp;GS_DATA2-MB_ID.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;MAKE_DATA3.<br />
+&nbsp;&nbsp;PERFORM&nbsp;SET_LAYOUT3.<br />
+&nbsp;&nbsp;PERFORM&nbsp;FIELD_CATALOG3.<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_GRID3.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM REFRESH_ALV_GRID.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_GRID3-&gt;REFRESH_TABLE_DISPLAY.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM USER_COMMAND  USING    P_E_UCOMM TYPE SY-UCOMM.<br />
+<br />
+DATA : LT_ROW_NO TYPE LVC_T_ROID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_ROW_NO&nbsp;TYPE&nbsp;LVC_S_ROID.<br />
+<br />
+DATA: LV_ANSWER TYPE STRING.<br />
+<br />
+CALL METHOD GO_GRID3-&gt;GET_SELECTED_ROWS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ET_ROW_NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LT_ROW_NO.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;LINES(&nbsp;LT_ROW_NO&nbsp;)&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S014&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;ELSEIF&nbsp;LINES(&nbsp;LT_ROW_NO&nbsp;)&nbsp;&gt;&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S015&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+<br />
+ENDIF.<br />
+<br />
+IF SY-SUBRC = 0.<br />
+&nbsp;&nbsp;IF&nbsp;P_E_UCOMM&nbsp;=&nbsp;'RETURN'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;LINES(&nbsp;LT_ROW_NO&nbsp;)&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S014&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;LINES(&nbsp;LT_ROW_NO&nbsp;)&nbsp;&gt;&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S015&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'POPUP_TO_CONFIRM'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TITLEBAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'반납처리확인'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT_QUESTION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'해당&nbsp;대여건을&nbsp;반납&nbsp;처리하시겠습니까?'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT_BUTTON_1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'네'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT_BUTTON_2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'아니요'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_CANCEL_BUTTON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANSWER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LV_ANSWER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S013&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;LV_ANSWER&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UPDATE&nbsp;ZTRENT_B08<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;RETURN_ST&nbsp;=&nbsp;'B'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN_DT&nbsp;=&nbsp;SY-DATUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGED_BY&nbsp;=&nbsp;SY-UNAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGED_ON&nbsp;=&nbsp;SY-DATUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGED_TIME&nbsp;=&nbsp;SY-UZEIT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;BOOK_ID&nbsp;=&nbsp;GS_DATA3-BOOK_ID.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S012.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S013&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;PERFORM&nbsp;REFRESH_ALV_GRID.<br />
+ENDIF.<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

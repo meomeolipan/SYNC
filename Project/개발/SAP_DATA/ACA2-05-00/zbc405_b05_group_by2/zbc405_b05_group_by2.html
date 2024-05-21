@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B05_GROUP_BY2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B05_GROUP_BY2</h2>
+<h3> Description: Program ZBC405_B18_GROUP_BY2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC405_B18_GROUP_BY2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC405_B05_GROUP_BY2.<br />
+<br />
+tables sflight.<br />
+<br />
+types : begin of gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;type&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seatsmax&nbsp;type&nbsp;sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seatsocc&nbsp;type&nbsp;sflight-seatsocc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seatsmax_avg&nbsp;type&nbsp;sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seatsocc_avg&nbsp;type&nbsp;sflight-seatsocc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;num_connid&nbsp;type&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;num_flights&nbsp;type&nbsp;i,<br />
+&nbsp;&nbsp;end&nbsp;of&nbsp;gty_sflight.<br />
+<br />
+&nbsp;&nbsp;data&nbsp;:&nbsp;gt_sflight&nbsp;type&nbsp;table&nbsp;of&nbsp;gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight&nbsp;type&nbsp;gty_sflight.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;go_alv_grid&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_salv_table.<br />
+<br />
+&nbsp;&nbsp;select-OPTIONS&nbsp;:&nbsp;so_car&nbsp;for&nbsp;sflight-carrid.<br />
+&nbsp;&nbsp;select-OPTIONS&nbsp;:&nbsp;so_avgmx&nbsp;for&nbsp;sflight-seatsmax.<br />
+&nbsp;&nbsp;select-OPTIONS&nbsp;:&nbsp;so_avgoc&nbsp;for&nbsp;sflight-seatsocc.<br />
+<br />
+start-of-selection.<br />
+<br />
+select carrid<br />
+&nbsp;&nbsp;sum(&nbsp;seatsmax&nbsp;)&nbsp;as&nbsp;seatsmax<br />
+&nbsp;&nbsp;sum(&nbsp;seatsocc&nbsp;)&nbsp;as&nbsp;seatsocc<br />
+&nbsp;&nbsp;avg(&nbsp;seatsmax&nbsp;)&nbsp;as&nbsp;seatsmax_avg<br />
+&nbsp;&nbsp;avg(&nbsp;seatsocc&nbsp;)&nbsp;as&nbsp;seatsocc_avg<br />
+&nbsp;&nbsp;count(&nbsp;distinct&nbsp;connid&nbsp;)&nbsp;as&nbsp;num_connid<br />
+&nbsp;&nbsp;count(&nbsp;*&nbsp;)&nbsp;as&nbsp;num_flights<br />
+&nbsp;&nbsp;from&nbsp;sflight<br />
+&nbsp;&nbsp;into&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;table&nbsp;gt_sflight<br />
+&nbsp;&nbsp;where&nbsp;carrid&nbsp;in&nbsp;so_car<br />
+&nbsp;&nbsp;group&nbsp;by&nbsp;carrid<br />
+&nbsp;&nbsp;having&nbsp;avg(&nbsp;seatsmax&nbsp;)&nbsp;in&nbsp;so_avgmx&nbsp;and&nbsp;avg(&nbsp;seatsocc&nbsp;)&nbsp;in&nbsp;so_avgoc<br />
+&nbsp;&nbsp;order&nbsp;by&nbsp;seatsmax_avg&nbsp;DESCENDING&nbsp;seatsocc_avg&nbsp;DESCENDING.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;cl_salv_table=&gt;factory<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;=&nbsp;go_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_sflight.<br />
+<br />
+&nbsp;&nbsp;go_alv_grid-&gt;display(&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

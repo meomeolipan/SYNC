@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB77_04_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB77_04_F01</h2>
+<h3> Description: Include ZB77_04_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZB77_04_F01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_DATA .<br />
+<br />
+CLEAR GS_GLT0.<br />
+SELECT SINGLE * INTO  CORRESPONDING FIELDS OF GS_GLT0<br />
+&nbsp;&nbsp;FROM&nbsp;ZGLT0.<br />
+<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DYNAMIC_CALCULATION<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM DYNAMIC_CALCULATION .<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;Declaration&nbsp;dynamic&nbsp;VARIABLE<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;FIELD-SYMBOLS&nbsp;&lt;FS_VALUE&gt;&nbsp;TYPE&nbsp;any.<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;LV_MONTH(2)&nbsp;TYPE&nbsp;n,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_AMOUNT(20),&nbsp;"금액&nbsp;출력용&nbsp;캐릭터&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_VAR(30).<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*&nbsp;Case&nbsp;1&nbsp;:&nbsp;Make&nbsp;full&nbsp;name&nbsp;-&gt;&nbsp;Work&nbsp;area&nbsp;name-field&nbsp;name<br />
+**********************************************************************<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DO&nbsp;PA_MONAT&nbsp;TIMES.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;Increase&nbsp;month&nbsp;count&nbsp;:&nbsp;01&nbsp;02&nbsp;03&nbsp;...&nbsp;12<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;LV_MONTH&nbsp;=&nbsp;LV_MONTH&nbsp;+&nbsp;1.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;LV_MONTH&nbsp;=&nbsp;SY-INDEX.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;Make&nbsp;dynamic&nbsp;variable&nbsp;name<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LV_VAR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LV_VAR&nbsp;=&nbsp;'GS_GLT0-HSL'&nbsp;&&&nbsp;LV_MONTH.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;Assign&nbsp;to&nbsp;Field&nbsp;symbols<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;(LV_VAR)&nbsp;TO&nbsp;&lt;FS_VALUE&gt;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;Execute&nbsp;summary<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;&lt;FS_VALUE&gt;&nbsp;IS&nbsp;ASSIGNED.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_SUM&nbsp;=&nbsp;GV_SUM&nbsp;+&nbsp;&lt;FS_VALUE&gt;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNASSIGN&nbsp;&lt;FS_VALUE&gt;.&nbsp;"&nbsp;사용이&nbsp;끝나면&nbsp;UNASSIGN&nbsp;해야됨.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDDO.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;GV_SUM.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;WRITE&nbsp;GV_SUM&nbsp;CURRENCY&nbsp;'KRW'&nbsp;TO&nbsp;LV_AMOUNT.<br />
+&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;LV_AMOUNT,&nbsp;'KRW'.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*CASE&nbsp;2&nbsp;:&nbsp;USING&nbsp;Field&nbsp;Position&nbsp;Number<br />
+**********************************************************************<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CLEAR&nbsp;:&nbsp;GV_SUM,&nbsp;LV_MONTH.<br />
+&nbsp;&nbsp;DO&nbsp;PA_MONAT&nbsp;TIMES.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Increase&nbsp;position&nbsp;number<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;LV_MONTH&nbsp;=&nbsp;LV_MONTH&nbsp;+&nbsp;1.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;LV_MONTH&nbsp;=&nbsp;SY-INDEX.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ASSIGN&nbsp;work&nbsp;area&nbsp;field&nbsp;by&nbsp;position<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;COMPONENT&nbsp;LV_MONTH&nbsp;OF&nbsp;STRUCTURE&nbsp;GS_GLT0&nbsp;TO&nbsp;&lt;FS_VALUE&gt;.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;COMPONENT&nbsp;SY-INDEX&nbsp;OF&nbsp;STRUCTURE&nbsp;GS_GLT0&nbsp;TO&nbsp;&lt;FS_VALUE&gt;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_SUM&nbsp;=&nbsp;GV_SUM&nbsp;+&nbsp;&lt;FS_VALUE&gt;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDDO.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;GV_SUM.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;WRITE&nbsp;GV_SUM&nbsp;CURRENCY&nbsp;'KRW'&nbsp;TO&nbsp;LV_AMOUNT.<br />
+&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;LV_AMOUNT,&nbsp;'KRW'.<br />
+<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

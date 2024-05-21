@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZR_EXAM1_B05</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZR_EXAM1_B05</h2>
+<h3> Description: Program ZR_EXAM1_B05</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZR_EXAM1_B05<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zr_exam1_b05.<br />
+<br />
+TABLES : sscrfields, saplane, sflight, scarr, sbuspart.<br />
+<br />
+DATA: gs_sbuspart TYPE sbuspart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_flight&nbsp;&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;sflight.<br />
+<br />
+CONSTANTS gc_mark TYPE c VALUE 'X'.<br />
+<br />
+SELECTION-SCREEN FUNCTION KEY 1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-b01.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;p_car&nbsp;LIKE&nbsp;sflight-carrid&nbsp;MEMORY&nbsp;ID&nbsp;car&nbsp;DEFAULT&nbsp;'AA'.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_car&nbsp;FOR&nbsp;sflight-carrid.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-b02 NO INTERVALS.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_ptype&nbsp;FOR&nbsp;saplane-planetype&nbsp;NO-EXTENSION.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_prod&nbsp;FOR&nbsp;saplane-producer.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_pcar&nbsp;FOR&nbsp;scarr-carrid.<br />
+SELECTION-SCREEN END OF BLOCK b2.<br />
+<br />
+<br />
+SELECTION-SCREEN BEGIN OF LINE.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;1(10)&nbsp;TEXT-001&nbsp;FOR&nbsp;FIELD&nbsp;p_carr.<br />
+<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;p_carr&nbsp;LIKE&nbsp;scarr-carrid.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;17(15)&nbsp;TEXT-002&nbsp;FOR&nbsp;FIELD&nbsp;so_cname&nbsp;MODIF&nbsp;ID&nbsp;nam.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_cname&nbsp;FOR&nbsp;scarr-carrname&nbsp;NO-EXTENSION&nbsp;NO&nbsp;INTERVALS.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;SELECTION-SCREEN&nbsp;POSITION&nbsp;POS_LOW.<br />
+*&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;so_cname&nbsp;TYPE&nbsp;scarr-carrname.<br />
+<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN END OF LINE.<br />
+<br />
+SELECTION-SCREEN SKIP.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b3 WITH FRAME TITLE TEXT-b03.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;p_num&nbsp;LIKE&nbsp;sbuspart-buspartnum.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b4&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-b04.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_cus&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_ag&nbsp;&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1&nbsp;DEFAULT&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_etc&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b4.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b3.<br />
+<br />
+PARAMETERS: p_cb1 TYPE c AS CHECKBOX DEFAULT 'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_cb2&nbsp;TYPE&nbsp;c&nbsp;AS&nbsp;CHECKBOX.<br />
+<br />
+INITIALIZATION.<br />
+<br />
+&nbsp;&nbsp;MOVE:&nbsp;'AA'&nbsp;TO&nbsp;so_car-low.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_car.<br />
+<br />
+&nbsp;&nbsp;MOVE:&nbsp;'AC'&nbsp;TO&nbsp;so_car-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'AZ'&nbsp;TO&nbsp;so_car-high,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'BT'&nbsp;TO&nbsp;so_car-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'I'&nbsp;TO&nbsp;so_car-sign.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_car.<br />
+<br />
+&nbsp;&nbsp;MOVE:&nbsp;'LT'&nbsp;TO&nbsp;so_car-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'EQ'&nbsp;TO&nbsp;so_car-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'E'&nbsp;TO&nbsp;so_car-sign.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_car.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_car.<br />
+<br />
+&nbsp;&nbsp;MOVE&nbsp;'Call&nbsp;subscreen'&nbsp;TO&nbsp;sscrfields-functxt_01.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*AT&nbsp;SELECTION-SCREEN&nbsp;OUTPUT.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-name&nbsp;=&nbsp;'SO_CNAME-LOW'&nbsp;OR&nbsp;screen-name&nbsp;=&nbsp;'SO_CNAME-HIGH'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-group1&nbsp;=&nbsp;'NAM'.&nbsp;"&nbsp;흠&nbsp;왜&nbsp;안되지...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-input&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;IF&nbsp;p_num&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;sbuspart&nbsp;INTO&nbsp;gs_sbuspart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;buspartnum&nbsp;=&nbsp;p_num.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;라디오&nbsp;버튼&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR:&nbsp;pa_cus,&nbsp;pa_ag,&nbsp;pa_etc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_sbuspart-buspatyp&nbsp;=&nbsp;'FC'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_cus&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;gs_sbuspart-buspatyp&nbsp;=&nbsp;'TA'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_ag&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_etc&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+AT SELECTION-SCREEN ON p_carr.<br />
+&nbsp;&nbsp;DATA:&nbsp;lv_carrname&nbsp;TYPE&nbsp;scarr-carrname.<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;carrname&nbsp;FROM&nbsp;scarr&nbsp;INTO&nbsp;lv_carrname&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;p_carr.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;so_cname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;so_cname-sign&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;so_cname-option&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;so_cname-low&nbsp;=&nbsp;lv_carrname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;so_cname.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sscrfields-ucomm&nbsp;=&nbsp;'FC01'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'기능키&nbsp;구현&nbsp;완료'&nbsp;TYPE&nbsp;'I'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;Airline&nbsp;ID<br />
+*&nbsp;002&nbsp;Airline&nbsp;Name<br />
+*&nbsp;B01&nbsp;Selection&nbsp;Condition<br />
+*&nbsp;B02&nbsp;No&nbsp;Interval&nbsp;Block<br />
+*&nbsp;B03&nbsp;Airline&nbsp;Partner<br />
+*&nbsp;B04&nbsp;Business&nbsp;Partner&nbsp;Type<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_AG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Travel&nbsp;Agency<br />
+*&nbsp;PA_CUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer<br />
+*&nbsp;PA_ETC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Etc.<br />
+*&nbsp;P_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Airline&nbsp;ID&nbsp;(&nbsp;SAP&nbsp;memory&nbsp;)<br />
+*&nbsp;P_CB1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check&nbsp;box&nbsp;1(checked)<br />
+*&nbsp;P_CB2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check&nbsp;box&nbsp;2<br />
+*&nbsp;P_NUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flight&nbsp;Partner&nbsp;Number<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Airline&nbsp;ID&nbsp;(&nbsp;Initial&nbsp;value&nbsp;)<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;기능키&nbsp;구현&nbsp;완료<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

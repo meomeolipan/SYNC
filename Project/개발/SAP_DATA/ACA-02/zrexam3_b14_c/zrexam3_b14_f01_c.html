@@ -1,0 +1,668 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B14_F01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B14_F01_C</h2>
+<h3> Description: Include ZREXAM3_B14_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B14_F01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data .   "대여정보테이블이 메인 데이터가 되어야 하는데 그렇지 않아서 제대로 데이터 조회가 안됨.<br />
+&nbsp;&nbsp;SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztmember_b14~mb_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztmember_b14~mb_nm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztbook_b14~book_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztbook_b14~book_nm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztrent_b14~rent_dt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztrent_b14~rplan_dt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztrent_b14~return_st<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztrent_b14~return_dt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_rent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;ztmember_b14<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztrent_b14<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;ztmember_b14~mb_id&nbsp;=&nbsp;ztrent_b14~mb_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztbook_b14<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;ztrent_b14~BOOK_id&nbsp;=&nbsp;ztbook_b14~book_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;ztmember_b14~mb_id&nbsp;IN&nbsp;so_mid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;ztmember_b14~mb_st&nbsp;=&nbsp;pa_mst<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;ztrent_b14~rplan_dt&nbsp;IN&nbsp;so_rpl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;ztmember_b14~mb_id&nbsp;ztbook_b14~book_id.<br />
+<br />
+&nbsp;&nbsp;gv_total&nbsp;=&nbsp;lines(&nbsp;gt_rent&nbsp;).<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;make_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM make_data .<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_rent&nbsp;INTO&nbsp;gs_rent.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"1)&nbsp;LIGHT&nbsp;값&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_rent-rplan_dt&nbsp;&lt;&nbsp;sy-datum&nbsp;AND&nbsp;gs_rent-return_st&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-light&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;gs_rent-rplan_dt&nbsp;&gt;=&nbsp;sy-datum&nbsp;AND&nbsp;gs_rent-return_st&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-light&nbsp;=&nbsp;'2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-light&nbsp;=&nbsp;'3'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;lv_text&nbsp;LIKE&nbsp;gs_rent-return_st_txt.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_domain_text&nbsp;USING&nbsp;'ZD_RST_B14'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-return_st<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;lv_text.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-return_st_txt&nbsp;=&nbsp;lv_text.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_rent&nbsp;FROM&nbsp;gs_rent&nbsp;TRANSPORTING&nbsp;light.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_container<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_container .<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_cont<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name&nbsp;=&nbsp;'MY_CONTROL_AREA'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_alv_grid<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_alv_grid .<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_variant<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_variant .<br />
+&nbsp;&nbsp;gs_variant-report&nbsp;=&nbsp;sy-cprog.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_layout<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout .<br />
+&nbsp;&nbsp;gs_layout-excp_fname&nbsp;=&nbsp;'LIGHT'.<br />
+&nbsp;&nbsp;gs_layout-excp_led&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gs_layout-zebra&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gs_layout-sel_mode&nbsp;=&nbsp;'A'.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_sorting<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_sorting .<br />
+&nbsp;&nbsp;gs_sorting-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_sorting&nbsp;TO&nbsp;gt_sorting.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_sorting.<br />
+&nbsp;&nbsp;gs_sorting-fieldname&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_sorting&nbsp;TO&nbsp;gt_sorting.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_field_catalog<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_field_catalog .<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'LIGHT'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'상태'.<br />
+&nbsp;&nbsp;gs_field_cat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'회원번호'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;gs_field_cat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;gs_field_cat-key&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'회원이름'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;gs_field_cat-key&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'BOOK_ID'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'도서번호'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'BOOK_NM'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'도서명'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;20.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'RENT_DT'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'대여일'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'RPLAN_DT'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'반납예정일'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'RETURN_ST'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'반납여부'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'RETURN_DT'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'반납완료일'.<br />
+&nbsp;&nbsp;gs_field_cat-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_alv_grid<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_alv_grid .<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_variant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_variant<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout&nbsp;"light&nbsp;예제<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_rent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_sorting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_field_cat&nbsp;"field&nbsp;catalog<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_domain_text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;P_<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GS_RENT_RETURN_ST<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;LV_TEXT<br />
+*&---------------------------------------------------------------------*<br />
+*FORM&nbsp;set_domain_text&nbsp;&nbsp;USING&nbsp;p_domain&nbsp;TYPE&nbsp;any<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_gs_rent_return_st&nbsp;TYPE&nbsp;any<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;p_lv_text&nbsp;TYPE&nbsp;any.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'STF4_GET_DOMAIN_VALUE_TEXT'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_domname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p_domain<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p_gs_rent_return_st<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_VALUE_TEXT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p_lv_text.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+**Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+*<br />
+*ENDFORM.<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_container_2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_container_2 .<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_mycont&nbsp;&nbsp;&nbsp;"constructor&nbsp;method&nbsp;가&nbsp;호출<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name&nbsp;=&nbsp;'MY_CONTROL2'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_split<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent&nbsp;&nbsp;=&nbsp;go_mycont<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columns&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_split-&gt;get_container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;column&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;=&nbsp;go_cont2.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_split-&gt;get_container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;column&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;=&nbsp;go_cont3.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont2.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_layout_2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout_2 .<br />
+&nbsp;&nbsp;gs_layout2-zebra&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;gs_layout2-sel_mode&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;gs_layout2-grid_title&nbsp;=&nbsp;'도서대여&nbsp;회원내역'.<br />
+&nbsp;&nbsp;gs_layout2-smalltitle&nbsp;=&nbsp;'X'.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_sorting_2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_sorting_2 .<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_exclude_toolbar_2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_exclude_toolbar_2 .<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_field_catalog_2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_field_catalog_2 .<br />
+&nbsp;&nbsp;gs_field_cat_2-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;gs_field_cat_2-coltext&nbsp;=&nbsp;'회원번호'.<br />
+&nbsp;&nbsp;gs_field_cat_2-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;gs_field_cat_2-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;gs_field_cat_2-key&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_2&nbsp;TO&nbsp;gt_field_cat_2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_2.<br />
+&nbsp;&nbsp;gs_field_cat_2-fieldname&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;gs_field_cat_2-coltext&nbsp;=&nbsp;'회원이름'.<br />
+&nbsp;&nbsp;gs_field_cat_2-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;gs_field_cat_2-key&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_2&nbsp;TO&nbsp;gt_field_cat_2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_2.<br />
+&nbsp;&nbsp;gs_field_cat_2-fieldname&nbsp;=&nbsp;'TELNO'.<br />
+&nbsp;&nbsp;gs_field_cat_2-coltext&nbsp;=&nbsp;'연락처'.<br />
+&nbsp;&nbsp;gs_field_cat_2-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_2&nbsp;TO&nbsp;gt_field_cat_2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_2.<br />
+&nbsp;&nbsp;gs_field_cat_2-fieldname&nbsp;=&nbsp;'EMAIL'.<br />
+&nbsp;&nbsp;gs_field_cat_2-coltext&nbsp;=&nbsp;'이메일'.<br />
+&nbsp;&nbsp;gs_field_cat_2-outputlen&nbsp;=&nbsp;20.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_2&nbsp;TO&nbsp;gt_field_cat_2.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_alv_grid_2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_alv_grid_2 .<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;go_grid2&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid2-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_member<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_field_cat_2.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_data2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data2 .<br />
+&nbsp;&nbsp;SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztmember_b14~mb_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztmember_b14~mb_nm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztmember_b14~telno<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztmember_b14~email<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_member<br />
+&nbsp;&nbsp;FROM&nbsp;ztmember_b14<br />
+&nbsp;&nbsp;WHERE&nbsp;ztmember_b14~mb_id&nbsp;IN&nbsp;so_mid.&nbsp;&nbsp;&nbsp;"대여정보가&nbsp;있는&nbsp;회원만&nbsp;가져오는&nbsp;조건&nbsp;누락<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_layout_3<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout_3 .<br />
+&nbsp;&nbsp;gs_layout3-sel_mode&nbsp;=&nbsp;'A'.<br />
+&nbsp;&nbsp;gs_layout3-grid_title&nbsp;=&nbsp;'대여도서&nbsp;반납처리'.<br />
+&nbsp;&nbsp;gs_layout3-smalltitle&nbsp;=&nbsp;'X'.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_field_catalog_3<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_field_catalog_3 .<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_3.<br />
+&nbsp;&nbsp;gs_field_cat_3-fieldname&nbsp;=&nbsp;'BOOK_ID'.<br />
+&nbsp;&nbsp;gs_field_cat_3-coltext&nbsp;=&nbsp;'도서번호'.<br />
+&nbsp;&nbsp;gs_field_cat_3-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_3&nbsp;TO&nbsp;gt_field_cat_3.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_3.<br />
+&nbsp;&nbsp;gs_field_cat_3-fieldname&nbsp;=&nbsp;'BOOK_NM'.<br />
+&nbsp;&nbsp;gs_field_cat_3-coltext&nbsp;=&nbsp;'도서명'.<br />
+&nbsp;&nbsp;gs_field_cat_3-outputlen&nbsp;=&nbsp;20.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_3&nbsp;TO&nbsp;gt_field_cat_3.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_3.<br />
+&nbsp;&nbsp;gs_field_cat_3-fieldname&nbsp;=&nbsp;'RENT_DT'.<br />
+&nbsp;&nbsp;gs_field_cat_3-coltext&nbsp;=&nbsp;'대여일'.<br />
+&nbsp;&nbsp;gs_field_cat_3-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_3&nbsp;TO&nbsp;gt_field_cat_3.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat_3.<br />
+&nbsp;&nbsp;gs_field_cat_3-fieldname&nbsp;=&nbsp;'RPLAN_DT'.<br />
+&nbsp;&nbsp;gs_field_cat_3-coltext&nbsp;=&nbsp;'반납예정일'.<br />
+&nbsp;&nbsp;gs_field_cat_3-outputlen&nbsp;=&nbsp;10.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat_3&nbsp;TO&nbsp;gt_field_cat_3.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_alv_grid_3<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_alv_grid_3 .<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;go_grid3&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid3-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_return<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_field_cat_3.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_handler<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_handler .<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_handler.<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER:&nbsp;go_handler-&gt;handle_double_click&nbsp;&nbsp;FOR&nbsp;go_grid2.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;double_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_ROW<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_COLUMN<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM double_click  USING e_row TYPE lvc_s_row<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_column&nbsp;TYPE&nbsp;lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;es_row_no&nbsp;TYPE&nbsp;lvc_s_roid.<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_member&nbsp;INTO&nbsp;gs_member&nbsp;INDEX&nbsp;es_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztbook_b14~book_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztbook_b14~book_nm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztrent_b14~rent_dt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztrent_b14~rplan_dt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_return<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;ztmember_b14<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztrent_b14<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;ztmember_b14~mb_id&nbsp;=&nbsp;ztrent_b14~mb_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztbook_b14<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;ztrent_b14~book_id&nbsp;=&nbsp;ztbook_b14~book_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;ztmember_b14~mb_id&nbsp;=&nbsp;ztrent_b14~mb_id.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_layout_3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_field_catalog_3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_alv_grid_3.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s001&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

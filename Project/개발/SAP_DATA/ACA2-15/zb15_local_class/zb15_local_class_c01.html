@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_LOCAL_CLASS_C01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_LOCAL_CLASS_C01</h2>
+<h3> Description: Include ZB15_LOCAL_CLASS_C01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZB15_LOCAL_CLASS_C01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+CLASS lcl_example DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.&nbsp;"어느&nbsp;클래스에서도&nbsp;접근&nbsp;가능,&nbsp;주로&nbsp;메소드&nbsp;및&nbsp;이벤트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;gv_value&nbsp;TYPE&nbsp;i.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;constructor&nbsp;IMPORTING&nbsp;iv_value&nbsp;TYPE&nbsp;i.&nbsp;&nbsp;"생성자&nbsp;-&nbsp;객체&nbsp;생성시&nbsp;자동으로&nbsp;설정&nbsp;(메소드,&nbsp;초기화,&nbsp;값&nbsp;셋팅&nbsp;권한&nbsp;등)<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;class_constructor.&nbsp;"public&nbsp;visibility&nbsp;section&nbsp;에만&nbsp;선언&nbsp;가능<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"클래스당&nbsp;한&nbsp;번&nbsp;호출&nbsp;(클래스의&nbsp;유형이나&nbsp;상수를&nbsp;처리)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"상속&nbsp;트리는&nbsp;정적&nbsp;생성자가&nbsp;아직&nbsp;호출되지&nbsp;않은&nbsp;차상위&nbsp;슈퍼&nbsp;클래스를&nbsp;검색<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;get_data&nbsp;IMPORTING&nbsp;iv_value&nbsp;TYPE&nbsp;i.&nbsp;"get<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;display_data.&nbsp;"set<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;set_type&nbsp;IMPORTING&nbsp;iv_make&nbsp;TYPE&nbsp;string.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PROTECTED&nbsp;SECTION.&nbsp;&nbsp;"&nbsp;해당&nbsp;클래스&nbsp;+&nbsp;상속&nbsp;클래스에서&nbsp;접근<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.&nbsp;&nbsp;"&nbsp;해당&nbsp;클래스에서만&nbsp;접근&nbsp;가능&nbsp;주로&nbsp;데이터&nbsp;타입,&nbsp;상수,&nbsp;속성..&nbsp;고유한&nbsp;클래스의&nbsp;정보성&nbsp;메소드,&nbsp;속성<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;mv_data&nbsp;TYPE&nbsp;i.&nbsp;&nbsp;&nbsp;"<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;CONSTANTS&nbsp;:&nbsp;mc_<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;make&nbsp;TYPE&nbsp;string.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_example IMPLEMENTATION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;METHOD&nbsp;constructor.&nbsp;&nbsp;"객체&nbsp;생성시&nbsp;마다&nbsp;불리는&nbsp;메소드<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gv_value&nbsp;=&nbsp;iv_value.<br />
+*<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*<br />
+*&nbsp;&nbsp;METHOD&nbsp;class_constructor.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;WRITE&nbsp;/'class_constructor란다'.<br />
+*<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;get_data.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;mv_data&nbsp;=&nbsp;iv_value.&nbsp;&nbsp;&nbsp;"매개변수&nbsp;활용하면서&nbsp;private&nbsp;속성에&nbsp;접근<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+&nbsp;&nbsp;&nbsp;METHOD&nbsp;display_data.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'Data:',&nbsp;mv_data,&nbsp;gv_value.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;set_type.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;make&nbsp;TYPE&nbsp;string.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&-----------------------------------------------<br />
+*&nbsp;self&nbsp;reference&nbsp;:&nbsp;디버깅으로&nbsp;확인<br />
+*&-----------------------------------------------<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;make&nbsp;=&nbsp;iv_make.&nbsp;"lcl_example=&gt;make.&nbsp;me는&nbsp;객체(클래스)&nbsp;접근자.&nbsp;현재&nbsp;생성된&nbsp;객체에&nbsp;접근<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;TRANSLATE&nbsp;me-&gt;make&nbsp;TO&nbsp;UPPER&nbsp;CASE.&nbsp;"객체의&nbsp;속성값&nbsp;(private&nbsp;데이터)&nbsp;make를&nbsp;uppercase로&nbsp;변경<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;me-&gt;make.&nbsp;"upper<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;make&nbsp;=&nbsp;me-&gt;make.&nbsp;"&nbsp;객체&nbsp;속성값을&nbsp;로컬변수에&nbsp;넣어줌<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;CONCATENATE&nbsp;'_'&nbsp;make&nbsp;INTO&nbsp;make.&nbsp;&nbsp;"결론)&nbsp;me-&gt;make&nbsp;:&nbsp;upper,&nbsp;lv_make&nbsp;:&nbsp;_upper<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;make.<br />
+<br />
+*&-----------------------------------------------<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;make&nbsp;=&nbsp;iv_make.&nbsp;"로컬변수의&nbsp;값만&nbsp;변경<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRANSLATE&nbsp;make&nbsp;TO&nbsp;UPPER&nbsp;CASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;make.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;make&nbsp;=&nbsp;make.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONCATENATE&nbsp;'_'&nbsp;make&nbsp;INTO&nbsp;make.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;make.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+CLASS lcl_student DEFINITION. "클래스 선언<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;gs_stu&nbsp;TYPE&nbsp;ztstudent_b15.&nbsp;"클래스&nbsp;내&nbsp;데이터&nbsp;선언<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;get_data&nbsp;IMPORTING&nbsp;iv_num&nbsp;TYPE&nbsp;ztstudent_b15-id.&nbsp;"메소드&nbsp;선언<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;display_data.<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_student IMPLEMENTATION. "클래스 구현<br />
+&nbsp;&nbsp;METHOD&nbsp;get_data.&nbsp;"student&nbsp;id로&nbsp;학생정보&nbsp;가져오기<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;ztstudent_b15&nbsp;INTO&nbsp;gs_stu<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;id&nbsp;=&nbsp;iv_num.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;display_data.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_stu&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_stu-id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-firstNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-lastNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-gender,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-phone,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-email,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-adderess,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stu-major.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'학생&nbsp;번호와&nbsp;일치하는&nbsp;데이터가&nbsp;없습니다.'(ndt).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+ENDCLASS.<br />
+<br />
+"data: lo_example type ref to lcl_example. 순서<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_B20</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_B20</h2>
+<h3> Description: Solution: Dynamic Method Call</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;&nbsp;BC402_DYS_DYN_CALL<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+REPORT  ZCA_B20 MESSAGE-ID BC402.<br />
+<br />
+TYPE-POOLS:<br />
+&nbsp;&nbsp;&nbsp;ABAP.<br />
+<br />
+DATA: GT_CUST    TYPE TY_CUSTOMERS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_CONN&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;TY_CONNECTIONS.<br />
+<br />
+DATA: GV_TABNAME TYPE STRING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_METHNAME&nbsp;TYPE&nbsp;STRING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_PARMBIND&nbsp;TYPE&nbsp;ABAP_PARMBIND_TAB,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PARMBIND&nbsp;TYPE&nbsp;ABAP_PARMBIND.<br />
+<br />
+FIELD-SYMBOLS &lt;FS_TABLE&gt; TYPE STANDARD TABLE.<br />
+<br />
+<br />
+SELECTION-SCREEN COMMENT 1(80) TEXT-SEL.<br />
+PARAMETERS:<br />
+&nbsp;&nbsp;&nbsp;PA_XCONN&nbsp;&nbsp;TYPE&nbsp;XFELD&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;TAB&nbsp;DEFAULT&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;PA_XCUST&nbsp;&nbsp;TYPE&nbsp;XFELD&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;TAB&nbsp;.<br />
+PARAMETERS:<br />
+&nbsp;&nbsp;&nbsp;PA_NOL&nbsp;&nbsp;&nbsp;TYPE&nbsp;I&nbsp;DEFAULT&nbsp;'100'.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;specific&nbsp;part<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;PA_XCONN.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_TABNAME&nbsp;=&nbsp;'SPFLI'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;GT_CONN&nbsp;TO&nbsp;&lt;FS_TABLE&gt;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;SPFLI&nbsp;INTO&nbsp;TABLE&nbsp;GT_CONN<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UP&nbsp;TO&nbsp;PA_NOL&nbsp;ROWS.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_METHNAME&nbsp;=&nbsp;'WRITE_CONNECTIONS'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PARMBIND-NAME&nbsp;=&nbsp;'IT_CONN'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET&nbsp;REFERENCE&nbsp;OF&nbsp;GT_CONN&nbsp;INTO&nbsp;GS_PARMBIND-VALUE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;GS_PARMBIND&nbsp;INTO&nbsp;TABLE&nbsp;GT_PARMBIND.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;PA_XCUST.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_TABNAME&nbsp;=&nbsp;'SCUSTOM'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;GT_CUST&nbsp;TO&nbsp;&lt;FS_TABLE&gt;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;SCUSTOM&nbsp;INTO&nbsp;TABLE&nbsp;GT_CUST<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UP&nbsp;TO&nbsp;PA_NOL&nbsp;ROWS.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_METHNAME&nbsp;=&nbsp;'WRITE_CUSTOMERS'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PARMBIND-NAME&nbsp;=&nbsp;'IT_CUST'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET&nbsp;REFERENCE&nbsp;OF&nbsp;GT_CUST&nbsp;INTO&nbsp;GS_PARMBIND-VALUE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;GS_PARMBIND&nbsp;INTO&nbsp;TABLE&nbsp;GT_PARMBIND.<br />
+<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;dynamic&nbsp;part<br />
+*----------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;(GV_TABNAME)&nbsp;INTO&nbsp;TABLE&nbsp;&lt;FS_TABLE&gt;.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_BC402_UTILITIES=&gt;(GV_METHNAME)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETER-TABLE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_PARMBIND.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;CX_SY_DYN_CALL_ERROR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;E060.<br />
+&nbsp;&nbsp;ENDTRY.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;SEL&nbsp;Which&nbsp;database&nbsp;table&nbsp;should&nbsp;be&nbsp;read?<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_NOL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maximum&nbsp;Number&nbsp;of&nbsp;Lines<br />
+*&nbsp;PA_XCONN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPFLI<br />
+*&nbsp;PA_XCUST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCUSTOM<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;BC402<br />
+*060&nbsp;&nbsp;&nbsp;Error&nbsp;during&nbsp;dynamic&nbsp;method&nbsp;call<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

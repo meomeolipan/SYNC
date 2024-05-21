@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_GUGU_LOCAL</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_GUGU_LOCAL</h2>
+<h3> Description: Program ZB05_GUGU</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB05_GUGU<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_gugu_local.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*보여지는&nbsp;업무가&nbsp;아니라면&nbsp;아래&nbsp;코드로&nbsp;작성&nbsp;할&nbsp;듯.<br />
+*PARAMETERS:&nbsp;pa_int1&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;2&nbsp;DECIMALS&nbsp;0.<br />
+*DATA:&nbsp;pa_res&nbsp;&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;2&nbsp;DECIMALS&nbsp;0.<br />
+*<br />
+*IF&nbsp;(&nbsp;pa_int1&nbsp;&lt;&nbsp;2&nbsp;OR&nbsp;pa_int1&nbsp;&gt;&nbsp;9&nbsp;).<br />
+*&nbsp;&nbsp;WRITE:&nbsp;TEXT-001.<br />
+*ELSE.<br />
+*&nbsp;&nbsp;DO&nbsp;9&nbsp;TIMES.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;pa_res&nbsp;=&nbsp;pa_int1&nbsp;*&nbsp;sy-index.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;pa_int1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;*&nbsp;',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sy-index,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;=&nbsp;',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_res.<br />
+*&nbsp;&nbsp;ENDDO.<br />
+*ENDIF.<br />
+<br />
+**보여줘야&nbsp;하는&nbsp;상황이라면&nbsp;아래&nbsp;코드.<br />
+*PARAMETERS:&nbsp;pa_int1&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;1&nbsp;DECIMALS&nbsp;0.<br />
+*DATA:&nbsp;pa_res&nbsp;&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;1&nbsp;DECIMALS&nbsp;0,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_int2&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;1&nbsp;DECIMALS&nbsp;0.<br />
+*<br />
+*IF&nbsp;(&nbsp;pa_int1&nbsp;&lt;&nbsp;2&nbsp;OR&nbsp;pa_int1&nbsp;&gt;&nbsp;9&nbsp;).<br />
+*&nbsp;&nbsp;WRITE:&nbsp;TEXT-001.<br />
+*ELSE.<br />
+*&nbsp;&nbsp;DO&nbsp;9&nbsp;TIMES.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;pa_int2&nbsp;=&nbsp;sy-index.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;pa_res&nbsp;=&nbsp;pa_int1&nbsp;*&nbsp;pa_int2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;pa_int1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'*',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_int2,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'=',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_res.<br />
+*&nbsp;&nbsp;ENDDO.<br />
+*ENDIF.<br />
+<br />
+*&nbsp;공부하고&nbsp;나서는&nbsp;아래&nbsp;코드로<br />
+   </div>
+   <div class="code">
+PARAMETERS: pa_int11 TYPE i.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ABAP교재1&nbsp;261p<br />
+   </div>
+   <div class="code">
+IF pa_int11 BETWEEN 2 AND 9.<br />
+&nbsp;&nbsp;DO&nbsp;9&nbsp;TIMES.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;문자열을&nbsp;연결하는&nbsp;연산자<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;{}&nbsp;중괄호&nbsp;안에&nbsp;변수나&nbsp;표현식을&nbsp;넣으면,&nbsp;해당&nbsp;변수의&nbsp;값이나&nbsp;표현식의&nbsp;결과가&nbsp;문자열에&nbsp;삽입<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;|&nbsp;{&nbsp;pa_int11&nbsp;}&nbsp;*&nbsp;{&nbsp;pa_int11&nbsp;}&nbsp;=&nbsp;{&nbsp;pa_int11&nbsp;*&nbsp;sy-index&nbsp;}&nbsp;|.<br />
+&nbsp;&nbsp;ENDDO.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;IS&nbsp;NOT&nbsp;INITIAL&nbsp;ABAP교재1&nbsp;260p<br />
+   </div>
+   <div class="code">
+ELSEIF pa_int11 IS INITIAL.<br />
+&nbsp;&nbsp;WRITE&nbsp;TEXT-001.<br />
+ELSE.<br />
+&nbsp;&nbsp;WRITE&nbsp;TEXT-001.<br />
+ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;000&nbsp;해당&nbsp;프로그램은&nbsp;2단&nbsp;부터&nbsp;9단까지&nbsp;사용가능합니다.&nbsp;해당하는&nbsp;단수를&nbsp;입력하세요.<br />
+*&nbsp;001&nbsp;해당&nbsp;프로그램은&nbsp;2단&nbsp;부터&nbsp;9단까지&nbsp;사용가능합니다.&nbsp;해당하는&nbsp;단수를&nbsp;입력하세요.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

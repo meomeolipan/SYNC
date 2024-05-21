@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B16_C01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B16_C01_C</h2>
+<h3> Description: Include ZREXAM3_B16_C01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B16_C01<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS lcl_event_handler DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;gv_row&nbsp;TYPE&nbsp;i.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;handle_toolbar<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;toolbar&nbsp;OF&nbsp;cl_gui_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING&nbsp;e_object.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;handle_double_click<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;double_click&nbsp;OF&nbsp;cl_gui_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING&nbsp;es_row_no&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;handle_user_command<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;user_command&nbsp;OF&nbsp;cl_gui_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING&nbsp;e_ucomm.<br />
+<br />
+<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*CLASS&nbsp;lcl_overfee&nbsp;&nbsp;DEFINITION.<br />
+*<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;gv_dats_between&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;get_over_fee&nbsp;IMPORTING&nbsp;iv_rplan_dt&nbsp;TYPE&nbsp;zty_expen-rplan_dt.<br />
+*<br />
+*&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+*<br />
+*ENDCLASS.<br />
+   </div>
+   <div class="code">
+CLASS lcl_event_handler IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;handle_toolbar.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;toolbar&nbsp;USING&nbsp;e_object.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;handle_double_click.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;double_click&nbsp;USING&nbsp;es_row_no&nbsp;.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;handle_user_command.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;user_command&nbsp;USING&nbsp;e_ucomm&nbsp;gv_row.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*CLASS&nbsp;lcl_overfee&nbsp;&nbsp;IMPLEMENTATION.<br />
+*<br />
+*&nbsp;&nbsp;METHOD&nbsp;get_over_fee.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gv_dats_between&nbsp;=&nbsp;sy-datum&nbsp;-&nbsp;iv_rplan_dt.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gs_expen-overfee&nbsp;=&nbsp;gv_dats_between&nbsp;*&nbsp;300.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gs_expen-currency&nbsp;=&nbsp;'KRW'.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

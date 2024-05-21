@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B18_ALV</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B18_ALV</h2>
+<h3> Description: Program ZBC405_B18_ALV</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC405_B18_ALV<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc405_b18_alv MESSAGE-ID zb18.<br />
+<br />
+include <a href ="zbc405_b18_alv_top.html">zbc405_b18_alv_top</a>.<br />
+<br />
+include <a href ="zbc405_b18_alv_e01.html">zbc405_b18_alv_e01</a>.<br />
+<br />
+include <a href ="zbc405_b18_alv_o01.html">zbc405_b18_alv_o01</a>.<br />
+<br />
+include <a href ="zbc405_b18_alv_c01.html">zbc405_b18_alv_c01</a>.<br />
+<br />
+include <a href ="zbc405_b18_alv_i01.html">zbc405_b18_alv_i01</a>.<br />
+<br />
+include <a href ="zbc405_b18_alv_f01.html">zbc405_b18_alv_f01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T100&nbsp;--&gt;&nbsp;Use&nbsp;Flights<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;T11&nbsp;예약가능<br />
+*&nbsp;Z01&nbsp;전체&nbsp;기준&nbsp;economy&nbsp;비율<br />
+*&nbsp;Z02&nbsp;선택한&nbsp;Row&nbsp;기준&nbsp;economy&nbsp;비율<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_VAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;variant<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid<br />
+*&nbsp;SO_CON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;BC405_408<br />
+*010&nbsp;&nbsp;&nbsp;Error&nbsp;creating&nbsp;the&nbsp;container&nbsp;object<br />
+*012&nbsp;&nbsp;&nbsp;Error&nbsp;calling&nbsp;the&nbsp;method.<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB18<br />
+*000&nbsp;&nbsp;&nbsp;&&nbsp;&&nbsp;&<br />
+*001&nbsp;&nbsp;&nbsp;조건에&nbsp;해당하는&nbsp;회원&nbsp;대여정보&nbsp;존재하지&nbsp;않습니다.<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+*003&nbsp;&nbsp;&nbsp;합은&nbsp;&&nbsp;입니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

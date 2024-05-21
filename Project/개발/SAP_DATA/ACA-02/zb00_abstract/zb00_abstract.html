@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_ABSTRACT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_ABSTRACT</h2>
+<h3> Description: Report ZB00_ABSTRACT</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_ABSTRACT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Templete으로서의&nbsp;역할을&nbsp;하고&nbsp;subclass에서&nbsp;구현될&nbsp;수&nbsp;있는&nbsp;generic&nbsp;class를&nbsp;정의<br />
+*&&nbsp;abstract&nbsp;클래스는&nbsp;오직&nbsp;definition만&nbsp;정의합니다<br />
+*&&nbsp;추상&nbsp;클래스는&nbsp;인스턴스를&nbsp;만들지&nbsp;못합니다.&nbsp;왜냐면&nbsp;오직&nbsp;추상&nbsp;클래스는&nbsp;templete처럼<br />
+*&&nbsp;사용만&nbsp;되기&nbsp;때문에&nbsp;상속을&nbsp;시킬&nbsp;순&nbsp;있으나&nbsp;그&nbsp;자신이&nbsp;인스턴스가&nbsp;되지는&nbsp;못합니다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_abstract.<br />
+<br />
+CLASS lcl_student DEFINITION ABSTRACT.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;tuition_fee&nbsp;ABSTRACT.<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_commerce_student DEFINITION INHERITING FROM lcl_student.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;tuition_fee&nbsp;REDEFINITION.<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_commerce_student IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;tuition_fee.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"Logic&nbsp;to&nbsp;calculate&nbsp;tuition&nbsp;fee&nbsp;for&nbsp;commerce&nbsp;students&nbsp;goes&nbsp;here<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_science_student DEFINITION INHERITING FROM lcl_student.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;tuition_fee&nbsp;REDEFINITION.<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_science_student IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;tuition_fee.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"Logic&nbsp;to&nbsp;calculate&nbsp;tuition&nbsp;fee&nbsp;for&nbsp;science&nbsp;students&nbsp;goes&nbsp;here<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

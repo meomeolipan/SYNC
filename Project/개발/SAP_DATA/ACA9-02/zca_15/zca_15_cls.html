@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_15_CLS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_15_CLS</h2>
+<h3> Description: Include ZCA_15_CLS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCA_15_CLS<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+CLASS LCL_PERSON DEFINITION.<br />
+PUBLIC SECTION.<br />
+&nbsp;&nbsp;&nbsp;METHODS:<br />
+&nbsp;&nbsp;&nbsp;"1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTRUCTOR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;TYPE&nbsp;FULLNAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_MONNEY&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EMPTY_NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ATTRIBUTES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USE_MONEY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_MONEY&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INPUT_MONEY_MINUS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_MONEY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING&nbsp;VALUE(RV_MONEY)&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;DISPLAY_N_O_PEOPLE.<br />
+<br />
+<br />
+PRIVATE SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;MV_NAME&nbsp;TYPE&nbsp;FULLNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_MONEY&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;&nbsp;&nbsp;CLASS-DATA&nbsp;GV_N_O_PEOPLE&nbsp;TYPE&nbsp;I.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+CLASS LCL_PERSON IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_NAME&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EMPTY_NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;=&nbsp;IV_NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_MONEY&nbsp;=&nbsp;IV_MONNEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ADD&nbsp;1&nbsp;TO&nbsp;GV_N_O_PEOPLE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_PEOPLE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'생성도니&nbsp;총&nbsp;인원&nbsp;수:',&nbsp;GV_N_O_PEOPLE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;LV_MSG_NAME&nbsp;TYPE&nbsp;STRING.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONCATENATE&nbsp;'이름'&nbsp;MV_NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;LV_MSG_NAME&nbsp;SEPARATED&nbsp;BY&nbsp;SPACE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'이름',&nbsp;MV_NAME,&nbsp;'보유현금',&nbsp;MV_MONEY.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;LV_MSG_NAME,&nbsp;AT&nbsp;20&nbsp;'보유현금',&nbsp;&nbsp;MV_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+METHOD USE_MONEY.<br />
+&nbsp;&nbsp;IF&nbsp;IV_MONEY&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;INPUT_MONEY_MINUS.<br />
+<br />
+&nbsp;&nbsp;ELSEIF&nbsp;IV_MONEY&nbsp;&gt;&nbsp;MV_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_ENOUGH_MONEY.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"SUBTRACT는&nbsp;마이너스<br />
+&nbsp;&nbsp;SUBTRACT&nbsp;IV_MONEY&nbsp;FROM&nbsp;MV_MONEY.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;MV_NAME,&nbsp;'이(가)',&nbsp;IV_MONEY,&nbsp;'원을&nbsp;사용했다.',&nbsp;'잔액',&nbsp;MV_MONEY.<br />
+<br />
+<br />
+ENDMETHOD.<br />
+<br />
+METHOD GET_MONEY.<br />
+<br />
+&nbsp;&nbsp;RV_MONEY&nbsp;=&nbsp;MV_MONEY.<br />
+<br />
+ENDMETHOD.<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+CLASS LCL_BUS DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;METHODS&nbsp;:<br />
+&nbsp;&nbsp;&nbsp;"1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONSTRUCTOR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NUMBER&nbsp;TYPE&nbsp;CHAR10<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_FARE&nbsp;&nbsp;&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO_INPUT_NUMBER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO_INPUT_FARE,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ATTRIBUTRES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_FARE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING&nbsp;VALUE(RV_FARE)&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADD_PASSENGER.<br />
+&nbsp;&nbsp;&nbsp;"5<br />
+&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;DISPLAY_N_O_BUS.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;MV_NUMBER&nbsp;TYPE&nbsp;CHAR10,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_FARE&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_SALES&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_N_O_PASSENGER&nbsp;TYPE&nbsp;I.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA&nbsp;GV_N_O_BUS&nbsp;TYPE&nbsp;I.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+CLASS LCL_BUS IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;&nbsp;IV_NUMBER&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NO_INPUT_NUMBER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_FARE&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NO_INPUT_FARE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NUMBER&nbsp;=&nbsp;IV_NUMBER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_FARE&nbsp;=&nbsp;IV_FARE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_SALES&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_N_O_PASSENGER&nbsp;=&nbsp;0.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ADD&nbsp;1&nbsp;TO&nbsp;GV_N_O_BUS.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'생성된&nbsp;총&nbsp;버스&nbsp;수:',&nbsp;GV_N_O_BUS&nbsp;LEFT-JUSTIFIED.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTRES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'버스번호',&nbsp;AT&nbsp;12&nbsp;&nbsp;':&nbsp;',&nbsp;MV_NUMBER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;'운임',&nbsp;&nbsp;AT&nbsp;12&nbsp;&nbsp;':&nbsp;',MV_FARE&nbsp;LEFT-JUSTIFIED,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'매출액',&nbsp;&nbsp;AT&nbsp;12&nbsp;&nbsp;':&nbsp;',MV_SALES&nbsp;LEFT-JUSTIFIED,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'승객수',&nbsp;&nbsp;AT&nbsp;12&nbsp;&nbsp;':&nbsp;',MV_N_O_PASSENGER&nbsp;LEFT-JUSTIFIED.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_FARE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RV_FARE&nbsp;=&nbsp;MV_FARE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;ADD_PASSENGER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;MV_NUMBER,&nbsp;'버스&nbsp;탑승'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ADD&nbsp;MV_FARE&nbsp;TO&nbsp;MV_SALES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ADD&nbsp;1&nbsp;TO&nbsp;MV_N_O_PASSENGER.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

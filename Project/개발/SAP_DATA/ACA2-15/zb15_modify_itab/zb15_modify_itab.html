@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_MODIFY_ITAB</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_MODIFY_ITAB</h2>
+<h3> Description: Program ZB15_MODIFY_ITAB</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_MODIFY_ITAB<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_modify_itab.<br />
+<br />
+PARAMETERS pcarrid TYPE s_carrid.<br />
+<br />
+DATA BEGIN OF gs_sflight.<br />
+INCLUDE STRUCTURE sflight.<br />
+DATA: tot_seatsmax TYPE s_seatsmax VALUE 0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tot_seatsocc&nbsp;TYPE&nbsp;s_seatsocc&nbsp;VALUE&nbsp;0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_sflight.<br />
+<br />
+DATA: gt_sflight LIKE TABLE OF gs_sflight.<br />
+<br />
+SELECT * INTO CORRESPONDING FIELDS OF TABLE gt_sflight "타겟테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight&nbsp;&nbsp;&nbsp;"소스테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;EQ&nbsp;pcarrid.<br />
+<br />
+<br />
+<br />
+LOOP AT gt_sflight INTO gs_sflight.<br />
+&nbsp;&nbsp;gs_sflight-tot_seatsmax&nbsp;=&nbsp;gs_sflight-seatsmax&nbsp;+&nbsp;gs_sflight-seatsmax_b&nbsp;+&nbsp;gs_sflight-seatsmax_f.<br />
+&nbsp;&nbsp;gs_sflight-tot_seatsocc&nbsp;=&nbsp;gs_sflight-seatsocc&nbsp;+&nbsp;gs_sflight-seatsocc_b&nbsp;+&nbsp;gs_sflight-seatsocc_f.<br />
+&nbsp;&nbsp;MODIFY&nbsp;TABLE&nbsp;gt_sflight&nbsp;FROM&nbsp;gs_sflight.<br />
+ENDLOOP.<br />
+<br />
+SORT gt_sflight BY carrid connid fldate.<br />
+clear gs_sflight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*if&nbsp;gt_sflight&nbsp;is&nbsp;INITIAL.<br />
+*&nbsp;&nbsp;write&nbsp;text-001.<br />
+*else.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_sflight&nbsp;INTO&nbsp;gs_sflight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'Total&nbsp;Seatsmax:&nbsp;',&nbsp;gs_sflight-tot_seatsmax,&nbsp;'Total&nbsp;Seatsocc:&nbsp;',&nbsp;gs_sflight-tot_seatsocc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+   </div>
+   <div class="codeComment">
+*endif.<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;입력하신&nbsp;정보에&nbsp;관한&nbsp;데이터가&nbsp;존재하지&nbsp;않습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

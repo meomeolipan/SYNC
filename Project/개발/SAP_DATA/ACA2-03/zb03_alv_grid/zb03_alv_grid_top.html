@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB03_ALV_GRID_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB03_ALV_GRID_TOP</h2>
+<h3> Description: Include ZB03_ALV_GRID_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZB03_ALV_GRID_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+TABLES: sbook, scarr.<br />
+data: bookkk type TABLE OF sbook.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Internal&nbsp;Table&nbsp;+&nbsp;Work&nbsp;Area&nbsp;선언<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF gty_book.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;sbook.<br />
+TYPES:   light       TYPE c LENGTH 1, "custype에 관한 불<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;4,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field_col&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancel_icon&nbsp;TYPE&nbsp;icon-id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_book.<br />
+DATA: gt_sbooks TYPE TABLE OF gty_book,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sbook&nbsp;&nbsp;TYPE&nbsp;gty_book.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;USER&nbsp;COMMAND<br />
+   </div>
+   <div class="code">
+DATA: ok_code TYPE sy-ucomm.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;GRID,&nbsp;CONTANTER<br />
+   </div>
+   <div class="code">
+DATA: go_grid TYPE REF TO cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;VARIANT<br />
+   </div>
+   <div class="code">
+DATA: gs_variant TYPE disvariant.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;LAYOUT<br />
+   </div>
+   <div class="code">
+DATA: gs_layout TYPE lvc_s_layo.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Field&nbsp;Catalog<br />
+   </div>
+   <div class="code">
+DATA: gt_field_cat TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SORT&nbsp;ORDER<br />
+   </div>
+   <div class="code">
+DATA: gt_sorting_cri TYPE lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sorting_cri&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*COLOR&nbsp;FILED<br />
+   </div>
+   <div class="code">
+DATA: gs_field_col LIKE LINE OF gs_sbook-field_col.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SCREEN&nbsp;출력부<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_carid&nbsp;FOR&nbsp;sbook-carrid&nbsp;OBLIGATORY,<br />
+&nbsp;&nbsp;so_conid&nbsp;FOR&nbsp;sbook-connid,<br />
+&nbsp;&nbsp;so_fdate&nbsp;FOR&nbsp;sbook-fldate.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p_all&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;rg_c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_eco&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;rg_c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_bus&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;rg_c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_fst&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;rg_c.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;1.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p_can&nbsp;TYPE&nbsp;c&nbsp;AS&nbsp;CHECKBOX.<br />
+SELECTION-SCREEN END OF BLOCK b2.<br />
+SELECTION-SCREEN SKIP 1.<br />
+PARAMETERS: p_var TYPE disvariant-variant.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

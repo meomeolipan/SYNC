@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_B05_HELLO</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_B05_HELLO</h2>
+<h3> Description: report program 만들기 연습</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB400_B05_HELLO<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;최초&nbsp;작성일&nbsp;:&nbsp;2024/01/26/Fri<br />
+*&&nbsp;작성자&nbsp;:&nbsp;김범일<br />
+*&&nbsp;내용&nbsp;:&nbsp;SAP&nbsp;GUI&nbsp;에서&nbsp;Package,&nbsp;Program&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc400_b05_hello.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*한&nbsp;줄&nbsp;주석&nbsp;단축키:&nbsp;Ctrl&nbsp;+&nbsp;,<br />
+*한&nbsp;줄&nbsp;주석&nbsp;풀기&nbsp;단축키:&nbsp;Ctrl&nbsp;+&nbsp;.<br />
+<br />
+   </div>
+   <div class="code">
+"PARAMETERS : SELECTION-SCREEN을 만들고 입력 필드를 생성한다. + 입력 변수<br />
+PARAMETERS pa_name TYPE string.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ABAP교재1&nbsp;257p<br />
+   </div>
+   <div class="code">
+CONSTANTS gc_qf TYPE s_carr_id VALUE 'QF'.<br />
+DATA: gv_carrid1 TYPE s_carr_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_carrid2&nbsp;TYPE&nbsp;s_carr_id&nbsp;VALUE&nbsp;'LH',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_count&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+<br />
+<br />
+WRITE 'Hello World!'.<br />
+<br />
+NEW-LINE. " WRITE / 와 같은 효과<br />
+<br />
+WRITE: 'Hello',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_name.<br />
+<br />
+WRITE: / gv_carrid1, gv_carrid2, gv_count.<br />
+<br />
+MOVE gc_qf TO gv_carrid1.<br />
+WRITE: / gv_carrid1, gv_carrid2, gv_count.<br />
+<br />
+gv_carrid2 = gv_carrid1.<br />
+WRITE: / gv_carrid1, gv_carrid2, gv_count.<br />
+<br />
+gv_count = gv_count + 1.<br />
+WRITE: / gv_carrid1, gv_carrid2, gv_count.<br />
+<br />
+CLEAR: gv_carrid1, "CLEAR : 변수 안의 값을 다 초기화.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_carrid2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_count.<br />
+WRITE: / gv_carrid1, gv_carrid2, gv_count.<br />
+<br />
+DATA: gv_max        TYPE sbc400focc-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_occ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sbc400focc-seatsocc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_percentage&nbsp;TYPE&nbsp;sbc400focc-percentage,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;string.<br />
+<br />
+WRITE: /  gv_max,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_occ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_percentage,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_length,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_string.<br />
+<br />
+gv_max = 10.<br />
+gv_occ = 1.<br />
+<br />
+WRITE: / gv_max,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_occ.<br />
+<br />
+gv_percentage = gv_occ * 100 / gv_max.<br />
+<br />
+WRITE: /  gv_max,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_occ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_percentage,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_length,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_string.<br />
+<br />
+gv_string = 'CL205'.<br />
+<br />
+WRITE: / gv_string.<br />
+<br />
+gv_length = strlen( gv_string ).<br />
+<br />
+WRITE: /  gv_max,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_occ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_percentage,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_length,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_string.<br />
+<br />
+"abs 절대값 absolute 줄임말<br />
+"sqrt 제곱근<br />
+"ipow 거듭제곱<br />
+" GT Greater Than 줄임말<br />
+" CA Contains Any 줄임말<br />
+<br />
+<br />
+"SYSTEM 변수 SYST<br />
+<br />
+WRITE: / sy-mandt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-uname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-langu,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-datum,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-uzeit,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-tcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-repid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-index,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-subrc.<br />
+<br />
+WRITE | { ipow( base = '1.2' exp = 2 ) } |.<br />
+DO.<br />
+&nbsp;&nbsp;IF&nbsp;sy-index&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;sy-datum.<br />
+ENDDO.<br />
+<br />
+DO 10 TIMES.<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;sy-index.<br />
+ENDDO.<br />
+<br />
+WHILE sy-index &lt; 5.<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;sy-repid.<br />
+ENDWHILE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*select&nbsp;*&nbsp;FROM&nbsp;DB테이블.<br />
+*sy-dbcnt.&nbsp;Select문에서&nbsp;사용&nbsp;가능한&nbsp;Loop&nbsp;횟수&nbsp;변수<br />
+*endselect.<br />
+<br />
+*LOOP&nbsp;AT&nbsp;DB테이블.<br />
+*&nbsp;&nbsp;sy-tabix.&nbsp;Loop문에서&nbsp;사용&nbsp;가능한&nbsp;횟수&nbsp;변수<br />
+*ENDLOOP.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

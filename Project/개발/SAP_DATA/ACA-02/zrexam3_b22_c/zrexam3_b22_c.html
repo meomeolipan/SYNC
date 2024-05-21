@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B22_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B22_C</h2>
+<h3> Description: [B22] ABAP2 과정 평가 2024.03.22</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZREXAM3_B22<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;조성현<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZREXAM3_B22_C MESSAGE-ID ZB22.<br />
+<br />
+include <a href ="zrexam3_b22_top_c.html">ZREXAM3_B22_TOP_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B22_TOP.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b22_so1_c.html">ZREXAM3_B22_SO1_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B22_SO1.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b22_co1_c.html">ZREXAM3_B22_CO1_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B22_CO1.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b22_oo1_c.html">ZREXAM3_B22_OO1_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B22_OO1.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b22_io1_c.html">ZREXAM3_B22_IO1_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B22_IO1.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b22_fo1_c.html">ZREXAM3_B22_FO1_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B22_FO1.<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+&nbsp;&nbsp;GS_VARIANT-REPORT&nbsp;=&nbsp;SY-CPROG.<br />
+<br />
+AT SELECTION-SCREEN OUTPUT.<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'D1'&nbsp;OR&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'D2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;P_OPT2&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-ACTIVE&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-ACTIVE&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;PERFORM&nbsp;PRESS_BUTTON.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;SELECT_DATA.<br />
+&nbsp;&nbsp;PERFORM&nbsp;MODIFY_DATA.<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DATA.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;P_OPT1&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;0100.<br />
+&nbsp;&nbsp;ELSEIF&nbsp;P_OPT2&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;0200.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;0100&nbsp;--&gt;&nbsp;[CL2-B22]회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;200&nbsp;--&gt;&nbsp;[CL2-B22]&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;T01&nbsp;조회조건<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_OPT1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;P_OPT2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+*&nbsp;SO_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원번호<br />
+*&nbsp;SO_RTD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반납예정일<br />
+*&nbsp;SO_ST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원상태<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB22<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다!<br />
+*006&nbsp;&nbsp;&nbsp;선택하신&nbsp;예약의&nbsp;기종은&nbsp;&입니다.<br />
+*009&nbsp;&nbsp;&nbsp;조건에&nbsp;해당하는&nbsp;회원정보가&nbsp;존재하지&nbsp;않습니다<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

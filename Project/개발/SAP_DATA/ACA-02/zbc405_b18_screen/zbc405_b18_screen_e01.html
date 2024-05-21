@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B18_SCREEN_E01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B18_SCREEN_E01</h2>
+<h3> Description: Include ZBC405_B18_SCREEN_E01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC405_B18_SCREEN_E01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;so_carr-sign&nbsp;=&nbsp;'I'.<br />
+*&nbsp;&nbsp;so_carr-option&nbsp;=&nbsp;'BT'.<br />
+*&nbsp;&nbsp;so_carr-low&nbsp;=&nbsp;'AA'.<br />
+*&nbsp;&nbsp;so_carr-high&nbsp;=&nbsp;'QF'.<br />
+*<br />
+*&nbsp;&nbsp;APPEND&nbsp;so_carr.<br />
+*&nbsp;&nbsp;CLEAR&nbsp;so_carr.<br />
+*<br />
+*&nbsp;&nbsp;so_carr-sign&nbsp;=&nbsp;'E'.<br />
+*&nbsp;&nbsp;so_carr-option&nbsp;=&nbsp;'EQ'.<br />
+*&nbsp;&nbsp;so_carr-low&nbsp;=&nbsp;'AZ'.<br />
+*<br />
+*&nbsp;&nbsp;APPEND&nbsp;so_carr.<br />
+*&nbsp;&nbsp;CLEAR&nbsp;so_carr.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;so_air-sign&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;so_air-option&nbsp;=&nbsp;'BT'.<br />
+&nbsp;&nbsp;so_air-low&nbsp;=&nbsp;'AA'.<br />
+&nbsp;&nbsp;so_air-high&nbsp;=&nbsp;'QF'.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;so_air.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_air.<br />
+<br />
+&nbsp;&nbsp;so_air-sign&nbsp;=&nbsp;'E'.<br />
+&nbsp;&nbsp;so_air-option&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;so_air-low&nbsp;=&nbsp;'AZ'.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;so_air.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_air.<br />
+<br />
+&nbsp;&nbsp;tab1&nbsp;=&nbsp;'Flight&nbsp;connections'(001).<br />
+&nbsp;&nbsp;tab2&nbsp;=&nbsp;'Flight&nbsp;date'(002).<br />
+&nbsp;&nbsp;tab3&nbsp;=&nbsp;'Flight&nbsp;type'(002).<br />
+<br />
+&nbsp;&nbsp;tab_block-activetab&nbsp;=&nbsp;'COMM2'.<br />
+&nbsp;&nbsp;tab_block-dynnr&nbsp;=&nbsp;1200.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;CASE&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;p_all.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights&nbsp;INTO&nbsp;TABLE&nbsp;gt_flights<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_air&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;IN&nbsp;so_conn1&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;IN&nbsp;so_flda1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;p_nat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights&nbsp;INTO&nbsp;TABLE&nbsp;gt_flights<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_air&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;IN&nbsp;so_conn1&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;IN&nbsp;so_flda1&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryto&nbsp;=&nbsp;dv_flights~countryfr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;p_int.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;dv_flights&nbsp;INTO&nbsp;TABLE&nbsp;gt_flights<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_air&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;IN&nbsp;so_conn1&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;IN&nbsp;so_flda1&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryto&nbsp;&lt;&gt;&nbsp;dv_flights~countryfr.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+if sy-subrc = 4.<br />
+&nbsp;&nbsp;write&nbsp;:/&nbsp;'검색&nbsp;안됨'.<br />
+else.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_flights&nbsp;INTO&nbsp;gs_flights.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;gs_flights-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-cityfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-airpfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-cityto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-airpto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-price,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-currency,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flights-seatsocc.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+endif.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

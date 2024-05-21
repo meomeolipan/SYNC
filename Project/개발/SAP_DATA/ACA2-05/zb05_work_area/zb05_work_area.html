@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_WORK_AREA</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_WORK_AREA</h2>
+<h3> Description: work area 선언</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_0205<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_work_area.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*&nbsp;SCARR&nbsp;테이블의&nbsp;형식과&nbsp;같게&nbsp;(STRUCTURED&nbsp;변수&nbsp;prefix&nbsp;:&nbsp;GS_&nbsp;,&nbsp;TYPE&nbsp;:&nbsp;TY_&nbsp;)<br />
+*--------------------------------------------------------------------*<br />
+<br />
+*---&nbsp;TYPE&nbsp;(GLOBAL)<br />
+*&nbsp;1.&nbsp;dictionary&nbsp;object&nbsp;활용하여&nbsp;&nbsp;structured&nbsp;type&nbsp;변수를&nbsp;선언<br />
+   </div>
+   <div class="code">
+" 1) Table (SCARR)   "gs_scarr_a<br />
+DATA : gs_scarr_a TYPE scarr.<br />
+<br />
+" 2) STRUCTURE 생성 (SCARR 테이블과 동일하게 : ZSSCARR_B##) "gs_scarr_b<br />
+"Z+S/T + module 2자리 + XXX(X)<br />
+DATA : gs_scarr_b TYPE zsscarr_b01.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---&nbsp;TYPE&nbsp;(LOCAL)<br />
+*&nbsp;2.&nbsp;TYPES&nbsp;선언으로&nbsp;structured&nbsp;type&nbsp;변수&nbsp;선언&nbsp;"gs_scarr_c<br />
+   </div>
+   <div class="code">
+TYPES : ty_scarr_a TYPE scarr.<br />
+<br />
+TYPES : ty_scarr_b TYPE zsscarr_b01.<br />
+<br />
+TYPES : BEGIN OF ty_scarr_c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;s_carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;s_currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_url,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_scarr_c.<br />
+<br />
+TYPES : BEGIN OF ty_scarr_d,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-url,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_scarr_d.<br />
+<br />
+TYPES : BEGIN OF ty_scarr_e,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid(3)&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;&nbsp;TYPE&nbsp;scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-url,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_scarr_e.<br />
+<br />
+DATA : gs_scarr_c TYPE ty_scarr_d.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;3.&nbsp;begin&nbsp;of~&nbsp;활용해서&nbsp;직접&nbsp;local&nbsp;하게&nbsp;structured&nbsp;type&nbsp;변수&nbsp;선언&nbsp;"gs_scarr_d<br />
+   </div>
+   <div class="code">
+DATA : BEGIN OF gs_scarr_d,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-url,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_scarr_d.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;4.&nbsp;internal&nbsp;table&nbsp;값&nbsp;할당을&nbsp;위한&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA : gs_scarr TYPE scarr.<br />
+DATA : gt_scarr LIKE TABLE OF gs_scarr.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-&nbsp;값을&nbsp;ASSIGN&nbsp;(할당,&nbsp;대입)<br />
+<br />
+   </div>
+   <div class="code">
+gs_scarr_d-carrid   = 'AA'.<br />
+gs_scarr_d-carrname = 'American Airline'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WRITE&nbsp;:&nbsp;gs_scarr_d-carrid.<br />
+<br />
+   </div>
+   <div class="code">
+" MOVE A TO B  : 한 필드에 각각.<br />
+MOVE 'AA'               TO gs_scarr_a-carrid.<br />
+MOVE 'American Airline' TO gs_scarr_a-carrname.<br />
+<br />
+<br />
+" MOVE-CORRESPONDING A TO B : structure별 (이름이 같은것 끼리...)<br />
+MOVE-CORRESPONDING gs_scarr_a TO gs_scarr_c.<br />
+MOVE gs_scarr_a TO gs_scarr_c.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WRITE&nbsp;:&nbsp;/&nbsp;gs_scarr_d-carrid,&nbsp;gs_scarr_d-carrname,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;gs_scarr_a-carrid,&nbsp;gs_scarr_a-carrname,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;gs_scarr_c-carrid,&nbsp;gs_scarr_c-carrname.<br />
+<br />
+   </div>
+   <div class="code">
+gs_scarr_a-carrid = 'AA'.<br />
+gs_scarr_a-carrname = 'American Airlines'.<br />
+gs_scarr_a-currcode = 'USD'.<br />
+gs_scarr_a-url = 'http://www.aa.com'.<br />
+<br />
+<br />
+gs_scarr_b-carrid = gs_scarr_a-carrid.<br />
+gs_scarr_b-carrname = gs_scarr_a-carrname.<br />
+gs_scarr_b-currcode = gs_scarr_a-currcode.<br />
+gs_scarr_b-url = gs_scarr_a-url.<br />
+<br />
+MOVE-CORRESPONDING gs_scarr_b TO gs_scarr_d.<br />
+MOVE-CORRESPONDING gs_scarr_b TO gs_scarr_c.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WRITE&nbsp;:/&nbsp;gs_scarr_a.<br />
+*WRITE&nbsp;:/&nbsp;gs_scarr_d.<br />
+<br />
+   </div>
+   <div class="code">
+gs_scarr-carrid   = 'AB'.<br />
+gs_scarr-carrname = 'Air Berlin'.<br />
+gs_scarr-currcode = 'EUR'.<br />
+gs_scarr-url      = 'http://www.airberlin.de'.<br />
+<br />
+INSERT gs_scarr INTO TABLE gt_scarr.<br />
+CLEAR gs_scarr.<br />
+<br />
+gs_scarr-carrid   = 'BA'.<br />
+gs_scarr-carrname = 'British Airways'.<br />
+gs_scarr-currcode = 'GBP'.<br />
+gs_scarr-url      = 'http://www.british-airways.com'.<br />
+<br />
+INSERT gs_scarr INTO TABLE gt_scarr.<br />
+CLEAR gs_scarr.<br />
+<br />
+LOOP AT gt_scarr INTO gs_scarr.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;gs_scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr-url.<br />
+&nbsp;&nbsp;ULINE.<br />
+<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

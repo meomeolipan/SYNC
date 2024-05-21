@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_PARAMETERS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_PARAMETERS</h2>
+<h3> Description: example for PARAMETERS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_PARAMETERS<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;단일&nbsp;매개변수&nbsp;(하나의&nbsp;값)&nbsp;:&nbsp;pa_&nbsp;or&nbsp;p_<br />
+*&&nbsp;값을&nbsp;입력하지&nbsp;않으면&nbsp;null<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_parameters.<br />
+<br />
+TABLES : dv_flights.<br />
+<br />
+DATA : dv_flights1 TYPE dv_flights.<br />
+<br />
+CONSTANTS : gc_x TYPE c VALUE 'X'.<br />
+<br />
+DATA: gs_flight TYPE dv_flights.<br />
+DATA: gt_flight TYPE TABLE OF dv_flights.  " [] body<br />
+<br />
+DATA : gv_carrid TYPE s_carrid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;기본형<br />
+   </div>
+   <div class="code">
+PARAMETERS : p_carr LIKE gs_flight-carrid.<br />
+<br />
+SELECT-OPTIONS : so_carr  FOR gv_carrid.     "LOW HIGH 의 type<br />
+SELECT-OPTIONS : so_carr2 FOR gs_flight-carrid.<br />
+   </div>
+   <div class="codeComment">
+*SELECT-OPTIONS&nbsp;:&nbsp;so_carr3&nbsp;FOR&nbsp;gt_flight-carrid.&nbsp;&nbsp;"X<br />
+<br />
+   </div>
+   <div class="code">
+BREAK-POINT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;필수값<br />
+*PARAMETERS:&nbsp;p_name&nbsp;TYPE&nbsp;string&nbsp;OBLIGATORY&nbsp;DEFAULT&nbsp;'ERIC'&nbsp;MODIF&nbsp;ID&nbsp;eri<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MATCHCODE&nbsp;OBJECT&nbsp;mat.<br />
+<br />
+*&nbsp;초기값&nbsp;셋팅<br />
+*DATA&nbsp;:&nbsp;gv_age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;20.<br />
+*PARAMETERS:&nbsp;p_age&nbsp;TYPE&nbsp;i&nbsp;DEFAULT&nbsp;30.<br />
+<br />
+*&nbsp;보이지&nbsp;않게<br />
+*PARAMETERS:&nbsp;p_pwd&nbsp;TYPE&nbsp;string&nbsp;NO-DISPLAY.<br />
+<br />
+*&nbsp;소문자로<br />
+*PARAMETERS:&nbsp;p_email&nbsp;TYPE&nbsp;string&nbsp;LOWER&nbsp;CASE.<br />
+*PARAMETERS:&nbsp;p_email_u&nbsp;TYPE&nbsp;string&nbsp;upper&nbsp;CASE.&nbsp;&nbsp;"X<br />
+<br />
+<br />
+*&nbsp;화면&nbsp;변경&nbsp;(modify&nbsp;screen)<br />
+   </div>
+   <div class="code">
+PARAMETERS: p_date TYPE d MODIF ID abc.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;메모리&nbsp;설정&nbsp;:&nbsp;SAP,&nbsp;ABAP<br />
+   </div>
+   <div class="code">
+PARAMETERS: p_value TYPE string MEMORY ID xyz.  "ABAP<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;길이&nbsp;셋팅<br />
+*PARAMETERS:&nbsp;p_code&nbsp;TYPE&nbsp;string&nbsp;VISIBLE&nbsp;LENGTH&nbsp;10.<br />
+<br />
+*&nbsp;도움말(F4)&nbsp;매칭&nbsp;:&nbsp;search&nbsp;help<br />
+*PARAMETERS:&nbsp;p_matnr&nbsp;TYPE&nbsp;string&nbsp;MATCHCODE&nbsp;OBJECT&nbsp;mat.<br />
+*PARAMETERS:&nbsp;p_mtn&nbsp;&nbsp;&nbsp;TYPE&nbsp;mara-matnr&nbsp;MATCHCODE&nbsp;OBJECT&nbsp;mat1.<br />
+<br />
+<br />
+**&nbsp;체크박스&nbsp;선택&nbsp;&nbsp;(다중&nbsp;선택&nbsp;가능하기에&nbsp;그룹핑이&nbsp;필요&nbsp;없다.)<br />
+*PARAMETERS:&nbsp;p_flag1&nbsp;AS&nbsp;CHECKBOX&nbsp;DEFAULT&nbsp;gc_x.&nbsp;"type&nbsp;c&nbsp;length&nbsp;1&nbsp;,&nbsp;value&nbsp;:&nbsp;space,&nbsp;'X'<br />
+*PARAMETERS:&nbsp;p_flag2&nbsp;AS&nbsp;CHECKBOX.&nbsp;"type&nbsp;c&nbsp;length&nbsp;1&nbsp;,&nbsp;value&nbsp;:&nbsp;space,&nbsp;'X'<br />
+*PARAMETERS:&nbsp;p_flag3&nbsp;AS&nbsp;CHECKBOX.&nbsp;"type&nbsp;c&nbsp;length&nbsp;1&nbsp;,&nbsp;value&nbsp;:&nbsp;space,&nbsp;'X'<br />
+*<br />
+**&nbsp;라디오버튼&nbsp;(그룹&nbsp;내&nbsp;중에&nbsp;하나를&nbsp;선택,&nbsp;파라미터&nbsp;두&nbsp;개&nbsp;이상)&nbsp;value&nbsp;:&nbsp;space,&nbsp;'X'<br />
+*PARAMETERS:&nbsp;p_opt1&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1,&nbsp;&nbsp;"두자리&nbsp;알파벳+숫자<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt2&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1&nbsp;DEFAULT&nbsp;'X',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt3&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.<br />
+*<br />
+*PARAMETERS:&nbsp;p_opt4&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r2,&nbsp;&nbsp;"두자리&nbsp;알파벳+숫자<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt5&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r2,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_opt6&nbsp;TYPE&nbsp;c&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r2.<br />
+<br />
+<br />
+*IF&nbsp;p_flag&nbsp;IS&nbsp;INITIAL.&nbsp;"space<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'space'.<br />
+*<br />
+*ELSEIF&nbsp;p_flag&nbsp;=&nbsp;gc_c.&nbsp;"'X'.&nbsp;&nbsp;&nbsp;"(&nbsp;=&nbsp;else.)<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'result'&nbsp;,&nbsp;p_flag.<br />
+*<br />
+*ENDIF.<br />
+<br />
+*WRITE&nbsp;:&nbsp;/&nbsp;p_opt1,&nbsp;p_opt2,&nbsp;p_opt3.<br />
+<br />
+*CASE&nbsp;'X'.&nbsp;"gc_x.<br />
+*&nbsp;&nbsp;WHEN&nbsp;p_opt1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'opt1'&nbsp;,&nbsp;p_opt1.<br />
+*&nbsp;&nbsp;WHEN&nbsp;p_opt2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'opt2'&nbsp;,&nbsp;p_opt2.<br />
+*&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'opt3'&nbsp;,&nbsp;p_opt3.<br />
+*ENDCASE.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;PARAMETERS<br />
+*--------------------------------------------------------------------*<br />
+<br />
+*PARAMETERS&nbsp;:&nbsp;p_carr&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_carrid.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;type&nbsp;구조<br />
+*PARAMETERS&nbsp;:&nbsp;p_carr_s&nbsp;TYPE&nbsp;spfli-carrid.&nbsp;"&nbsp;+&nbsp;semantic<br />
+*<br />
+*DATA&nbsp;:&nbsp;gs_scarr_p&nbsp;TYPE&nbsp;scarr.<br />
+*<br />
+*SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;scarr<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;gs_scarr_p<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;p_carr_s.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;WRITE&nbsp;gs_scarr_p.<br />
+*ELSE.<br />
+*&nbsp;&nbsp;WRITE&nbsp;'없음'.<br />
+*ENDIF.<br />
+<br />
+**--------------------------------------------------------------------*<br />
+**&nbsp;SELECT-OPTIONS<br />
+**--------------------------------------------------------------------*<br />
+*<br />
+*<br />
+*"&nbsp;Option&nbsp;:&nbsp;EQ,&nbsp;NE,&nbsp;=&gt;&nbsp;low<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;LT,&nbsp;GT,&nbsp;GE,&nbsp;LE...&nbsp;:&nbsp;논리에&nbsp;맞게&nbsp;low,&nbsp;high&nbsp;위치가&nbsp;정해져있다.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;BT&nbsp;=&gt;&nbsp;low,&nbsp;high<br />
+*<br />
+*TABLES&nbsp;scarr.&nbsp;&nbsp;&nbsp;"&nbsp;구조&nbsp;형태를&nbsp;선언하는&nbsp;키워드.<br />
+*<br />
+*SELECT-OPTIONS&nbsp;:&nbsp;so_carr&nbsp;FOR&nbsp;scarr-carrid.&nbsp;"internal&nbsp;table<br />
+*<br />
+*<br />
+*<br />
+*DATA&nbsp;:&nbsp;gs_scarr&nbsp;TYPE&nbsp;scarr.<br />
+*<br />
+*SELECT-OPTIONS&nbsp;:&nbsp;so_carr2&nbsp;FOR&nbsp;gs_scarr-carrid.&nbsp;"internal&nbsp;table<br />
+*<br />
+*<br />
+*<br />
+**DATA&nbsp;:&nbsp;gt_scarr&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;scarr,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr&nbsp;TYPE&nbsp;scarr.<br />
+**<br />
+**SELECT&nbsp;*&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_scarr<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;scarr<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_carr.<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;carrid&nbsp;NE&nbsp;'AC'<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;carrid&nbsp;BETWEEN&nbsp;'AA'&nbsp;AND&nbsp;'AZ'.<br />
+**<br />
+**IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+**<br />
+**&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_scarr&nbsp;INTO&nbsp;gs_scarr.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;gs_scarr.<br />
+**<br />
+**&nbsp;&nbsp;ENDLOOP.<br />
+**<br />
+**ENDIF.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_AGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;나이<br />
+*&nbsp;P_CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;코드<br />
+*&nbsp;P_DATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;날짜<br />
+*&nbsp;P_EMAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이메일<br />
+*&nbsp;P_FLAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;확인<br />
+*&nbsp;P_MATNR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자재코드<br />
+*&nbsp;P_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름<br />
+*&nbsp;P_OPT1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;선택1<br />
+*&nbsp;P_OPT2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;선택2<br />
+*&nbsp;P_VALUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;값<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

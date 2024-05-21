@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZTASK2_B18_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTASK2_B18_TOP</h2>
+<h3> Description: Include ZTASK2_B18_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZTASK2_B18_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TABLES : scarr, spfli, sbook.<br />
+TABLES : sscrfields.<br />
+<br />
+CLASS : lcl_event_handler DEFINITION DEFERRED.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;AS_FLIGHT,<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;scarr-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;&nbsp;&nbsp;LIKE&nbsp;scarr-carrname,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;spfli-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryfr&nbsp;&nbsp;LIKE&nbsp;spfli-countryfr,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryto&nbsp;&nbsp;LIKE&nbsp;spfli-countryto,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-fldate,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customid&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-customid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passname&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-passname,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bookid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-bookid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order_date&nbsp;LIKE&nbsp;sbook-order_date,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smoker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-smoker,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancelled&nbsp;&nbsp;LIKE&nbsp;sbook-cancelled,<br />
+*<br />
+*&nbsp;&nbsp;END&nbsp;OF&nbsp;AS_FLIGHT.<br />
+*<br />
+*DATA&nbsp;At_flight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;As_flight.<br />
+*DATA&nbsp;As_flight&nbsp;TYPE&nbsp;A_FLIGHT.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+DATA : BEGIN OF gs_flight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;&nbsp;&nbsp;LIKE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryfr&nbsp;&nbsp;LIKE&nbsp;spfli-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;countryto&nbsp;&nbsp;LIKE&nbsp;spfli-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customid&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-customid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passname&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-passname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bookid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-bookid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order_date&nbsp;LIKE&nbsp;sbook-order_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smoker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sbook-smoker,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancelled&nbsp;&nbsp;LIKE&nbsp;sbook-cancelled,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;icon-id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row_color&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;4,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;light&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell_color&nbsp;TYPE&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_flight.<br />
+<br />
+DATA gt_flight LIKE TABLE OF gs_flight.<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;gs_flight&nbsp;TYPE&nbsp;gty_flight.<br />
+<br />
+   </div>
+   <div class="code">
+DATA gv_switch TYPE n VALUE '1'.<br />
+DATA ok_code LIKE sy-ucomm.<br />
+DATA go_cont TYPE REF TO cl_gui_custom_container.<br />
+DATA go_alv_grid TYPE REF TO cl_gui_alv_grid.<br />
+DATA gs_layout TYPE lvc_s_layo.<br />
+DATA gt_field_cat TYPE lvc_t_fcat.<br />
+DATA gs_field_cat TYPE lvc_s_fcat.<br />
+<br />
+DATA gs_filter    TYPE lvc_s_filt.<br />
+DATA gt_filter    TYPE lvc_t_filt.<br />
+<br />
+DATA : gt_sorting_criteria  TYPE lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sorting_criterion&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA : gs_colfields TYPE lvc_s_scol.<br />
+<br />
+DATA: go_handler TYPE REF TO lcl_event_handler.<br />
+<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-001.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;pa_car&nbsp;TYPE&nbsp;scarr-carrid&nbsp;OBLIGATORY.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_con&nbsp;FOR&nbsp;spfli-connid&nbsp;NO-EXTENSION.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_fld&nbsp;FOR&nbsp;sbook-fldate&nbsp;NO-EXTENSION.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;PUSHBUTTON&nbsp;1(20)&nbsp;gv_txt&nbsp;USER-COMMAND&nbsp;push.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b2&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-002.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_cus&nbsp;FOR&nbsp;sbook-customid&nbsp;MODIF&nbsp;ID&nbsp;add.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT-OPTIONS&nbsp;so_ord&nbsp;FOR&nbsp;sbook-order_date&nbsp;MODIF&nbsp;ID&nbsp;add&nbsp;NO-EXTENSION.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b2.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

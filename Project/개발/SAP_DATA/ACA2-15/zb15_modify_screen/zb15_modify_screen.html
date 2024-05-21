@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_MODIFY_SCREEN</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_MODIFY_SCREEN</h2>
+<h3> Description: Program ZB15_MODIFY_SCREEN</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_MODIFY_SCREEN<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_modify_screen.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---------<br />
+*&nbsp;top<br />
+*---------<br />
+<br />
+   </div>
+   <div class="code">
+TABLES: sflight, spfli. "사용할 테이블 선언<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK bl_opt WITH FRAME TITLE TEXT-tlo. "첫번째 radio 버튼 블락<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p1&nbsp;USER-COMMAND&nbsp;radio&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1&nbsp;DEFAULT&nbsp;'X',&nbsp;"sflight기본선택<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1.<br />
+SELECTION-SCREEN END OF BLOCK bl_opt.<br />
+<br />
+SELECTION-SCREEN SKIP 1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK bl_field WITH FRAME TITLE TEXT-tlf. "두번째 바뀌는 블락<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;so_car&nbsp;LIKE&nbsp;sflight-carrid&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;,&nbsp;"fg&nbsp;=&nbsp;펑션코드<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_con&nbsp;LIKE&nbsp;sflight-connid&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;,&nbsp;"No..&nbsp;대신에&nbsp;parameter로&nbsp;해도&nbsp;상관&nbsp;ㄴ<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_fld&nbsp;LIKE&nbsp;sflight-fldate&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;.<br />
+<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_car2&nbsp;FOR&nbsp;spfli-carrid&nbsp;MODIF&nbsp;ID&nbsp;pf&nbsp;,&nbsp;"얘넨&nbsp;select-options로<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_con2&nbsp;FOR&nbsp;spfli-connid&nbsp;MODIF&nbsp;ID&nbsp;pf&nbsp;.&nbsp;"pf&nbsp;=&nbsp;펑션코드<br />
+<br />
+SELECTION-SCREEN END OF BLOCK bl_field.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-------<br />
+*&nbsp;event<br />
+*-------<br />
+<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT. "pbo - 라디오 버튼 클릭 시 실행<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;screen-group1.&nbsp;"function&nbsp;code별&nbsp;case<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'FG'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;p1&nbsp;=&nbsp;'X'.&nbsp;"펑션코드&nbsp;확인&nbsp;+&nbsp;라디오&nbsp;버튼&nbsp;클릭까지&nbsp;확인&nbsp;시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'1'.&nbsp;"눈에&nbsp;보이도록&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-name&nbsp;CS&nbsp;'SO_CON'.&nbsp;"name에&nbsp;so_con&nbsp;contain(포함)&nbsp;될&nbsp;때&nbsp;=&nbsp;걍&nbsp;name이&nbsp;so_con인&nbsp;필드만&nbsp;속성&nbsp;적용해준다고&nbsp;생각<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-values_in_COMBO&nbsp;=&nbsp;'1'.&nbsp;"&nbsp;콤보박스로&nbsp;만들어줌<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.&nbsp;"만약&nbsp;라디오버튼&nbsp;클릭&nbsp;ㄴ&nbsp;=&nbsp;X가아님&nbsp;=&nbsp;빈값&nbsp;""<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.&nbsp;"눈에&nbsp;안보이도록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'PF'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;p2&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-name&nbsp;CS&nbsp;'SO_CAR2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-intensified&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.&nbsp;"케이스문&nbsp;이후&nbsp;modify&nbsp;screen<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;TLF&nbsp;조회필드<br />
+*&nbsp;TLO&nbsp;조회기준<br />
+*&nbsp;TLV&nbsp;조회기준<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFLIGHTS<br />
+*&nbsp;P2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPFLI<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFLIGHTS(carrid)<br />
+*&nbsp;SO_CAR2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPFLI(carrid)<br />
+*&nbsp;SO_CON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFLIGHTS(connid)<br />
+*&nbsp;SO_CON2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPFLI(connid)<br />
+*&nbsp;SO_FLD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFLIGHTS(fldate)<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

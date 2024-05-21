@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_20_TOP_B05</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_20_TOP_B05</h2>
+<h3> Description: Include ZCA_20_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCA_20_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+**********************************************************************<br />
+*사용할&nbsp;스트럭처나&nbsp;필드,&nbsp;테이블&nbsp;선언<br />
+**********************************************************************<br />
+*TABLES&nbsp;:<br />
+<br />
+*DATA&nbsp;:<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+**********************************************************************<br />
+*ALV&nbsp;관련&nbsp;변수&nbsp;선언<br />
+**********************************************************************<br />
+   </div>
+   <div class="code">
+DATA : GO_CON TYPE REF TO CL_GUI_DOCKING_CONTAINER,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_CON&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_CUSTOM_CONTAINER,<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.<br />
+<br />
+<br />
+DATA : GS_LAYOUT TYPE LVC_S_LAYO, " ALV의 전반적인 레이아웃 설정을 위한 변수<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_S_FCAT,&nbsp;"&nbsp;ALV의&nbsp;출력되는&nbsp;컬럼의&nbsp;속성을&nbsp;다루기&nbsp;위한&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_FCAT&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_FCAT,&nbsp;"&nbsp;기존&nbsp;필드의&nbsp;속성&nbsp;변경&nbsp;&&nbsp;신규&nbsp;필드의&nbsp;추가를&nbsp;위해<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_VARIANT&nbsp;TYPE&nbsp;DISVARIANT,&nbsp;"Variant&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SAVE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;C,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SORT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_SORT,&nbsp;"SORTING<br />
+&nbsp;	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SORT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_S_SORT,&nbsp;"SORTING<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FIELD&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;테이블의&nbsp;스트럭쳐.&nbsp;"COLOR&nbsp;FILED<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_UIHIDE&nbsp;&nbsp;TYPE&nbsp;UI_FUNCTIONS.&nbsp;"UI&nbsp;지울용으로&nbsp;사용<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*시스템&nbsp;컨트롤&nbsp;선언<br />
+**********************************************************************<br />
+<br />
+   </div>
+   <div class="code">
+DATA : OK_CODE TYPE SY-UCOMM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

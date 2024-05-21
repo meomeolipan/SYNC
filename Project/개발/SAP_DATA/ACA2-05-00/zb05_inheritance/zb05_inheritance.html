@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_INHERITANCE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_INHERITANCE</h2>
+<h3> Description: Program ZB05_INHERITANCE</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB05_INHERITANCE<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_inheritance.<br />
+<br />
+CLASS lcl_parent DEFINITION.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;constructor&nbsp;IMPORTING&nbsp;iv_name&nbsp;TYPE&nbsp;string.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;introduce_me.<br />
+<br />
+&nbsp;&nbsp;PROTECTED&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;mv_name&nbsp;TYPE&nbsp;string.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_parent IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;constructor.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;mv_name&nbsp;=&nbsp;iv_name.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;introduce_me.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'My&nbsp;name&nbsp;is&nbsp;',&nbsp;mv_name.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_child DEFINITION INHERITING FROM lcl_parent.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;constructor&nbsp;IMPORTING&nbsp;iv_name&nbsp;TYPE&nbsp;string<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_team&nbsp;TYPE&nbsp;string.&nbsp;"부모클래스&nbsp;메소드&nbsp;재정의<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;introduce_me&nbsp;REDEFINITION.&nbsp;&nbsp;"부모클래스&nbsp;메소드&nbsp;재정의<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;mv_team&nbsp;TYPE&nbsp;string.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_child IMPLEMENTATION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;method&nbsp;constructor.<br />
+*<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;super-&gt;constructor&nbsp;&nbsp;&nbsp;"&nbsp;부모&nbsp;클래스의&nbsp;생성자&nbsp;명시<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_name&nbsp;=&nbsp;iv_name.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;super-&gt;constructor(&nbsp;iv_name&nbsp;).<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;me-&gt;mv_team&nbsp;=&nbsp;iv_team.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;내&nbsp;클래스에서의&nbsp;생성자를&nbsp;명시<br />
+*<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+*&nbsp;&nbsp;METHOD&nbsp;introduce_me.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'내&nbsp;이름은',&nbsp;mv_name,&nbsp;'이고,&nbsp;소속은',&nbsp;mv_team,'입니다.'.<br />
+*<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+   </div>
+   <div class="code">
+ENDCLASS.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;lo_parent&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_parent.<br />
+&nbsp;&nbsp;DATA:&nbsp;lo_child&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_child.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_parent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_name&nbsp;=&nbsp;'신형만'.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_child<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_name&nbsp;=&nbsp;'신짱구'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_team&nbsp;=&nbsp;'떡잎마을'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_parent-&gt;introduce_me.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_child-&gt;introduce_me.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B03_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B03_F01</h2>
+<h3> Description: Include ZREXAM3_B03_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B03_F01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;조회&nbsp;조건에&nbsp;맞는&nbsp;데이터&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data .<br />
+&nbsp;&nbsp;SELECT&nbsp;a~mb_id&nbsp;a~mb_nm&nbsp;a~mb_st<br />
+&nbsp;&nbsp;&nbsp;&nbsp;b~book_id&nbsp;b~book_nm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;c~rent_dt&nbsp;c~rplan_dt&nbsp;c~return_st&nbsp;c~return_dt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_book<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;ztmember_b03&nbsp;AS&nbsp;a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztrent_b03&nbsp;AS&nbsp;c<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;a~mb_id&nbsp;EQ&nbsp;c~mb_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztbook_b03&nbsp;AS&nbsp;b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;b~book_id&nbsp;EQ&nbsp;c~book_id<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"SELECTION-SCREEN&nbsp;조건<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;a~mb_id&nbsp;IN&nbsp;so_mbid&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a~mb_st&nbsp;EQ&nbsp;pv_mbst&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c~rent_dt&nbsp;IN&nbsp;so_rplan.<br />
+<br />
+&nbsp;&nbsp;SORT&nbsp;gt_book&nbsp;BY&nbsp;mb_id&nbsp;book_id.&nbsp;"ITAB&nbsp;정렬&nbsp;-&nbsp;회원번호,&nbsp;도서번호<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;make_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;가공&nbsp;및&nbsp;처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM make_data .<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_book&nbsp;INTO&nbsp;gs_book.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"도서&nbsp;대여상태에&nbsp;따라&nbsp;라이트를&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_book-return_st&nbsp;=&nbsp;'A'&nbsp;AND&nbsp;gs_book-rplan_dt&nbsp;&lt;&nbsp;sy-datum.&nbsp;"대여중이면서&nbsp;연체<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_book-light&nbsp;=&nbsp;'1'.&nbsp;&nbsp;&nbsp;&nbsp;"빨간색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_book-return_st_txt&nbsp;=&nbsp;'대여중'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;gs_book-return_st&nbsp;=&nbsp;'A'.&nbsp;"대여중이면서&nbsp;연체가&nbsp;아닐&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_book-light&nbsp;=&nbsp;'2'.&nbsp;&nbsp;&nbsp;&nbsp;"노란색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_book-return_st_txt&nbsp;=&nbsp;'대여중'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.&nbsp;&nbsp;&nbsp;"반납완료<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_book-light&nbsp;=&nbsp;'3'.&nbsp;&nbsp;"초록색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_book-return_st_txt&nbsp;=&nbsp;'반납완료'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_book&nbsp;FROM&nbsp;gs_book<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;light&nbsp;return_st_txt.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_data .<br />
+&nbsp;&nbsp;DATA&nbsp;lv_lin&nbsp;TYPE&nbsp;i.<br />
+&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;gt_book&nbsp;LINES&nbsp;lv_lin.&nbsp;"위의&nbsp;시스템&nbsp;변수를&nbsp;변수로&nbsp;선언.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;gt_book&nbsp;IS&nbsp;NOT&nbsp;INITIAL.&nbsp;"데이터가&nbsp;조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s002&nbsp;WITH&nbsp;sy-tfill.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;100.&nbsp;&nbsp;"ALV&nbsp;스크린&nbsp;조회<br />
+&nbsp;&nbsp;ELSE."데이터가&nbsp;없을&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s012.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;LIST-PROCESSING.&nbsp;"&nbsp;해당&nbsp;화면에&nbsp;고정<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_catalog<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;100번&nbsp;SCREEN&nbsp;ALV&nbsp;필드&nbsp;카탈로그&nbsp;구성<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_catalog .<br />
+&nbsp;&nbsp;DATA&nbsp;ls_fieldcat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'LIGHT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'상태'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'회원번호'.<br />
+&nbsp;&nbsp;ls_fieldcat-key&nbsp;&nbsp;=&nbsp;'X'.&nbsp;"키필드&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.&nbsp;"칼럼&nbsp;길이&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.&nbsp;"왼쪽&nbsp;정렬<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'회원이름'.<br />
+&nbsp;&nbsp;ls_fieldcat-key&nbsp;&nbsp;&nbsp;=&nbsp;'X'.&nbsp;"키필드&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'BOOK_ID'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'도서번호'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'BOOK_NM'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'도서명'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'20'.&nbsp;"필드&nbsp;길이&nbsp;20<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RENT_DT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'대여일'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RPLAN_DT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'반납예정일'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RETURN_ST_TXT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'반납여부'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RETURN_DT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'반납완료일'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_layout<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;100번&nbsp;SCREEN&nbsp;ALV&nbsp;LAYOUT&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout .<br />
+&nbsp;&nbsp;gs_layout-excp_fname&nbsp;=&nbsp;'LIGHT'.&nbsp;"&nbsp;예외사항&nbsp;필드&nbsp;변경<br />
+&nbsp;&nbsp;gs_layout-excp_led&nbsp;=&nbsp;'X'.&nbsp;&nbsp;"상태&nbsp;신호등&nbsp;LED<br />
+&nbsp;&nbsp;gs_layout-sel_mode&nbsp;=&nbsp;'A'.&nbsp;"Selection&nbsp;Mode&nbsp;적용<br />
+&nbsp;&nbsp;gs_layout-zebra&nbsp;=&nbsp;'X'.&nbsp;"zebra&nbsp;설정<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_sort<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;100번&nbsp;SCREEN&nbsp;ALV&nbsp;SORT&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_sort .<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_sort&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;MB_ID를&nbsp;기준으로&nbsp;오름차순&nbsp;정렬<br />
+&nbsp;&nbsp;ls_sort-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;ls_sort-up&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_sort&nbsp;TO&nbsp;gt_sort.<br />
+<br />
+&nbsp;&nbsp;"MB_NM를&nbsp;기준으로&nbsp;오름차순&nbsp;정렬<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_sort.<br />
+&nbsp;&nbsp;ls_sort-fieldname&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;ls_sort-up&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_sort&nbsp;TO&nbsp;gt_sort.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;create_grid<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;CONTAINER&nbsp;OBJECT&nbsp;생성&nbsp;+&nbsp;ALV&nbsp;GRID&nbsp;생성&nbsp;+&nbsp;연결<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM create_grid .<br />
+&nbsp;&nbsp;"컨테이너&nbsp;오브젝트&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_dock<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sy-repid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dynnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sy-dynnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extension&nbsp;=&nbsp;1550.<br />
+<br />
+&nbsp;&nbsp;"ALV&nbsp;GRID&nbsp;오브젝트&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_dock.&nbsp;"ALV&nbsp;GRID&nbsp;참조&nbsp;변수를&nbsp;생성하여&nbsp;컨테이너에&nbsp;연결<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_grid<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;100번&nbsp;SCREEN&nbsp;ALV&nbsp;GRID&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_grid .<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_variant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_variant<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout&nbsp;"레이아웃<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_book&nbsp;"화면&nbsp;출력&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_fieldcat&nbsp;"필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_sort&nbsp;"정렬<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_filter.&nbsp;"필터링<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_data2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data2 .<br />
+&nbsp;&nbsp;"도서&nbsp;대여&nbsp;정보가&nbsp;있는&nbsp;회원만&nbsp;조회<br />
+&nbsp;&nbsp;SELECT&nbsp;a~mb_id&nbsp;a~mb_nm&nbsp;a~telno&nbsp;a~email<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_member<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;ztmember_b03&nbsp;AS&nbsp;a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztrent_b03&nbsp;AS&nbsp;b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;a~mb_id&nbsp;EQ&nbsp;b~mb_id<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"SELECTION-SCREEN&nbsp;조건<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;a~mb_id&nbsp;IN&nbsp;so_mbid.<br />
+<br />
+&nbsp;&nbsp;"정렬&nbsp;후&nbsp;중복&nbsp;제거<br />
+&nbsp;&nbsp;SORT&nbsp;gt_member.<br />
+&nbsp;&nbsp;DELETE&nbsp;ADJACENT&nbsp;DUPLICATES&nbsp;FROM&nbsp;gt_member&nbsp;COMPARING&nbsp;ALL&nbsp;FIELDS&nbsp;.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_data2<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_data2 .<br />
+&nbsp;&nbsp;DATA&nbsp;lv_lin&nbsp;TYPE&nbsp;i.<br />
+&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;gt_member&nbsp;LINES&nbsp;lv_lin.&nbsp;"위의&nbsp;시스템&nbsp;변수를&nbsp;변수로&nbsp;선언.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;gt_member&nbsp;IS&nbsp;NOT&nbsp;INITIAL.&nbsp;"데이터가&nbsp;조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s002&nbsp;WITH&nbsp;sy-tfill.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;110.&nbsp;&nbsp;"ALV&nbsp;스크린&nbsp;조회<br />
+&nbsp;&nbsp;ELSE."데이터가&nbsp;없을&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s013.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;LIST-PROCESSING.&nbsp;"&nbsp;해당&nbsp;화면에&nbsp;고정<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;create_grid_s<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM create_grid_s .<br />
+&nbsp;&nbsp;IF&nbsp;go_custom&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_custom&nbsp;&nbsp;&nbsp;"constructor&nbsp;method&nbsp;가&nbsp;호출&nbsp;(IMPORT,&nbsp;EXCEPTIONS)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name&nbsp;=&nbsp;'MY_CUSTOM'&nbsp;&nbsp;"100&nbsp;스크린에&nbsp;생성한&nbsp;이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_split<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent&nbsp;&nbsp;=&nbsp;go_custom<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columns&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"각&nbsp;분할&nbsp;영역&nbsp;컨테이너에&nbsp;매핑<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_split-&gt;get_container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;column&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;=&nbsp;go_cont1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_split-&gt;get_container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;column&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;=&nbsp;go_cont2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"grid&nbsp;생성<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;&nbsp;=&nbsp;'도서대여&nbsp;회원내역'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;&nbsp;=&nbsp;'대서도여&nbsp;반납처리'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_grid_s<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_grid_s .<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;go_grid1&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid1-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout1&nbsp;&nbsp;&nbsp;&nbsp;"layout&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_member&nbsp;&nbsp;&nbsp;"출력하고자&nbsp;하는&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_fieldcat1&nbsp;"필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_sort.&nbsp;"정렬<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;go_grid2&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid2-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout2&nbsp;&nbsp;&nbsp;&nbsp;"layout&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_rent&nbsp;&nbsp;&nbsp;"출력하고자&nbsp;하는&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_fieldcat2.&nbsp;"필드&nbsp;카탈로그<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_catalog_s<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_catalog_s .<br />
+&nbsp;&nbsp;DATA&nbsp;ls_fieldcat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'회원번호'.<br />
+&nbsp;&nbsp;ls_fieldcat-key&nbsp;&nbsp;=&nbsp;'X'.&nbsp;"키필드&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.&nbsp;"컬럼&nbsp;길이&nbsp;출력<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.&nbsp;"왼쪽&nbsp;정렬<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat1.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'MB_NM'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'회원이름'.<br />
+&nbsp;&nbsp;ls_fieldcat-key&nbsp;&nbsp;&nbsp;=&nbsp;'X'.&nbsp;"키필드&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat1.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'TELNO'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'연락처'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat1.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'EMAIL'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'이메일'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'20'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat1.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_layout_s<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout_s .<br />
+&nbsp;&nbsp;gs_layout1-sel_mode&nbsp;=&nbsp;'A'.&nbsp;"Selection&nbsp;Mode&nbsp;적용<br />
+&nbsp;&nbsp;gs_layout1-zebra&nbsp;=&nbsp;'X'.&nbsp;"zebra&nbsp;설정<br />
+&nbsp;&nbsp;gs_layout1-grid_title&nbsp;=&nbsp;'도서대여&nbsp;회원내역'.<br />
+&nbsp;&nbsp;gs_layout1-smalltitle&nbsp;=&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;gs_layout2-sel_mode&nbsp;=&nbsp;'A'.&nbsp;"Selection&nbsp;Mode&nbsp;적용<br />
+&nbsp;&nbsp;gs_layout2-grid_title&nbsp;=&nbsp;'대여도서&nbsp;반납처리'.<br />
+&nbsp;&nbsp;gs_layout2-ctab_fname&nbsp;=&nbsp;'CELL_COLOR'.&nbsp;"&nbsp;필드&nbsp;셀&nbsp;색상&nbsp;설정<br />
+&nbsp;&nbsp;gs_layout2-smalltitle&nbsp;=&nbsp;'X'.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_sort_s<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_sort_s .<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_sort&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;MB_ID를&nbsp;기준으로&nbsp;오름차순&nbsp;정렬<br />
+&nbsp;&nbsp;ls_sort-fieldname&nbsp;=&nbsp;'MB_ID'.<br />
+&nbsp;&nbsp;ls_sort-up&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_sort&nbsp;TO&nbsp;gt_sort1.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;double_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_ROW<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_COLUMN<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM double_click  USING     e_row TYPE lvc_s_row<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_column&nbsp;TYPE&nbsp;lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;es_row_no&nbsp;TYPE&nbsp;lvc_s_roid.<br />
+&nbsp;&nbsp;DATA:&nbsp;lv_rent&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+<br />
+&nbsp;&nbsp;"사용자가&nbsp;선택한&nbsp;row를&nbsp;index&nbsp;조건으로&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_member&nbsp;INTO&nbsp;gs_member&nbsp;INDEX&nbsp;es_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"하단&nbsp;GRID&nbsp;생성<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;get_data_bot&nbsp;USING&nbsp;gs_member-mb_id.&nbsp;"데이터&nbsp;조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;go_overfee-&gt;get_over_fee(&nbsp;).&nbsp;"연체료&nbsp;계산<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;make_data_bot.&nbsp;"데이터&nbsp;처리&nbsp;및&nbsp;가공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_grid_bot.&nbsp;"하단&nbsp;ALV&nbsp;출력<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s001&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;make_data_bot<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM make_data_bot .<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_rent&nbsp;INTO&nbsp;gs_rent.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_rent-rent_cost&nbsp;&gt;&nbsp;0&nbsp;.&nbsp;"연체료가&nbsp;발생하였을&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-fname&nbsp;=&nbsp;'RENT_COST'.&nbsp;"연체료&nbsp;필드에&nbsp;색상&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-color-col&nbsp;=&nbsp;col_negative.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-color-inv&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol-color-int&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;gs_fieldcol&nbsp;TO&nbsp;gs_rent-cell_color.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_rent&nbsp;FROM&nbsp;gs_rent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;cell_color.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_data_bot<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GS_MEMBER_MB_ID<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data_bot  USING    ps_mb_id.<br />
+&nbsp;&nbsp;SELECT&nbsp;a~book_id&nbsp;a~rent_dt&nbsp;a~rplan_dt&nbsp;b~book_nm&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_rent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;ztrent_b03&nbsp;AS&nbsp;a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;ztbook_b03&nbsp;AS&nbsp;b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;a~book_id&nbsp;EQ&nbsp;b~book_id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;a~mb_id&nbsp;EQ&nbsp;ps_mb_id&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a~return_st&nbsp;&lt;&gt;&nbsp;'B'.&nbsp;"반납완료가&nbsp;아닌&nbsp;경우&nbsp;-&nbsp;연체,&nbsp;대여&nbsp;중인&nbsp;도서&nbsp;조회<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_grid_bot<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_grid_bot .<br />
+&nbsp;&nbsp;IF&nbsp;&nbsp;go_grid2&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid2-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;i_structure_name&nbsp;=&nbsp;'SBOOK'&nbsp;&nbsp;&nbsp;&nbsp;"출력&nbsp;데이터의&nbsp;구조&nbsp;(필드&nbsp;카탈로그&nbsp;딕셔너리로&nbsp;정의)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout2&nbsp;&nbsp;&nbsp;&nbsp;"layout&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_rent&nbsp;&nbsp;&nbsp;"출력하고자&nbsp;하는&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;=&nbsp;gt_fieldcat2.&nbsp;"필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_catalog_bot<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_catalog_bot .<br />
+&nbsp;&nbsp;DATA&nbsp;ls_fieldcat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;gt_fieldcat2.<br />
+<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'BOOK_ID'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'도서번호'.<br />
+&nbsp;&nbsp;ls_fieldcat-key&nbsp;&nbsp;=&nbsp;'X'.&nbsp;"키필드&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'20'.&nbsp;"컬럼&nbsp;길이&nbsp;출력<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.&nbsp;"왼쪽&nbsp;정렬<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'BOOK_NM'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'도서명'.<br />
+&nbsp;&nbsp;ls_fieldcat-key&nbsp;&nbsp;&nbsp;=&nbsp;'X'.&nbsp;"키필드&nbsp;설정<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'20'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RENT_DT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'대여일'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RPLAN_DT'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'반납예정일'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'10'.<br />
+&nbsp;&nbsp;ls_fieldcat-just&nbsp;=&nbsp;'L'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'RENT_COST'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'연쳬료'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'15'.<br />
+&nbsp;&nbsp;ls_fieldcat-do_sum&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat2.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_fieldcat.<br />
+&nbsp;&nbsp;ls_fieldcat-fieldname&nbsp;=&nbsp;'CURR'.<br />
+&nbsp;&nbsp;ls_fieldcat-coltext&nbsp;=&nbsp;'통화'.<br />
+&nbsp;&nbsp;ls_fieldcat-outputlen&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'5'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_fieldcat&nbsp;TO&nbsp;gt_fieldcat2.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_over_fee<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;연체료&nbsp;계산<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_over_fee .<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;DATA:&nbsp;lv_cost&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_rent&nbsp;INTO&nbsp;gs_rent.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;연체료&nbsp;계산&nbsp;-&nbsp;현재날짜로부터&nbsp;반납&nbsp;예정일이&nbsp;지났을&nbsp;경우<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_rent-rplan_dt&nbsp;&lt;&nbsp;sy-datum.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;지난&nbsp;일자로부터&nbsp;300원씩&nbsp;추가<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_cost&nbsp;=&nbsp;&nbsp;(&nbsp;sy-datum&nbsp;-&nbsp;gs_rent-rplan_dt&nbsp;)&nbsp;*&nbsp;300.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-rent_cost&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-rent_cost&nbsp;=&nbsp;lv_cost.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;gs_rent-curr&nbsp;=&nbsp;'KRW'.&nbsp;"금액단위&nbsp;설정<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_rent&nbsp;FROM&nbsp;gs_rent.<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+   </div>
+   <div class="code">
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_handler<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;이벤트&nbsp;핸들러&nbsp;생성&nbsp;및&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_handler .<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_handler.<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER:&nbsp;go_handler-&gt;handle_double_click&nbsp;&nbsp;FOR&nbsp;go_grid1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_toolbar&nbsp;FOR&nbsp;go_grid2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_user_command&nbsp;FOR&nbsp;go_grid2.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;toolbar<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;TOOLBAR&nbsp;이벤트<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_OBJECT<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_INTERACTIVE<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM toolbar  USING   e_object TYPE REF TO cl_alv_event_toolbar_set<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_interactive&nbsp;TYPE&nbsp;char01.<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_toolbar&nbsp;TYPE&nbsp;stb_button.<br />
+<br />
+&nbsp;&nbsp;"구분선&nbsp;추가<br />
+&nbsp;&nbsp;ls_toolbar-butn_type&nbsp;=&nbsp;3.<br />
+&nbsp;&nbsp;INSERT&nbsp;ls_toolbar&nbsp;INTO&nbsp;TABLE&nbsp;e_object-&gt;mt_toolbar.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;반납처리&nbsp;툴바&nbsp;구현<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_toolbar.<br />
+&nbsp;&nbsp;ls_toolbar-function&nbsp;=&nbsp;'RETURN'.<br />
+&nbsp;&nbsp;ls_toolbar-icon&nbsp;=&nbsp;icon_viewer_optical_archive.<br />
+&nbsp;&nbsp;ls_toolbar-quickinfo&nbsp;=&nbsp;'대여도서&nbsp;반납처리'.<br />
+&nbsp;&nbsp;ls_toolbar-text&nbsp;=&nbsp;'반납처리'.<br />
+&nbsp;&nbsp;APPEND&nbsp;ls_toolbar&nbsp;TO&nbsp;e_object-&gt;mt_toolbar.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;user_command<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_UCOMM<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GV_ROWID<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM user_command  USING    p_e_ucomm TYPE sy-ucomm.<br />
+&nbsp;&nbsp;CASE&nbsp;p_e_ucomm.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'RETURN'.&nbsp;"대서도여&nbsp;반납처리<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;return_rent.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;return_rent<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM return_rent.<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_rent&nbsp;&nbsp;LIKE&nbsp;ztrent_b03,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_index&nbsp;TYPE&nbsp;lvc_t_row,&nbsp;"ALV&nbsp;선택라인&nbsp;저장&nbsp;테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_index&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_index,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gd_lines&nbsp;TYPE&nbsp;i.&nbsp;"선택한&nbsp;라인수<br />
+<br />
+&nbsp;&nbsp;"선택&nbsp;라인&nbsp;수&nbsp;확인<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid2-&gt;get_selected_rows<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_index_rows&nbsp;=&nbsp;gt_index.<br />
+<br />
+&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;gt_index&nbsp;LINES&nbsp;gd_lines.&nbsp;"선택&nbsp;라인&nbsp;수&nbsp;저장<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;gt_index&nbsp;IS&nbsp;INITIAL.&nbsp;"행을&nbsp;선택하지&nbsp;않았을&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i014.<br />
+&nbsp;&nbsp;ELSEIF&nbsp;gd_lines&nbsp;&gt;&nbsp;1.&nbsp;"다건&nbsp;선택&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i015.<br />
+&nbsp;&nbsp;ELSE.&nbsp;&nbsp;&nbsp;"한&nbsp;건만&nbsp;선택한&nbsp;경우,&nbsp;반납&nbsp;처리&nbsp;진행<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'POPUP_TO_CONFIRM'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titlebar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'반납처리확인'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_question&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'해당&nbsp;대여건을&nbsp;반납&nbsp;처리하시겠습니까?'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_button_1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'네'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text_button_2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'아니요'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_cancel_button&nbsp;=&nbsp;''&nbsp;"취소버튼&nbsp;생성&nbsp;X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;answer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_answer.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lv_answer&nbsp;=&nbsp;1.&nbsp;"네&nbsp;버튼&nbsp;클릭&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_index&nbsp;INTO&nbsp;gs_index.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"대여&nbsp;테이블에서&nbsp;현재&nbsp;선택한&nbsp;행을&nbsp;index로&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_rent&nbsp;INTO&nbsp;gs_rent&nbsp;INDEX&nbsp;gs_index-index.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-mb_id&nbsp;=&nbsp;gs_member-mb_id.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-book_id&nbsp;=&nbsp;gs_rent-book_id.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-rent_dt&nbsp;=&nbsp;gs_rent-rent_dt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-rplan_dt&nbsp;=&nbsp;gs_rent-rplan_dt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-return_dt&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-return_st&nbsp;=&nbsp;'B'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-changed_by&nbsp;=&nbsp;sy-uname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-changed_on&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rent-changed_time&nbsp;=&nbsp;sy-uzeit.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UPDATE&nbsp;ztrent_b03&nbsp;FROM&nbsp;ls_rent.&nbsp;"데이터베이스&nbsp;수정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE&nbsp;gt_rent&nbsp;INDEX&nbsp;gs_index-index.&nbsp;"인터널&nbsp;테이블에서&nbsp;삭제<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;=&nbsp;0.&nbsp;"데이터베이스&nbsp;정보&nbsp;업데이트&nbsp;성공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i017.&nbsp;"반납처리&nbsp;메세지<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;refresh.&nbsp;"GRID&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i018.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.&nbsp;"아니요&nbsp;버튼&nbsp;클릭&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i016.&nbsp;"반납처리&nbsp;취소&nbsp;메세지<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;REFRESH<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;110&nbsp;SCREEN&nbsp;ALV&nbsp;GRID&nbsp;하단&nbsp;스크린&nbsp;초기화<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM refresh .<br />
+&nbsp;&nbsp;DATA:&nbsp;l_scroll&nbsp;TYPE&nbsp;lvc_s_stbl.<br />
+&nbsp;&nbsp;"선택한&nbsp;행/렬&nbsp;초기화<br />
+&nbsp;&nbsp;l_scroll-row&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;l_scroll-col&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid2-&gt;refresh_table_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_stable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;l_scroll<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_soft_refresh&nbsp;=&nbsp;'&nbsp;'.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

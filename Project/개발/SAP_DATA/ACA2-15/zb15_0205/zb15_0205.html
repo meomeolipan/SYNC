@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_0205</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_0205</h2>
+<h3> Description: Program ZB15_0205</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_0205<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_0205.<br />
+<br />
+" scarr와 같게<br />
+" 1. dictionary object 활용 (table, structure)<br />
+" Z+S/T + module 2자리 + XXX<br />
+" TYPE (Global)<br />
+DATA: gs_scarr_a TYPE scarr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr_b&nbsp;TYPE&nbsp;zsscarr_b15.<br />
+<br />
+<br />
+" TYPES 선언 후 structure 변수 선언<br />
+" TYPE (Local)<br />
+" TYPES: ty_scarr TYPE scarr OR zsscarr_b15<br />
+" begin of - 단) 코드가 김 , 장) 프로그램 내 유지보수 편함<br />
+" mandt는 table에만 있는 field<br />
+<br />
+TYPES: BEGIN OF ty_scarr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-url,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_scarr.<br />
+DATA gs_scarr_c TYPE ty_scarr.<br />
+<br />
+<br />
+" local Structure 생성<br />
+DATA: BEGIN OF gs_scarr_d,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_carr_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;s_carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;s_currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;s_carrurl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_scarr_d.<br />
+<br />
+<br />
+" structure 구조에 간단한 데이터 입력 실습<br />
+gs_scarr_a-carrid ='HY'.<br />
+gs_scarr_a-carrname = 'Hyun Soo'.<br />
+gs_scarr_a-currcode = 'KRW'.<br />
+gs_scarr_a-url = 'https://hyunsoo.com'.<br />
+<br />
+gs_scarr_b-carrid = gs_scarr_a-carrid.<br />
+gs_scarr_b-carrname = gs_scarr_a-carrname.<br />
+gs_scarr_b-currcode = gs_scarr_a-currcode.<br />
+gs_scarr_b-url = gs_scarr_a-url.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Move&nbsp;a&nbsp;to&nbsp;b&nbsp;:&nbsp;한&nbsp;필드에&nbsp;각각<br />
+*&nbsp;=&nbsp;대입과&nbsp;순서&nbsp;반대<br />
+*MOVE&nbsp;'aa'&nbsp;TO&nbsp;gs_scarr_a-carrid.<br />
+*MOVE&nbsp;'a&nbsp;airline'&nbsp;TO&nbsp;gs_scarr_a-carrname.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+" Move-corresponding A to B : structure 별(이름-필드명이 같은것만)<br />
+" 같은 타입이면 길이 달라도 assign.. 이름 같은게 가장 중요<br />
+MOVE-CORRESPONDING gs_scarr_b TO gs_scarr_c.<br />
+MOVE-CORRESPONDING gs_scarr_b TO gs_scarr_d.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WRITE:&nbsp;/&nbsp;gs_scarr_a-carrid,&nbsp;gs_scarr_a-carrname,gs_scarr_a-currcode,&nbsp;gs_scarr_a-url,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr_d-carrid,&nbsp;gs_scarr_d-carrname,gs_scarr_d-currcode,&nbsp;gs_scarr_d-url.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+"internal table에 값 입력 후 출력<br />
+<br />
+DATA: gt_scarr type table of scarr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr&nbsp;type&nbsp;scarr.<br />
+<br />
+gs_scarr-carrid = 'LO'.<br />
+gs_scarr-carrname = 'VE'.<br />
+gs_scarr-currcode = 'LUV'.<br />
+gs_scarr-url = 'https://love.com'.<br />
+<br />
+insert gs_scarr into table gt_scarr.<br />
+clear gs_scarr.<br />
+<br />
+gs_scarr-carrid = 'IH'.<br />
+gs_scarr-carrname = 'I am Hungry'.<br />
+gs_scarr-currcode = 'IAH'.<br />
+gs_scarr-url = 'https://gototherestaurant.com'.<br />
+<br />
+insert gs_scarr into table gt_scarr.<br />
+clear gs_scarr.<br />
+<br />
+LOOP AT gt_scarr INTO gs_scarr.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;gs_scarr-carrid,&nbsp;gs_scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr-currcode,&nbsp;gs_scarr-url.<br />
+ENDLOOP.<br />
+BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

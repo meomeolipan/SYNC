@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB03_0202</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB03_0202</h2>
+<h3> Description: Structure + Internal Tab.</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB03_0202<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb03_0202.<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;Structure&nbsp;변수&nbsp;선언&nbsp;&nbsp;&nbsp;***<br />
+**&nbsp;Dictionary에&nbsp;있는&nbsp;Structure&nbsp;타입을&nbsp;통해&nbsp;선언&nbsp;**<br />
+   </div>
+   <div class="code">
+DATA gs_flight TYPE bc400_s_flight.<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;Local&nbsp;type을&nbsp;선언하고&nbsp;그&nbsp;타입을&nbsp;통해&nbsp;strucutre&nbsp;변수&nbsp;선언&nbsp;**<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF ts_flightinfo, " 구조체 타입 선언<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;bc400_s_flight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;TYPE&nbsp;bc400_s_flight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;TYPE&nbsp;bc400_s_flight-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ts_flightinfo.<br />
+DATA gs_flightinfo TYPE ts_flightinfo." 구조체 변수 선언<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;Internal&nbsp;table&nbsp;선언&nbsp;***<br />
+**&nbsp;기&nbsp;선언된&nbsp;local&nbsp;type을&nbsp;활용하여&nbsp;internal&nbsp;table,&nbsp;work&nbsp;area&nbsp;선언&nbsp;*<br />
+   </div>
+   <div class="code">
+DATA gs_fligths TYPE TABLE OF ts_flightinfo. "구조체 타입 참조 테이블<br />
+DATA gt_flights_1 LIKE TABLE OF gs_flightinfo. "구조체 변수 참조 테이블<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Dictonary에&nbsp;있는&nbsp;Object&nbsp;활용하여&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: gt_flights_2 TYPE TABLE OF scarr. "table<br />
+DATA: gs_name2 LIKE LINE OF gt_flights_2. "work area<br />
+<br />
+DATA: gs_name TYPE zname_b03. "structure<br />
+DATA: gt_sphone_number TYPE zit_phone_numberb00. "table type<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Strucutre(=work&nbsp;area)를&nbsp;구성하고&nbsp;internal&nbsp;table&nbsp;선언하기<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF ts_type,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;TYPE&nbsp;sflight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;TYPE&nbsp;sflight-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ts_type.<br />
+DATA: gt_flights_3 LIKE TABLE OF ts_type.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;with&nbsp;header&nbsp;line&nbsp;형식으로&nbsp;internal&nbsp;table&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: gt_flights_4 TYPE TABLE OF scarr WITH HEADER LINE.<br />
+<br />
+BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

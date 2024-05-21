@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB03_0205</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB03_0205</h2>
+<h3> Description: Strucutre 변수들 선언</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB03_0205<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb03_0205.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------<br />
+*&nbsp;SCARR&nbsp;테이블&nbsp;형식과&nbsp;동일<br />
+*--------------------------------------------------<br />
+<br />
+*--&nbsp;TYPE&nbsp;(Global)<br />
+*&nbsp;1&nbsp;Dictionary에&nbsp;있는&nbsp;type으로&nbsp;Structured&nbsp;type&nbsp;변수&nbsp;선언&nbsp;-&nbsp;type&nbsp;키워드를&nbsp;이용하여&nbsp;가져옴!<br />
+   </div>
+   <div class="code">
+" 1) TABLE(SCARR)<br />
+DATA gs_scarr_a TYPE scarr.<br />
+   </div>
+   <div class="codeComment">
+*TYPES&nbsp;ty_table&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;scarr.<br />
+*DATA&nbsp;gs_scarr_a&nbsp;TYPE&nbsp;LINE&nbsp;OF&nbsp;ty_table.<br />
+<br />
+   </div>
+   <div class="code">
+" 2) STRUCTURE 생성(SCARR 테이블과 동일) Z+S/T+module2자리+xxx(x)<br />
+DATA gs_scarr_b TYPE zsscarr_b03.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;TYPE&nbsp;(Local)<br />
+*&nbsp;2&nbsp;TYPES&nbsp;선언으로&nbsp;Structured&nbsp;type&nbsp;변수&nbsp;선언<br />
+   </div>
+   <div class="code">
+TYPES ty_scarr_c TYPE scarr. "= TYPES ty_scarr_c TYPE zsscarr_b03.<br />
+DATA gs_scarr_c TYPE ty_scarr_c.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;3&nbsp;Begin&nbsp;of&nbsp;~&nbsp;활용해서&nbsp;직접&nbsp;loccal하게&nbsp;Structured&nbsp;type&nbsp;변수&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_scarr_d,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-url,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_scarr_d.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;Internal&nbsp;Table,&nbsp;Work&nbsp;Area&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA gs_scarr TYPE zsscarr_b03.<br />
+DATA gt_scarr LIKE TABLE OF gs_scarr.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;값&nbsp;할당&nbsp;및&nbsp;저장<br />
+   </div>
+   <div class="code">
+gs_scarr-carrid = '111'.<br />
+gs_scarr-carrname = 'Air Berlin'.<br />
+gs_scarr-currcode = 'USD'.<br />
+gs_scarr-url = 'http://www.ab.com'.<br />
+INSERT gs_scarr INTO TABLE gt_scarr.<br />
+CLEAR gs_scarr.<br />
+<br />
+gs_scarr-carrid = '112'.<br />
+gs_scarr-carrname = 'American Airline'.<br />
+gs_scarr-currcode = 'EUR'.<br />
+gs_scarr-url = 'http://www.airberlin.de'.<br />
+INSERT gs_scarr INTO TABLE gt_scarr.<br />
+CLEAR gs_scarr.<br />
+<br />
+gs_scarr-carrid = '113'.<br />
+gs_scarr-carrname = 'Air Canada'.<br />
+gs_scarr-currcode = 'CAD'.<br />
+gs_scarr-url = 'http://www.aircanada.ca'.<br />
+INSERT gs_scarr INTO TABLE gt_scarr.<br />
+CLEAR gs_scarr.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;데이터&nbsp;출력<br />
+   </div>
+   <div class="code">
+LOOP AT gt_scarr INTO gs_scarr.<br />
+&nbsp;&nbsp;WRITE:/&nbsp;gs_scarr.<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

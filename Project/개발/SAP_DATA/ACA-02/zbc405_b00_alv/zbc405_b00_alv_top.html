@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B00_ALV_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B00_ALV_TOP</h2>
+<h3> Description: Include ZBC405_B00_ALV_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;ZBC405_B00_ALV_TOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Report&nbsp;ZBC405_B00_ALV<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+"______<br />
+" ABAP<br />
+TABLES : sflight.<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;sflight&nbsp;TYPE&nbsp;sflight.<br />
+<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF ty_sflight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;sflight.<br />
+TYPES :   light,                             "Exception<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color(4),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"row&nbsp;color<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_col&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_scol,&nbsp;&nbsp;"cell&nbsp;color<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changes_possible&nbsp;TYPE&nbsp;icon-id,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"icon<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"버튼<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_bookings&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;10,&nbsp;"field&nbsp;that&nbsp;can&nbsp;be&nbsp;display&nbsp;as&nbsp;pushbutton<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_cell_style&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_styl,&nbsp;&nbsp;"button&nbsp;on&nbsp;grid<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hyper&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;int4,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_hype-href,<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_sflight.<br />
+<br />
+" screen 100 main data<br />
+DATA : gs_sflight TYPE ty_sflight, "sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sflight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_sflight.<br />
+<br />
+" dialog add info<br />
+DATA : gt_bookings TYPE TABLE OF sbook.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;lv_occupied&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_capacity&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_percentage&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;8&nbsp;DECIMALS&nbsp;1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;string.&nbsp;"메세지용<br />
+<br />
+   </div>
+   <div class="code">
+" submit<br />
+   </div>
+   <div class="codeComment">
+*DATA:&nbsp;gt_sflight&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;sflight,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;&nbsp;gt_sflight.<br />
+   </div>
+   <div class="code">
+"_______<br />
+" SCREEN<br />
+DATA : ok_code TYPE sy-ucomm.<br />
+<br />
+" main data<br />
+DATA : go_grid TYPE REF TO cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container.<br />
+<br />
+" dialog data<br />
+DATA: go_dialogbox   TYPE REF TO cl_gui_dialogbox_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_booking&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+<br />
+CLASS : lcl_event_handler DEFINITION DEFERRED.<br />
+DATA : go_handler TYPE REF TO lcl_event_handler.   "local class 참조변수<br />
+<br />
+DATA : gs_variant  TYPE disvariant,   "메소드 전달 매개변수용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant1&nbsp;TYPE&nbsp;disvariant,&nbsp;&nbsp;"F4선택용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save.<br />
+<br />
+DATA : gs_color TYPE lvc_s_scol.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;=&nbsp;DATA&nbsp;:&nbsp;gs_color&nbsp;TYPE&nbsp;LINE&nbsp;OF&nbsp;lvc_t_scol.<br />
+*&nbsp;=&nbsp;DATA&nbsp;:&nbsp;gs_color&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;ty_sflight-it_col.<br />
+<br />
+   </div>
+   <div class="code">
+DATA : gs_cell_style TYPE lvc_s_styl.<br />
+<br />
+DATA : gs_layout TYPE lvc_s_layo.<br />
+<br />
+DATA : gs_print TYPE lvc_s_prnt.<br />
+<br />
+DATA : gt_excluded TYPE ui_functions.   "툴바 제외<br />
+<br />
+DATA : gs_sort TYPE lvc_s_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;TYPE&nbsp;lvc_t_sort.<br />
+<br />
+DATA : gs_filt TYPE lvc_s_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt&nbsp;TYPE&nbsp;lvc_t_filt.<br />
+<br />
+DATA : gs_fcat TYPE lvc_s_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat&nbsp;TYPE&nbsp;lvc_t_fcat.<br />
+<br />
+DATA : gs_hyper TYPE lvc_s_hype,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_hyper&nbsp;TYPE&nbsp;lvc_t_hype.<br />
+<br />
+DATA : gv_hyper TYPE lvc_s_hype-href.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SELECTION-SCREEN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-t01.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;:&nbsp;so_carr&nbsp;FOR&nbsp;gs_sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_conn&nbsp;FOR&nbsp;sflight-connid.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+PARAMETERS : pa_var TYPE disvariant-variant.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_27_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_27_TOP</h2>
+<h3> Description: Include ZBC405_B00_ALV_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;ZCA_27_TOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Report&nbsp;ZBC405_B00_ALV<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+"______<br />
+" ABAP<br />
+TABLES : SFLIGHT.<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;sflight&nbsp;TYPE&nbsp;sflight.<br />
+<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF TY_SFLIGHT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;SFLIGHT.<br />
+TYPES :   LIGHT,                             "Exception<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COLOR(4),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"row&nbsp;color<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_COL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_SCOL,&nbsp;&nbsp;"cell&nbsp;color<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGES_POSSIBLE&nbsp;TYPE&nbsp;ICON-ID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"icon<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"버튼<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_BOOKINGS&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;20,&nbsp;"field&nbsp;that&nbsp;can&nbsp;be&nbsp;display&nbsp;as&nbsp;pushbutton<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_CELL_STYLE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_STYL,&nbsp;&nbsp;"button&nbsp;on&nbsp;grid<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hyper&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;int4,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_hype-href,<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;TY_SFLIGHT.<br />
+<br />
+" screen 100 main data<br />
+DATA : GS_SFLIGHT TYPE TY_SFLIGHT, "sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SFLIGHT&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_SFLIGHT.<br />
+<br />
+" dialog add info<br />
+DATA: GT_BOOKINGS TYPE TABLE OF SBOOK.<br />
+<br />
+DATA: LV_OCCUPIED   TYPE I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_CAPACITY&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PERCENTAGE&nbsp;TYPE&nbsp;P&nbsp;LENGTH&nbsp;8&nbsp;DECIMALS&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_TEXT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STRING.&nbsp;"메세지용<br />
+<br />
+"_______<br />
+" SCREEN<br />
+DATA : OK_CODE TYPE SY-UCOMM.<br />
+<br />
+" main data<br />
+DATA : GO_GRID TYPE REF TO CL_GUI_ALV_GRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_CONT&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_CUSTOM_CONTAINER.<br />
+<br />
+" dialog data<br />
+DATA: GO_DIALOGBOX   TYPE REF TO CL_GUI_DIALOGBOX_CONTAINER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV_BOOKING&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.<br />
+<br />
+CLASS : LCL_EVENT_HANDLER DEFINITION DEFERRED.<br />
+DATA : GO_HANDLER TYPE REF TO LCL_EVENT_HANDLER.   "local class 참조변수<br />
+<br />
+DATA : GS_VARIANT  TYPE DISVARIANT,   "메소드 전달 매개변수용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_VARIANT1&nbsp;TYPE&nbsp;DISVARIANT,&nbsp;&nbsp;"F4선택용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_SAVE.<br />
+<br />
+DATA : GS_COLOR TYPE LVC_S_SCOL.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;=&nbsp;DATA&nbsp;:&nbsp;gs_color&nbsp;TYPE&nbsp;LINE&nbsp;OF&nbsp;lvc_t_scol.<br />
+*&nbsp;=&nbsp;DATA&nbsp;:&nbsp;gs_color&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;ty_sflight-it_col.<br />
+<br />
+   </div>
+   <div class="code">
+DATA : GS_CELL_STYLE TYPE LVC_S_STYL.<br />
+<br />
+DATA : GS_LAYOUT TYPE LVC_S_LAYO.<br />
+<br />
+DATA : GS_PRINT TYPE LVC_S_PRNT.<br />
+<br />
+DATA : GT_EXCLUDED TYPE UI_FUNCTIONS.   "툴바 제외<br />
+<br />
+DATA : GS_SORT TYPE LVC_S_SORT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SORT&nbsp;TYPE&nbsp;LVC_T_SORT.<br />
+<br />
+DATA : GS_FILT TYPE LVC_S_FILT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_FILT&nbsp;TYPE&nbsp;LVC_T_FILT.<br />
+<br />
+DATA : GS_FCAT TYPE LVC_S_FCAT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_FCAT&nbsp;TYPE&nbsp;LVC_T_FCAT.<br />
+<br />
+DATA : GS_HYPER TYPE LVC_S_HYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_HYPER&nbsp;TYPE&nbsp;LVC_T_HYPE.<br />
+<br />
+DATA : GV_HYPER TYPE LVC_S_HYPE-HREF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SELECTION-SCREEN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK B1 WITH FRAME TITLE TEXT-T01.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;:&nbsp;SO_CARR&nbsp;FOR&nbsp;GS_SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CONN&nbsp;FOR&nbsp;SFLIGHT-CONNID.<br />
+SELECTION-SCREEN END OF BLOCK B1.<br />
+<br />
+PARAMETERS : PA_VAR TYPE DISVARIANT-VARIANT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

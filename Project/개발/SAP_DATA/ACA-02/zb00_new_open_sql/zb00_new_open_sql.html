@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_NEW_OPEN_SQL</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_NEW_OPEN_SQL</h2>
+<h3> Description: NEW_OPEN_SQL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_NEW_OPEN_SQL<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;1.&nbsp;SAP&nbsp;NETWAVER&nbsp;7.40&nbsp;SP5&nbsp;부터&nbsp;NEW&nbsp;OPEN&nbsp;SQL&nbsp;을&nbsp;사용할&nbsp;수&nbsp;있다.<br />
+*&&nbsp;2.&nbsp;CODE&nbsp;PUSHDOWN&nbsp;(Calculations&nbsp;into&nbsp;DB)&nbsp;방식<br />
+*&&nbsp;3.&nbsp;사칙연산,&nbsp;조건식,&nbsp;문자열연결,&nbsp;형변환&nbsp;도&nbsp;SELECT문에서&nbsp;처리가능<br />
+*&&nbsp;4.&nbsp;RIGHT&nbsp;OUTER&nbsp;JOIN&nbsp;지원,&nbsp;JOIN&nbsp;테이블&nbsp;및&nbsp;SUBQUERY&nbsp;최대&nbsp;50개<br />
+*&&nbsp;5.&nbsp;JOIN&nbsp;문&nbsp;ON기능&nbsp;확장&nbsp;(BETWEEN,&nbsp;&lt;,&nbsp;&gt;)&nbsp;기능추가<br />
+*&---------------------------------------------------------------------*<br />
+*CODE&nbsp;PUSHDOWN&nbsp;(Calculations&nbsp;into&nbsp;DB)<br />
+*&nbsp;1.&nbsp;OPEN&nbsp;SQL&nbsp;=&gt;&nbsp;AS&nbsp;ABAP=&gt;&nbsp;DB&nbsp;=&gt;&nbsp;CALCULATION&nbsp;AS&nbsp;ABAP<br />
+*&nbsp;2.&nbsp;NEW&nbsp;OPEN&nbsp;SQL&nbsp;=&gt;&nbsp;AS&nbsp;ABAP&nbsp;=&gt;&nbsp;CALCULATION&nbsp;DB&nbsp;=&gt;&nbsp;AS&nbsp;ABAP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+REPORT zb00_new_open_sql.<br />
+<br />
+" 1) 구조체 변수<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;ls_scarr1&nbsp;TYPE&nbsp;scarr.<br />
+<br />
+*ls_scarr1&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;carrname&nbsp;=&nbsp;'American&nbsp;airline'&nbsp;).&nbsp;"VALUE&nbsp;는&nbsp;초기화&nbsp;성격<br />
+*cl_demo_output=&gt;display(&nbsp;ls_scarr1&nbsp;).<br />
+<br />
+*DATA(ls_scarr2)&nbsp;=&nbsp;VALUE&nbsp;scarr(&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;carrname&nbsp;=&nbsp;'American&nbsp;airline'&nbsp;).&nbsp;"ctrl+space<br />
+<br />
+*cl_demo_output=&gt;display(&nbsp;ls_scarr2&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+" 2)<br />
+<br />
+   </div>
+   <div class="codeComment">
+*ls_scarr1&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;carrname&nbsp;=&nbsp;'American&nbsp;airline'&nbsp;).<br />
+*ls_scarr1&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;carrid&nbsp;=&nbsp;'UA'&nbsp;).<br />
+<br />
+*cl_demo_output=&gt;display(&nbsp;ls_scarr1&nbsp;).<br />
+<br />
+*ls_scarr1&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;&nbsp;).&nbsp;&nbsp;"사실상&nbsp;clear<br />
+*<br />
+*cl_demo_output=&gt;display(&nbsp;ls_scarr1&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+" 3) 인터널 테이블<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;lt_scarr&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;scarr.<br />
+*lt_scarr&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;(&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;carrname&nbsp;=&nbsp;'American&nbsp;airline'&nbsp;)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;carrid&nbsp;=&nbsp;'UA'&nbsp;carrname&nbsp;=&nbsp;'United&nbsp;airline'&nbsp;)&nbsp;).<br />
+*<br />
+*cl_demo_output=&gt;display(&nbsp;lt_scarr&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+" 4) deep structure 입력<br />
+   </div>
+   <div class="codeComment">
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;ty_scarr.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;scarr.<br />
+*TYPES&nbsp;:&nbsp;&nbsp;&nbsp;style&nbsp;TYPE&nbsp;lvc_t_styl,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_scarr.<br />
+*<br />
+*TYPES&nbsp;:&nbsp;tt_scarr&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;ty_scarr&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;carrid.<br />
+*<br />
+*DATA(gt_scarr)&nbsp;=&nbsp;VALUE&nbsp;tt_scarr(<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;carrname&nbsp;=&nbsp;'American&nbsp;airline'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;(&nbsp;fieldname&nbsp;=&nbsp;'CARRID'&nbsp;style&nbsp;=&nbsp;cl_gui_alv_grid=&gt;mc_style_disabled&nbsp;)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;fieldname&nbsp;=&nbsp;'CARRNAME'&nbsp;style&nbsp;=&nbsp;cl_gui_alv_grid=&gt;mc_style_enabled&nbsp;)&nbsp;)&nbsp;)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;carrid&nbsp;=&nbsp;'UA'&nbsp;carrname&nbsp;=&nbsp;'United&nbsp;airline'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style&nbsp;=&nbsp;VALUE&nbsp;#(&nbsp;(&nbsp;fieldname&nbsp;=&nbsp;'CARRID'&nbsp;style&nbsp;=&nbsp;cl_gui_alv_grid=&gt;mc_style_disabled&nbsp;)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;fieldname&nbsp;=&nbsp;'CARRNAME'&nbsp;style&nbsp;=&nbsp;cl_gui_alv_grid=&gt;mc_style_enabled&nbsp;)&nbsp;)&nbsp;)<br />
+*).<br />
+*<br />
+*LOOP&nbsp;AT&nbsp;gt_scarr&nbsp;INTO&nbsp;DATA(ls_scarr).<br />
+*<br />
+*<br />
+*ENDLOOP.<br />
+<br />
+   </div>
+   <div class="code">
+" 5) Corresponding<br />
+   </div>
+   <div class="codeComment">
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;ty_01,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f01,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f02(2),<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_01.<br />
+*<br />
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;ty_02.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;ty_01.<br />
+*TYPES&nbsp;:&nbsp;&nbsp;&nbsp;f03&nbsp;TYPE&nbsp;char3,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f04&nbsp;TYPE&nbsp;char4,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_02.<br />
+*<br />
+*DATA(ls_list1)&nbsp;=&nbsp;VALUE&nbsp;ty_01(&nbsp;f01&nbsp;=&nbsp;'A'&nbsp;f02&nbsp;=&nbsp;'AB'&nbsp;).<br />
+*DATA&nbsp;ls_list2&nbsp;TYPE&nbsp;ty_02.<br />
+*<br />
+*ls_list2-f03&nbsp;=&nbsp;'ABC'.<br />
+*ls_list2-f04&nbsp;=&nbsp;'ABCD'.<br />
+*<br />
+*ls_list2&nbsp;=&nbsp;CORRESPONDING&nbsp;#(&nbsp;ls_list1&nbsp;).<br />
+*<br />
+*cl_demo_output=&gt;display(&nbsp;ls_list2&nbsp;).<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+" 6) Corresponding + BASE<br />
+<br />
+   </div>
+   <div class="codeComment">
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;ty_01,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f01,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f02(2),<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_01.<br />
+*<br />
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;ty_02.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;ty_01.<br />
+*TYPES&nbsp;:&nbsp;&nbsp;&nbsp;f03&nbsp;TYPE&nbsp;char3,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f04&nbsp;TYPE&nbsp;char4,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_02.<br />
+*<br />
+*DATA(ls_list1)&nbsp;=&nbsp;VALUE&nbsp;ty_01(&nbsp;f01&nbsp;=&nbsp;'A'&nbsp;f02&nbsp;=&nbsp;'AB'&nbsp;).<br />
+*DATA&nbsp;ls_list2&nbsp;TYPE&nbsp;ty_02.<br />
+*<br />
+*ls_list2-f01&nbsp;=&nbsp;'Z'.<br />
+*ls_list2-f03&nbsp;=&nbsp;'ABC'.<br />
+*ls_list2-f04&nbsp;=&nbsp;'ABCD'.<br />
+*<br />
+*ls_list2&nbsp;=&nbsp;CORRESPONDING&nbsp;#(&nbsp;BASE&nbsp;(&nbsp;ls_list2&nbsp;)&nbsp;ls_list1&nbsp;EXCEPT&nbsp;f01&nbsp;).&nbsp;&nbsp;"BASE&nbsp;:&nbsp;우선순위&nbsp;EXCEPT&nbsp;:&nbsp;제외<br />
+*<br />
+*cl_demo_output=&gt;display(&nbsp;ls_list2&nbsp;).<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+" 7) ITAB[]  : read table과 유사한 기능, 이진 검색 불가 (binary search 명시 X =&gt; sorted 로 선언해서 해결)<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*DATA&nbsp;:&nbsp;gt_scarr&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;scarr.<br />
+*SELECT&nbsp;*&nbsp;FROM&nbsp;scarr&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_scarr.<br />
+*<br />
+*"&nbsp;with&nbsp;key<br />
+*DATA(gs_scarr1)&nbsp;=&nbsp;gt_scarr[&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;].<br />
+*cl_demo_output=&gt;display(&nbsp;gs_scarr1&nbsp;).<br />
+*<br />
+*"&nbsp;with&nbsp;index<br />
+*DATA(gs_scarr2)&nbsp;=&nbsp;gt_scarr[&nbsp;2&nbsp;].&nbsp;&nbsp;&nbsp;"index&nbsp;언급&nbsp;X<br />
+*cl_demo_output=&gt;display(&nbsp;gs_scarr2&nbsp;).<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+" 8) 값의 유무 - 예외 처리<br />
+<br />
+"- case1.<br />
+<br />
+<br />
+<br />
+<br />
+"- case2.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

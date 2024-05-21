@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC_INNERJOIN</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC_INNERJOIN</h2>
+<h3> Description: INNER JOIN</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&-----------------------------------------------<br />
+*&&nbsp;Report&nbsp;&nbsp;ZBC_INNERJOIN<br />
+*&-----------------------------------------------<br />
+*&&nbsp;&nbsp;&nbsp;Solution:&nbsp;Data&nbsp;Retrieval&nbsp;with&nbsp;Inner&nbsp;Join<br />
+*&&nbsp;&nbsp;&nbsp;Join&nbsp;of&nbsp;Connections&nbsp;and&nbsp;Flights<br />
+*&-----------------------------------------------<br />
+   </div>
+   <div class="code">
+REPORT ZBC_INNERJOIN.<br />
+<br />
+TYPES: BEGIN OF GTY_JOIN,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CITYFROM&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CITYFROM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CITYTO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CITYTO,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLTIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-FLTIME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GTY_JOIN.<br />
+<br />
+DATA: GT_JOIN TYPE TABLE OF GTY_JOIN,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_JOIN&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GTY_JOIN.<br />
+<br />
+DATA: GO_ALV_GRID TYPE REF TO CL_SALV_TABLE.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;retrieve&nbsp;data<br />
+   </div>
+   <div class="code">
+SELECT DISTINCT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;A~CARRID&nbsp;A~CONNID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;B~FLDATE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;A~CITYFROM&nbsp;A~CITYTO&nbsp;A~FLTIME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;B~SEATSMAX&nbsp;B~SEATSOCC<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_JOIN&nbsp;UP&nbsp;TO&nbsp;50&nbsp;ROWS<br />
+&nbsp;&nbsp;FROM&nbsp;SPFLI&nbsp;AS&nbsp;A&nbsp;JOIN&nbsp;SFLIGHT&nbsp;AS&nbsp;B<br />
+&nbsp;&nbsp;ON&nbsp;A~CARRID&nbsp;=&nbsp;B~CARRID&nbsp;AND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A~CONNID&nbsp;=&nbsp;B~CONNID.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;create&nbsp;ALV<br />
+   </div>
+   <div class="code">
+CL_SALV_TABLE=&gt;FACTORY(<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;R_SALV_TABLE&nbsp;&nbsp;&nbsp;=&nbsp;GO_ALV_GRID<br />
+&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;T_TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_JOIN&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;display&nbsp;data<br />
+   </div>
+   <div class="code">
+GO_ALV_GRID-&gt;DISPLAY( ).<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

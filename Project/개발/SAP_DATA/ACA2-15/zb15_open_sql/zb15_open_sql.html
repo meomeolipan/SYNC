@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_OPEN_SQL</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_OPEN_SQL</h2>
+<h3> Description: Program ZB15_OPEN_SQL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_OPEN_SQL<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_open_sql.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;하나의&nbsp;line---------------------------------------------------<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;gs_sflight,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;TYPE&nbsp;sflight-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;TYPE&nbsp;sflight-fldate,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_sflight.<br />
+*<br />
+*SELECT&nbsp;SINGLE&nbsp;carrid&nbsp;connid&nbsp;fldate<br />
+*&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;gs_sflight<br />
+*&nbsp;&nbsp;FROM&nbsp;sflight&nbsp;"키조건에&nbsp;만족하지&nbsp;않으면&nbsp;랜덤으로&nbsp;읽혀짐<br />
+*&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'<br />
+*&nbsp;&nbsp;AND&nbsp;connid&nbsp;=&nbsp;'0017'<br />
+*&nbsp;&nbsp;AND&nbsp;fldate&nbsp;=&nbsp;'20230817'.&nbsp;"얘&nbsp;없으면&nbsp;랜덤<br />
+*<br />
+*WRITE:&nbsp;'Single&nbsp;Line:&nbsp;',&nbsp;gs_sflight-carrid,&nbsp;gs_sflight-connid,&nbsp;gs_sflight-fldate.<br />
+*ULINE.<br />
+*CLEAR&nbsp;gs_Sflight.<br />
+*<br />
+**&nbsp;여러개&nbsp;line---------------------------------------------------<br />
+*DATA:&nbsp;gt_sflight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_sflight.<br />
+*<br />
+*SELECT&nbsp;carrid&nbsp;connid&nbsp;fldate<br />
+**&nbsp;&nbsp;into&nbsp;table&nbsp;gt_sflight&nbsp;"커럼&nbsp;순서&nbsp;+&nbsp;형식&nbsp;맟추기<br />
+*&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sflight<br />
+*&nbsp;&nbsp;FROM&nbsp;sflight<br />
+*&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'.<br />
+*<br />
+*WRITE:&nbsp;'Several&nbsp;Lines:&nbsp;'.<br />
+*<br />
+*LOOP&nbsp;AT&nbsp;gt_sflight&nbsp;INTO&nbsp;gs_sflight.<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;gs_sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-fldate.<br />
+*ENDLOOP.<br />
+*ULINE.<br />
+*<br />
+**데이터베이스&nbsp;뷰&nbsp;읽기------------------------------------------------<br />
+   </div>
+   <div class="code">
+DATA : go_alv_grid TYPE REF TO   cl_salv_table.<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gt_flights&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;dv_flights.<br />
+*<br />
+*SELECT&nbsp;*&nbsp;FROM&nbsp;&nbsp;dv_flights&nbsp;&nbsp;&nbsp;"SPFLI&nbsp;+&nbsp;SFLIGHT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_flights<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'.<br />
+*<br />
+***&nbsp;&nbsp;TRY.&nbsp;call&nbsp;method&nbsp;활용<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_SALV_TABLE=&gt;FACTORY<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIST_DISPLAY&nbsp;&nbsp;&nbsp;=&nbsp;IF_SALV_C_BOOL_SAP=&gt;FALSE<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R_CONTAINER&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER_NAME&nbsp;=<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R_SALV_TABLE&nbsp;&nbsp;&nbsp;=&nbsp;GO_ALV_GRID<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T_TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_FLIGHTS<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;CX_SALV_MSG.<br />
+***&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+*<br />
+*cl_salv_table=&gt;factory(<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;&nbsp;&nbsp;=&nbsp;go_alv_grid<br />
+*&nbsp;&nbsp;CHANGING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_flights&nbsp;).&nbsp;"short&nbsp;form&nbsp;활용<br />
+*<br />
+*go_alv_grid-&gt;display(&nbsp;).&nbsp;"simple하게&nbsp;list&nbsp;view<br />
+*<br />
+*<br />
+**&nbsp;동적으로&nbsp;select&nbsp;할&nbsp;컬럼&nbsp;이름을&nbsp;받아올&nbsp;수도&nbsp;있다.&nbsp;:&nbsp;(&nbsp;)&nbsp;괄호&nbsp;활용----------------<br />
+**<br />
+*DATA&nbsp;:&nbsp;gt_sflight&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;sflight,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight&nbsp;TYPE&nbsp;sflight.<br />
+*<br />
+*"&nbsp;컬럼&nbsp;이름을&nbsp;받는&nbsp;입력&nbsp;변수<br />
+*PARAMETERS&nbsp;:&nbsp;pa_line&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;72.&nbsp;&nbsp;&nbsp;"컬럼&nbsp;이름<br />
+*<br />
+*"필드심볼과&nbsp;더불어&nbsp;활용도&nbsp;가능하다.<br />
+*<br />
+*SELECT&nbsp;(pa_line)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sflight<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_sflight&nbsp;INTO&nbsp;gs_sflight.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-fldate,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-price,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-currency,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-planetype.<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+*<br />
+*ENDIF.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;동적으로&nbsp;필드&nbsp;이름을&nbsp;받아올&nbsp;수도&nbsp;있다.&nbsp;(인터널&nbsp;테이블&nbsp;형식)<br />
+<br />
+*DATA&nbsp;:&nbsp;gt_sflight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;sflight,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight&nbsp;TYPE&nbsp;sflight.<br />
+*<br />
+*PARAMETERS&nbsp;:&nbsp;pa_line&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;72.<br />
+*DATA&nbsp;:&nbsp;gt_line&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;pa_line.<br />
+*APPEND&nbsp;pa_line&nbsp;to&nbsp;gt_line.&nbsp;"입력&nbsp;field도&nbsp;select<br />
+*<br />
+*pa_line&nbsp;=&nbsp;'CARRID'.<br />
+*APPEND&nbsp;pa_line&nbsp;TO&nbsp;gt_line.<br />
+*pa_line&nbsp;=&nbsp;'CONNID'.<br />
+*APPEND&nbsp;pa_line&nbsp;TO&nbsp;gt_line.<br />
+*<br />
+*SELECT&nbsp;(gt_line)&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sflight<br />
+*&nbsp;&nbsp;FROM&nbsp;sflight.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_sflight&nbsp;INTO&nbsp;gs_sflight.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-fldate,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-price,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-currency.<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+*<br />
+*ENDIF.<br />
+<br />
+*&nbsp;인터널&nbsp;테이블<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;SELECT&nbsp;*&nbsp;INTO&nbsp;TABLE&nbsp;ITAB&nbsp;FROM&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;ITAB의&nbsp;데이터를&nbsp;삭제한&nbsp;다음&nbsp;INSERT<br />
+*&nbsp;SELECT&nbsp;APPENDING&nbsp;TABLE&nbsp;ITAB&nbsp;FROM&nbsp;...&nbsp;:&nbsp;ITAB에&nbsp;추가로&nbsp;INSERT<br />
+*&nbsp;SELECT&nbsp;*&nbsp;INTO&nbsp;TABLE&nbsp;ITAB&nbsp;PACKAGE&nbsp;SIZE&nbsp;5&nbsp;FROM...&nbsp;ENDSELECT.<br />
+   </div>
+   <div class="code">
+" 다섯개씩 묶어서 SELECT, 숫자는 임의로 지정 할수 있다. 이경우 반드시 ENDSELECT를 사용해야 한다.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+<br />
+*DATA&nbsp;:&nbsp;gs_sflight&nbsp;TYPE&nbsp;sflight,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sflight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_sflight.<br />
+*<br />
+*SELECT&nbsp;carrid&nbsp;connid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sflight&nbsp;"정해진&nbsp;개수만큼&nbsp;select<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;spfli&nbsp;PACKAGE&nbsp;SIZE&nbsp;3.<br />
+*<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_sflight&nbsp;INTO&nbsp;gs_sflight.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-connid.&nbsp;"총&nbsp;3번&nbsp;3&nbsp;row&nbsp;출력<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+*&nbsp;&nbsp;ULINE.<br />
+*ENDSELECT.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;FROM&nbsp;동적인&nbsp;TABLE&nbsp;선택&nbsp;(&nbsp;&nbsp;)&nbsp;활용<br />
+*--------------------------------------------------------------------*<br />
+*DATA&nbsp;:&nbsp;gs_sflight&nbsp;TYPE&nbsp;sflight,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sflight&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_sflight.<br />
+*<br />
+*"&nbsp;1)&nbsp;입력변수&nbsp;활용<br />
+**PARAMETERS&nbsp;:&nbsp;pa_table&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;10.&nbsp;"PARAMERTER값&nbsp;입력시&nbsp;반드시&nbsp;대문자로&nbsp;입력하여야&nbsp;함<br />
+*<br />
+*"&nbsp;2)&nbsp;전역변수&nbsp;활용<br />
+*DATA&nbsp;:&nbsp;gv_table&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;10.<br />
+*gv_table&nbsp;=&nbsp;'SBOOK'.<br />
+*<br />
+*SELECT&nbsp;*&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sflight<br />
+**SELECT&nbsp;*&nbsp;INTO&nbsp;TABLE&nbsp;gt_sflight&nbsp;&nbsp;&nbsp;"&nbsp;target&nbsp;type&nbsp;=&nbsp;source&nbsp;&nbsp;type<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;(gv_table)&nbsp;UP&nbsp;TO&nbsp;10&nbsp;ROWS&nbsp;"최대&nbsp;적중수&nbsp;제한<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;(pa_table)&nbsp;UP&nbsp;TO&nbsp;10&nbsp;ROWS&nbsp;"최대&nbsp;적중수&nbsp;제한<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'.<br />
+*<br />
+*"최대&nbsp;라인수를&nbsp;지정하기&nbsp;위해&nbsp;UP&nbsp;TO&nbsp;~&nbsp;ROWS&nbsp;사용.&nbsp;최대적중수를&nbsp;제한하는&nbsp;용도로&nbsp;많이&nbsp;사용됨.<br />
+*<br />
+*LOOP&nbsp;AT&nbsp;gt_sflight&nbsp;INTO&nbsp;gs_sflight.<br />
+*&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_sflight-carrid,&nbsp;gs_sflight-connid.<br />
+*ENDLOOP.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;INNER&nbsp;JOIN<br />
+*--------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF gty_join,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;TYPE&nbsp;spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityfrom&nbsp;TYPE&nbsp;spfli-cityfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityto&nbsp;&nbsp;&nbsp;TYPE&nbsp;spfli-cityto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_join.<br />
+<br />
+DATA : gt_join TYPE TABLE OF gty_join,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_join&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gty_join.<br />
+<br />
+" 기본형<br />
+SELECT scarr~carrid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;"scarr~carrname<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;"고유한&nbsp;필드명인&nbsp;경우에는&nbsp;구별자(~)&nbsp;쓰지&nbsp;않아도&nbsp;된다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityfrom<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cityto&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Join&nbsp;column&nbsp;(field)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_join<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;scarr&nbsp;INNER&nbsp;JOIN&nbsp;spfli&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Join&nbsp;tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;scarr~carrid&nbsp;=&nbsp;spfli~carrid.&nbsp;"&nbsp;Join&nbsp;conditions&nbsp;(AND....)<br />
+<br />
+" 별칭 활용 : 일반형<br />
+SELECT a~carrid   " scarr~carrid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a~carrname&nbsp;"scarr~carrname<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b~connid&nbsp;&nbsp;&nbsp;"고유한&nbsp;필드명인&nbsp;경우에는&nbsp;구별자(~)&nbsp;쓰지&nbsp;않아도&nbsp;된다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b~cityfrom<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b~cityto&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Join&nbsp;column&nbsp;(field)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_join<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;scarr&nbsp;AS&nbsp;a&nbsp;INNER&nbsp;JOIN&nbsp;spfli&nbsp;AS&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Join&nbsp;tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;a~carrid&nbsp;=&nbsp;b~carrid.&nbsp;"&nbsp;Join&nbsp;conditions&nbsp;(AND....)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;scarr~carrid&nbsp;=&nbsp;spfli~carrid.&nbsp;"&nbsp;Join&nbsp;conditions&nbsp;(AND....)<br />
+<br />
+   </div>
+   <div class="code">
+cl_salv_table=&gt;factory(<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;&nbsp;&nbsp;=&nbsp;go_alv_grid&nbsp;&nbsp;"생성된&nbsp;객체<br />
+&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_join&nbsp;).<br />
+<br />
+go_alv_grid-&gt;display( ).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---------------------------distinct&nbsp;중복값&nbsp;제거<br />
+   </div>
+   <div class="code">
+DATA : BEGIN OF gs_data,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_data.<br />
+<br />
+DATA : gt_data LIKE TABLE OF gs_data.<br />
+<br />
+<br />
+SELECT DISTINCT a~carrid "중복값을 제거하기 위해서 DISTINCT 사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b~carrname&nbsp;INTO&nbsp;TABLE&nbsp;gt_data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight&nbsp;AS&nbsp;a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;scarr&nbsp;&nbsp;&nbsp;AS&nbsp;b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;a~carrid&nbsp;=&nbsp;b~carrid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;a~carrid&nbsp;=&nbsp;'AA'.<br />
+"WHERE 문이 기술되어 있으면 WHERE 문이 ON 보다 먼저 수행되어 진다.<br />
+<br />
+LOOP AT gt_data INTO gs_data.<br />
+&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_data-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_data-carrname.<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

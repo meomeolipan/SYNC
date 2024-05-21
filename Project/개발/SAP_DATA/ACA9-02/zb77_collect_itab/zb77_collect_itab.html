@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB77_COLLECT_ITAB</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB77_COLLECT_ITAB</h2>
+<h3> Description: collect itab</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_COLLECT_ITAB<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;COLLECT&nbsp;구문을&nbsp;활용할&nbsp;때는<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sorted&nbsp;(index,&nbsp;key&nbsp;access)&nbsp;나<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashed&nbsp;(key&nbsp;access)&nbsp;를&nbsp;사용하는&nbsp;것이&nbsp;performance&nbsp;유리하다.<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIQUE&nbsp;KEY&nbsp;설정할&nbsp;것<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZB77_COLLECT_ITAB.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZB77_COLLECT_ITAB_TOP.<br />
+*INCLUDE&nbsp;ZB77_COLLECT_ITAB_S01.<br />
+**INCLUDE&nbsp;ZB77_COLLECT_ITAB_CLS.<br />
+*<br />
+*INCLUDE&nbsp;ZB77_COLLECT_ITAB_PBO.<br />
+*INCLUDE&nbsp;ZB77_COLLECT_ITAB_PAI.<br />
+*INCLUDE&nbsp;ZB77_COLLECT_ITAB_F01.<br />
+<br />
+   </div>
+   <div class="code">
+DATA : GO_ALV_GRID TYPE REF TO CL_SALV_TABLE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-&nbsp;데이터를&nbsp;조회하기&nbsp;위한&nbsp;선언<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF GTY_S_FLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;합계에&nbsp;계산되어야&nbsp;하는&nbsp;값<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GTY_S_FLIGHT.<br />
+<br />
+DATA : GT_FLIGHT TYPE TABLE OF GTY_S_FLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT&nbsp;TYPE&nbsp;GTY_S_FLIGHT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*-&nbsp;collect&nbsp;를&nbsp;위한&nbsp;선언&nbsp;(기준키를&nbsp;순서대로&nbsp;나열)<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF GTY_S_SUM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,&nbsp;&nbsp;"기준키<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,&nbsp;&nbsp;"기준키<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,&nbsp;"&nbsp;합계에&nbsp;계산되어야&nbsp;하는&nbsp;값<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N_O_FLIGHTS&nbsp;TYPE&nbsp;I,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;갯수에&nbsp;계산되어야&nbsp;하는&nbsp;값<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GTY_S_SUM.<br />
+<br />
+DATA : GT_SUM TYPE TABLE OF GTY_S_SUM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SUM&nbsp;TYPE&nbsp;GTY_S_SUM.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE&nbsp;SEATSOCC<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;GT_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;COLLECT_LOOP&nbsp;USING&nbsp;GT_FLIGHT&nbsp;CHANGING&nbsp;GT_SUM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*TRY.<br />
+<br />
+*CATCH&nbsp;.<br />
+<br />
+*ENDTRY.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;결과&nbsp;출력<br />
+&nbsp;&nbsp;CL_SALV_TABLE=&gt;FACTORY(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R_SALV_TABLE&nbsp;&nbsp;&nbsp;=&nbsp;GO_ALV_GRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T_TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_SUM&nbsp;).<br />
+<br />
+&nbsp;&nbsp;GO_ALV_GRID-&gt;DISPLAY(&nbsp;).<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;collect_loop<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GT_FLIGHT<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GT_SUM<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM COLLECT_LOOP  USING    PT_FLIGHT LIKE GT_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;CT_SUM&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;GT_SUM.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;LS_FLIGHT&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;PT_FLIGHT,&nbsp;&nbsp;"WA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_SUM&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;CT_SUM,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"collect&nbsp;wa<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LT_SORTED&nbsp;LIKE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;LS_SUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;UNIQUE&nbsp;DEFAULT&nbsp;KEY,&nbsp;&nbsp;"collect&nbsp;itab<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LT_HASHED&nbsp;LIKE&nbsp;HASHED&nbsp;TABLE&nbsp;OF&nbsp;LS_SUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;UNIQUE&nbsp;DEFAULT&nbsp;KEY.&nbsp;&nbsp;&nbsp;"&lt;-&nbsp;performance에&nbsp;유리<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-&nbsp;1)&nbsp;Hashed<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;PT_FLIGHT&nbsp;INTO&nbsp;LS_FLIGHT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MOVE-CORRESPONDING&nbsp;LS_FLIGHT&nbsp;TO&nbsp;LS_SUM.&nbsp;&nbsp;"데이터&nbsp;밀어넣고&nbsp;(assign)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;move&nbsp;a&nbsp;to&nbsp;b...<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;LS_SUM-N_O_FLIGHTS&nbsp;=&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;카운팅&nbsp;1씩&nbsp;늘리고<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;COLLECT&nbsp;LS_SUM&nbsp;INTO&nbsp;LT_HASHED.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;sum&nbsp;하면서&nbsp;append하는&nbsp;개념의&nbsp;COLLECT&nbsp;적용<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;SORT&nbsp;CT_SUM.<br />
+&nbsp;&nbsp;CT_SUM&nbsp;=&nbsp;LT_HASHED.&nbsp;&nbsp;"&nbsp;결과&nbsp;리턴<br />
+<br />
+   </div>
+   <div class="codeComment">
+**-&nbsp;2)&nbsp;Sorted<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;pt_flight&nbsp;INTO&nbsp;ls_flight.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;MOVE-CORRESPONDING&nbsp;ls_flight&nbsp;TO&nbsp;ls_sum.&nbsp;&nbsp;"데이터&nbsp;밀어넣고<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ls_sum-n_o_flights&nbsp;=&nbsp;1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;키&nbsp;기준으로&nbsp;카운팅&nbsp;1씩&nbsp;늘리고<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;COLLECT&nbsp;ls_sum&nbsp;INTO&nbsp;lt_sorted.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;sum&nbsp;하면서&nbsp;append하는&nbsp;개념의&nbsp;COLLECT&nbsp;적용<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+*<br />
+*&nbsp;&nbsp;ct_sum&nbsp;=&nbsp;lt_sorted.&nbsp;&nbsp;"&nbsp;결과&nbsp;리턴<br />
+<br />
+   </div>
+   <div class="code">
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

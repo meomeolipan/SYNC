@@ -1,0 +1,24 @@
+
+**** Trace file opened at 2024-05-09, 15:03:23 ¥Î«—πŒ±π «•¡ÿΩ√
+RFC Library Release: 749 Patch Level 0, Compiled on Jan  3 2019 21:06:25
+ CPIC library: 749.2018.12.12 version 3, NI library: 40, Kernel Release: 749 Patch Level 621
+ Current working directory: C:\Users\soldesk\Documents\Project\±‚»π, Program: gneux
+ Hardware: PC with Windows NT 8x Intel 80686 (Mod 140 Step 1), Operating_system: Windows NT 10.0
+ Hostname: DESKTOP-A6JEJDB, IP address: 10.100.0.213, IPv6 address: 10.100.0.213
+
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       connection to partner '210.16.199.140:sapgw01' broken
+TIME        Thu May 09 15:03:23 2024
+RELEASE     749
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -6
+MODULE      D:/depot/bas/749_REL/src/base/ni/nixxi.cpp
+LINE        5420
+DETAIL      NiIRead: P=210.16.199.140:3301; L=10.100.0.213:51344
+SYSTEM CALL recv
+ERRNO       10054
+ERRNO TEXT  WSAECONNRESET: Connection reset by peer
+COUNTER     3
+

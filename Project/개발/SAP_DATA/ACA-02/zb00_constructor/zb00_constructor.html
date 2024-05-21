@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_CONSTRUCTOR</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_CONSTRUCTOR</h2>
+<h3> Description: Constructor 연습</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_CONSTRUCTOR<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Constructor&nbsp;연습<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_constructor.<br />
+<br />
+CLASS lcl_test DEFINITION.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;write_alone.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;class_constructor.&nbsp;&nbsp;&nbsp;"클래스&nbsp;생성자<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;constructor.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;인스턴스&nbsp;생성자<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;write_hello.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;secret_method.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS lcl_test IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;write_alone.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'1-1)클래스로&nbsp;호출&nbsp;가능한&nbsp;Public&nbsp;Static&nbsp;Method'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*&nbsp;&nbsp;METHOD&nbsp;class_constructor.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'1.&nbsp;클래스로&nbsp;접근하는&nbsp;정적&nbsp;생성자&nbsp;:최초&nbsp;한번만&nbsp;호출되지'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;SKIP.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+**<br />
+*&nbsp;&nbsp;METHOD&nbsp;constructor.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'2.&nbsp;"객체를&nbsp;생성"하면서&nbsp;&lt;자동&gt;으로&nbsp;실행되는&nbsp;생성자야'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;SKIP.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;write_hello.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'3.난&nbsp;Public&nbsp;Instance&nbsp;Method&nbsp;입니다.'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'&nbsp;&nbsp;private을&nbsp;접근하고&nbsp;싶으면&nbsp;나를&nbsp;통하세요.'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;me-&gt;secret_method.&nbsp;&nbsp;&nbsp;"me는&nbsp;동일클래스&nbsp;(this)<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;secret_method.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'4.&nbsp;나는&nbsp;외부에서&nbsp;호출할&nbsp;수&nbsp;없는&nbsp;Private&nbsp;Instance&nbsp;Method&nbsp;야'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'&nbsp;&nbsp;&nbsp;거쳐서&nbsp;들어오렴'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SKIP.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+DATA : go_test TYPE REF TO lcl_test.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lcl_test=&gt;write_alone.&nbsp;&nbsp;&nbsp;"클래스가&nbsp;호출<br />
+<br />
+*&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lcl_test=&gt;class_constructor.&nbsp;&nbsp;"호출&nbsp;가능할까?&nbsp;불가<br />
+<br />
+*&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_test.<br />
+*&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_test-&gt;write_hello.<br />
+<br />
+*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_test.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_test.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*<br />
+*&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_test.<br />
+*&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_test-&gt;write_hello.<br />
+<br />
+*&nbsp;&nbsp;호출&nbsp;불가<br />
+*&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_TEST-&gt;SECRET_METHOD.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

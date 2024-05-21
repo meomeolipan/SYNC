@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_CLASS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_CLASS</h2>
+<h3> Description: class 연습</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_CLASS<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_class.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+**&nbsp;OOP&nbsp;tutorial<br />
+**&nbsp;관계도:<br />
+**&nbsp;ZIF_OOP_VEHICLE&nbsp;interface&nbsp;탈것<br />
+**&nbsp;-&nbsp;ZCL_OOP_HORSE&nbsp;class&nbsp;말<br />
+**&nbsp;-&nbsp;ZCL_OOP_BUS&nbsp;abstract&nbsp;class&nbsp;버스<br />
+**&nbsp;&nbsp;&nbsp;-&nbsp;ZCL_OOP_CITY_BUS&nbsp;class&nbsp;시내버스<br />
+**&nbsp;&nbsp;&nbsp;-&nbsp;ZCL_OOP_EXPRESS_BUS&nbsp;class&nbsp;고속버스<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;ZCL_OOP_EXPRESS_BUS_X2&nbsp;class&nbsp;2배&nbsp;고속버스<br />
+**&nbsp;-&nbsp;ZCL_OOP_CAR&nbsp;abstract&nbsp;class&nbsp;승용차<br />
+**&nbsp;&nbsp;&nbsp;-&nbsp;ZCL_OOP_CAR_K5&nbsp;class&nbsp;승용차&nbsp;K5<br />
+**&nbsp;&nbsp;&nbsp;-&nbsp;ZCL_OOP_CAR_K7&nbsp;class&nbsp;승용차&nbsp;K7<br />
+*<br />
+*<br />
+**&nbsp;interface&nbsp;&&nbsp;class<br />
+*DATA:&nbsp;lo_vehicle&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;zif_oop_vehicle,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_name&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;string,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_speed&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+*<br />
+**&nbsp;interface는&nbsp;타입으로&nbsp;사용할&nbsp;수&nbsp;있지만&nbsp;class로&nbsp;구현을&nbsp;해야&nbsp;객체를&nbsp;생성할&nbsp;수&nbsp;있음.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LO_VEHICLE"&nbsp;is&nbsp;not&nbsp;an&nbsp;object&nbsp;reference.<br />
+**&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_vehicle.<br />
+*<br />
+**&nbsp;zcl_oop_horse&nbsp;는&nbsp;zif_oop_vehicle&nbsp;인터페이스를&nbsp;구현한&nbsp;클래스&nbsp;입니다.<br />
+**&nbsp;horse&nbsp;객체를&nbsp;생성할&nbsp;수&nbsp;있음.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_horse.<br />
+*lo_vehicle-&gt;set_name(&nbsp;'my&nbsp;horse'&nbsp;).<br />
+*<br />
+*lv_name&nbsp;=&nbsp;lo_vehicle-&gt;get_name(&nbsp;).<br />
+*lo_vehicle-&gt;drive(<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_direction&nbsp;=&nbsp;'F'<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_speed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_speed<br />
+*).<br />
+*<br />
+*WRITE:/&nbsp;lv_name,&nbsp;lv_speed.<br />
+*<br />
+*<br />
+*<br />
+**&nbsp;abstract&nbsp;class(추상&nbsp;클래스)<br />
+**&nbsp;zcl_oop_bus&nbsp;는&nbsp;zif_oop_vehicle&nbsp;인터페이스를&nbsp;구현한&nbsp;추상&nbsp;클래스&nbsp;입니다.<br />
+**&nbsp;추상&nbsp;클래스는&nbsp;구현을&nbsp;가지고&nbsp;있지만&nbsp;생성&nbsp;할&nbsp;수&nbsp;없음.<br />
+**&nbsp;&nbsp;&nbsp;Instances&nbsp;of&nbsp;the&nbsp;abstract&nbsp;class&nbsp;"ZCL_OOP_BUS"&nbsp;cannot&nbsp;be&nbsp;generated.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_bus.<br />
+*<br />
+*<br />
+*<br />
+**&nbsp;inheritance(상속)<br />
+**&nbsp;zcl_oop_city_bus&nbsp;는&nbsp;zcl_oop_bus&nbsp;를&nbsp;상속한&nbsp;일반&nbsp;(추상&nbsp;아님)&nbsp;클래스&nbsp;입니다.<br />
+**&nbsp;city&nbsp;bus&nbsp;객체를&nbsp;생성할&nbsp;수&nbsp;있음.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_city_bus.<br />
+*lo_vehicle-&gt;set_name(&nbsp;'my&nbsp;city&nbsp;bus'&nbsp;).<br />
+*<br />
+*lv_name&nbsp;=&nbsp;lo_vehicle-&gt;get_name(&nbsp;).<br />
+*lo_vehicle-&gt;drive(<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_direction&nbsp;=&nbsp;'F'<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_speed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_speed<br />
+*).<br />
+*<br />
+*WRITE:/&nbsp;lv_name,&nbsp;lv_speed.<br />
+*<br />
+*<br />
+*<br />
+**&nbsp;redifine&nbsp;method(메소드&nbsp;재정의)&nbsp;=&nbsp;Method&nbsp;overriding<br />
+**&nbsp;zcl_oop_express_bus_x2&nbsp;는&nbsp;zcl_oop_express_bus&nbsp;를&nbsp;상속한&nbsp;클래스&nbsp;입니다.<br />
+**&nbsp;상속&nbsp;받은&nbsp;다음&nbsp;메소드에&nbsp;로직을&nbsp;추가&nbsp;할&nbsp;수&nbsp;있습니다.<br />
+**&nbsp;zcl_oop_express_bus_x2&nbsp;의&nbsp;drive&nbsp;메소드를&nbsp;확인하세요.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_express_bus.<br />
+*lo_vehicle-&gt;set_name(&nbsp;'ex-bus'&nbsp;).<br />
+*<br />
+*lv_name&nbsp;=&nbsp;lo_vehicle-&gt;get_name(&nbsp;).<br />
+*lo_vehicle-&gt;drive(<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_direction&nbsp;=&nbsp;'F'<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_speed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_speed<br />
+*).<br />
+*<br />
+*WRITE:/&nbsp;lv_name,&nbsp;lv_speed.<br />
+*<br />
+*<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_express_bus_x2.<br />
+*lo_vehicle-&gt;set_name(&nbsp;'ex2-bus'&nbsp;).<br />
+*<br />
+*lv_name&nbsp;=&nbsp;lo_vehicle-&gt;get_name(&nbsp;).<br />
+*lo_vehicle-&gt;drive(<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_direction&nbsp;=&nbsp;'F'<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_speed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_speed<br />
+*).<br />
+*<br />
+*WRITE:/&nbsp;lv_name,&nbsp;lv_speed.<br />
+*<br />
+*<br />
+*<br />
+*<br />
+**&nbsp;Polymorphism(다형성)<br />
+**&nbsp;TYPE&nbsp;으로&nbsp;선언한&nbsp;변수의&nbsp;하위의&nbsp;상속받은&nbsp;모든&nbsp;클래스를&nbsp;생성&nbsp;할&nbsp;수&nbsp;있음.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_horse.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_bus.&nbsp;"&nbsp;추상&nbsp;클래스는&nbsp;생성&nbsp;불가<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_city_bus.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_express_bus.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_express_bus_x2.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_car.&nbsp;"&nbsp;추상&nbsp;클래스는&nbsp;생성&nbsp;불가<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_car_k5.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_vehicle&nbsp;TYPE&nbsp;zcl_oop_car_k7.<br />
+*<br />
+*DATA:&nbsp;lo_bus&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;zcl_oop_bus.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_horse.&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_bus.&nbsp;&nbsp;"&nbsp;추상&nbsp;클래스는&nbsp;생성&nbsp;불가<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_city_bus.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_express_bus.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_express_bus_x2.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_car.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_car_k5.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_bus&nbsp;TYPE&nbsp;zcl_oop_car_k7.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+*<br />
+*DATA:&nbsp;lo_car&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;zcl_oop_car.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_horse.&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_bus.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_city_bus.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_express_bus.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_express_bus_x2.&nbsp;&nbsp;"&nbsp;타입&nbsp;일치&nbsp;하지&nbsp;않음.<br />
+**CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_car.&nbsp;"&nbsp;추상&nbsp;클래스는&nbsp;생성&nbsp;불가<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_car_k5.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_car&nbsp;TYPE&nbsp;zcl_oop_car_k7.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

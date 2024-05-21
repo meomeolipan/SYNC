@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_EVENT_BLOCK</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_EVENT_BLOCK</h2>
+<h3> Description: Example of Event block</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_EVENT_BLOCK<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_event_block.<br />
+<br />
+SELECTION-SCREEN FUNCTION KEY 1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-b01.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;pa_carr&nbsp;TYPE&nbsp;s_carrid&nbsp;OBLIGATORY.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;INITIALIZATION&nbsp;:&nbsp;selection&nbsp;screen&nbsp;화면이&nbsp;나오기&nbsp;전에&nbsp;행해지는&nbsp;이벤트&nbsp;(초기화,권한체크)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PERFORM&nbsp;check_auth.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"권한체크&nbsp;로직<br />
+*&nbsp;&nbsp;PERFORM&nbsp;initialization.&nbsp;&nbsp;"초기값&nbsp;셋팅&nbsp;로직<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;AT&nbsp;SELECTION-SCREEN&nbsp;:&nbsp;selection&nbsp;screen&nbsp;'에서'&nbsp;일어나는&nbsp;이벤트<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT.  " 화면의 갱신 변경....  모듈풀의 PBO<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PERFORM&nbsp;modify_screen.&nbsp;&nbsp;&nbsp;"화면에&nbsp;대한&nbsp;제어..<br />
+<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN ON pa_carr.  "특정한 selection screen 포함된 필드에 제어<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PERFORM&nbsp;check_carr&nbsp;USING&nbsp;pa_carr.<br />
+<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR pa_carr.  " F4를 설정해주는 이벤트<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PERFORM&nbsp;f4_carr&nbsp;USING&nbsp;pa_carr.&nbsp;&nbsp;"&nbsp;특정&nbsp;필드에&nbsp;F4를&nbsp;구성해주는&nbsp;로직<br />
+<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.  "엔터 이벤트... 모듈풀의 PAI (기본형)<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;START-OF-SELECTION&nbsp;:&nbsp;본격적인&nbsp;데이터&nbsp;처리&nbsp;로직&nbsp;(실행버튼&nbsp;누르면&nbsp;탄다..)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PERFORM&nbsp;get_data.&nbsp;&nbsp;&nbsp;"데이터&nbsp;추출<br />
+*&nbsp;&nbsp;PERFORM&nbsp;make_data.&nbsp;&nbsp;"데이터&nbsp;가공<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;END-OF-SELECTION&nbsp;:&nbsp;요즘은&nbsp;자주&nbsp;쓰지&nbsp;않는다.&nbsp;화면&nbsp;출력&nbsp;로직을&nbsp;담당한다.<br />
+*&---------------------------------------------------------------------*<br />
+*END-OF-SELECTION.&nbsp;&nbsp;"&nbsp;생략&nbsp;가능<br />
+*&nbsp;&nbsp;PERFORM&nbsp;display_data.<br />
+*&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;100.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

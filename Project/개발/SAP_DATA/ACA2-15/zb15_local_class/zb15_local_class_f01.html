@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_LOCAL_CLASS_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_LOCAL_CLASS_F01</h2>
+<h3> Description: Include ZB15_LOCAL_CLASS_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZB15_LOCAL_CLASS_F01<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM exe_example .<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;lo_example."&nbsp;EXPORTING&nbsp;iv_value&nbsp;=&nbsp;gv_val.<br />
+&nbsp;&nbsp;"선언된&nbsp;참조변수를&nbsp;통해서&nbsp;객체를&nbsp;생성&nbsp;(인스턴스화)<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;lcl_example=&gt;class_constructor(&nbsp;).&nbsp;&nbsp;&nbsp;"호출&nbsp;불가<br />
+*&nbsp;&nbsp;lo_example-&gt;get_data(&nbsp;pa_int&nbsp;).&nbsp;"매개변수의&nbsp;값을&nbsp;mv_data에&nbsp;전달&nbsp;역할,&nbsp;ABAP&nbsp;전역&nbsp;변수&nbsp;값을&nbsp;메소드로&nbsp;호출<br />
+*&nbsp;&nbsp;lo_example-&gt;display_data(&nbsp;).&nbsp;&nbsp;&nbsp;&nbsp;"전달&nbsp;받은&nbsp;값을&nbsp;호출<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;lo_example-&gt;set_type(&nbsp;pa_str&nbsp;).<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;exe_student<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM exe_student .<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_student1.<br />
+<br />
+&nbsp;&nbsp;go_student1-&gt;get_data(&nbsp;'00000001'&nbsp;).<br />
+&nbsp;&nbsp;go_student1-&gt;display_data(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_student1.<br />
+<br />
+&nbsp;&nbsp;go_student1-&gt;get_data(&nbsp;'00000011'&nbsp;).<br />
+&nbsp;&nbsp;go_student1-&gt;display_data(&nbsp;).<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

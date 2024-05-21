@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>MZBC410_SOLUTION_B03_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: MZBC410_SOLUTION_B03_TOP</h2>
+<h3> Description: Include MZBC410_SOLUTION_B03_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;MZBC410_SOLUTION_B03_TOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Module&nbsp;Pool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAPMZBC410_SOLUTION_B03<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+PROGRAM sapmzbc410_solution_b03.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Screen&nbsp;Structure<br />
+   </div>
+   <div class="code">
+TABLES: sdyn_conn, "스크린 100에 구성된 입력 필드 element<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saplane.&nbsp;"&nbsp;=&nbsp;data:&nbsp;syplane&nbsp;type&nbsp;saplane<br />
+<br />
+DATA:<br />
+&nbsp;&nbsp;"데이터베이스&nbsp;조회를&nbsp;위한&nbsp;Work&nbsp;Area<br />
+&nbsp;&nbsp;gs_sflight&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight,<br />
+&nbsp;&nbsp;"PAI&nbsp;-&nbsp;function&nbsp;code<br />
+&nbsp;&nbsp;ok_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sy-ucomm,<br />
+&nbsp;&nbsp;io_command,<br />
+&nbsp;&nbsp;"radio&nbsp;button<br />
+&nbsp;&nbsp;view&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;maintain_flights&nbsp;&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;maintain_bookings&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;"Subscreen&nbsp;번호<br />
+&nbsp;&nbsp;dynnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sy-dynnr,<br />
+&nbsp;&nbsp;"POPUP&nbsp;실행&nbsp;여부<br />
+&nbsp;&nbsp;lv_answer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Tab<br />
+   </div>
+   <div class="code">
+CONTROLS my_tabstrip TYPE TABSTRIP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

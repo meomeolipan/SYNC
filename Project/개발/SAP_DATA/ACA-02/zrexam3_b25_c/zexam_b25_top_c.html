@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEXAM_B25_TOP_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEXAM_B25_TOP_C</h2>
+<h3> Description: Include ZEXAM_B25_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZEXAM_B25_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TABLES : ZTMEMBER_B25, ZTRENT_B25, ZTBOOK_B25, SSCRFIELDS.<br />
+<br />
+DATA : BEGIN OF GS_DATA,<br />
+&nbsp;&nbsp;MB_ST&nbsp;LIKE&nbsp;ZTMEMBER_B25-MB_ST,<br />
+&nbsp;&nbsp;MB_ID&nbsp;LIKE&nbsp;ZTMEMBER_B25-MB_ID,<br />
+&nbsp;&nbsp;MB_MM&nbsp;LIKE&nbsp;ZTMEMBER_B25-MB_MM,<br />
+<br />
+&nbsp;&nbsp;RENT_DT&nbsp;LIKE&nbsp;ZTRENT_B25-RENT_DT,<br />
+&nbsp;&nbsp;RPLAN_DT&nbsp;LIKE&nbsp;ZTRENT_B25-RPLAN_DT,<br />
+&nbsp;&nbsp;RETURN_ST&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;20,<br />
+&nbsp;&nbsp;RETURN_DT&nbsp;LIKE&nbsp;ZTRENT_B25-RETURN_DT,<br />
+<br />
+&nbsp;&nbsp;BOOK_ID&nbsp;LIKE&nbsp;ZTBOOK_B25-BOOK_ID,<br />
+&nbsp;&nbsp;BOOK_ST&nbsp;LIKE&nbsp;ZTBOOK_B25-BOOK_ST,<br />
+&nbsp;&nbsp;BOOK_NM&nbsp;LIKE&nbsp;ZTBOOK_B25-BOOK_NM,<br />
+<br />
+&nbsp;&nbsp;LIGHT&nbsp;&nbsp;&nbsp;TYPE&nbsp;C,<br />
+&nbsp;&nbsp;CELL_COLOR&nbsp;TYPE&nbsp;LVC_T_SCOL,<br />
+&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DATA,<br />
+<br />
+&nbsp;&nbsp;GT_DATA&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_DATA.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;GS_ZTMEMBER_B25,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MB_ID&nbsp;LIKE&nbsp;ZTMEMBER_B25-MB_ID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MB_MM&nbsp;LIKE&nbsp;ZTMEMBER_B25-MB_MM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TELNO&nbsp;LIKE&nbsp;ZTMEMBER_B25-TELNO,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EMAIL&nbsp;LIKE&nbsp;ZTMEMBER_B25-EMAIL,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_ZTMEMBER_B25,<br />
+<br />
+&nbsp;&nbsp;GT_ZTMEMBER_B25&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_ZTMEMBER_B25.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*ALV&nbsp;관련&nbsp;변수&nbsp;선언<br />
+**********************************************************************<br />
+*DATA&nbsp;:&nbsp;GO_DOCKING_CONT&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_DOCKING_CONTAINER,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_CON&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_CUSTOM_CONTAINER,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_GRID&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.<br />
+*<br />
+*<br />
+*DATA&nbsp;:&nbsp;GS_LAYOUT&nbsp;TYPE&nbsp;LVC_S_LAYO,&nbsp;"&nbsp;ALV의&nbsp;전반적인&nbsp;레이아웃&nbsp;설정을&nbsp;위한&nbsp;변수<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_S_FCAT,&nbsp;"&nbsp;ALV의&nbsp;출력되는&nbsp;컬럼의&nbsp;속성을&nbsp;다루기&nbsp;위한&nbsp;변수<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_FCAT&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_FCAT,&nbsp;"&nbsp;기존&nbsp;필드의&nbsp;속성&nbsp;변경&nbsp;&&nbsp;신규&nbsp;필드의&nbsp;추가를&nbsp;위해<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_VARIANT&nbsp;TYPE&nbsp;DISVARIANT,&nbsp;"Variant&nbsp;사용<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SAVE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;C,<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SORT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_SORT,&nbsp;"SORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SORT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_S_SORT,&nbsp;"SORTING<br />
+*<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FIELD&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;테이블의&nbsp;스트럭쳐.&nbsp;"COLOR&nbsp;FILED<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_UIHIDE&nbsp;&nbsp;TYPE&nbsp;UI_FUNCTIONS.&nbsp;"UI&nbsp;지울용으로&nbsp;사용<br />
+<br />
+   </div>
+   <div class="code">
+DATA : go_docking_cont TYPE REF TO  cl_gui_docking_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_CUSTOM_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container2&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container3&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_custom_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_split&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_splitter_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_GRID1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;CL_GUI_ALV_GRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_t_fcat,&nbsp;"기존&nbsp;필드의&nbsp;속성&nbsp;변경&nbsp;&&nbsp;신규&nbsp;필드의&nbsp;추가를&nbsp;위해<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_s_fcat,&nbsp;"ALV의&nbsp;출력되는&nbsp;컬럼의&nbsp;속성을&nbsp;다루기&nbsp;위한&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_s_layo,&nbsp;"ALV의&nbsp;전반적인&nbsp;레이아웃&nbsp;설정을&nbsp;위한&nbsp;변수&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_s_sort,&nbsp;"SORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_t_sort,&nbsp;"SORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_VARIANT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISVARIANT,&nbsp;"VARIANT&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_toolbar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb_button,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_stbl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lvc_s_stbl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SAVE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.<br />
+<br />
+DATA : go_cont1  TYPE REF TO cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont2&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_custom&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container,&nbsp;"screen:custom&nbsp;control&nbsp;area<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dock1&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dock2&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dock3&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;바둑판처럼&nbsp;다양하게<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_esplit&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_easy_splitter_container,&nbsp;"&nbsp;간단하게&nbsp;수평&nbsp;혹은&nbsp;수직<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dialog&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_dialogbox_container.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*시스템&nbsp;컨트롤&nbsp;선언<br />
+**********************************************************************<br />
+<br />
+   </div>
+   <div class="code">
+DATA : OK_CODE TYPE SY-UCOMM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

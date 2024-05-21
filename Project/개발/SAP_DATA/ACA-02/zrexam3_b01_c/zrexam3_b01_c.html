@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B01_C</h2>
+<h3> Description: [CL2-B01] 도서 대여 현황 조회 및 반납 처리</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZREXAM_B01<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;강은혜<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZREXAM3_B01_C MESSAGE-ID ZB01.<br />
+<br />
+" 선언<br />
+include <a href ="zrexam3_b01_top_c.html">ZREXAM3_B01_TOP_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B01_TOP.&nbsp;"전역변수&nbsp;선언<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b01_s01_c.html">ZREXAM3_B01_S01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B01_S01.&nbsp;"Selection&nbsp;Screen&nbsp;선언<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b01_c01_c.html">ZREXAM3_B01_C01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B01_C01.&nbsp;"CLASS&nbsp;선언<br />
+<br />
+   </div>
+   <div class="code">
+" 구현<br />
+include <a href ="zrexam3_b01_o01_c.html">ZREXAM3_B01_O01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B01_O01.&nbsp;"&nbsp;Screen&nbsp;출력&nbsp;전&nbsp;Logic&nbsp;처리<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b01_i01_c.html">ZREXAM3_B01_I01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B01_I01.&nbsp;"&nbsp;Screen&nbsp;출력&nbsp;후&nbsp;사용자에&nbsp;의한&nbsp;명령&nbsp;처리<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b01_f01_c.html">ZREXAM3_B01_F01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZREXAM3_B01_F01.&nbsp;"Form&nbsp;Subroutines&nbsp;모음<br />
+<br />
+<br />
+<br />
+<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+" 반납예정일<br />
+&nbsp;&nbsp;SO_DATE-SIGN&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;SO_DATE-OPTION&nbsp;=&nbsp;'BT'.<br />
+&nbsp;&nbsp;SO_DATE-HIGH&nbsp;=&nbsp;SY-DATUM.<br />
+&nbsp;&nbsp;SO_DATE-LOW&nbsp;=&nbsp;'20240301'.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"(당월&nbsp;01로&nbsp;설정했어야)<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;SO_DATE.<br />
+&nbsp;&nbsp;CLEAR&nbsp;SO_DATE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;MODIFY_SCREEN.&nbsp;"조회조건<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;SELECT_DATA.&nbsp;"데이터&nbsp;조회<br />
+&nbsp;&nbsp;PERFORM&nbsp;MODIFY_DATA.&nbsp;"&nbsp;데이터&nbsp;처리<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DATA.&nbsp;"데이터&nbsp;출력<br />
+&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;0100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;TITLE_0100&nbsp;--&gt;&nbsp;[CL2-B01]&nbsp;회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;T01&nbsp;조회조건<br />
+*&nbsp;T02&nbsp;선택조건<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;PA_R2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여&nbsp;도서&nbsp;반납&nbsp;처리<br />
+*&nbsp;PA_RST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원상태<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원정보<br />
+*&nbsp;SO_DATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반납예정일<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB01<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+*009&nbsp;&nbsp;&nbsp;조건에&nbsp;해당하는&nbsp;회원의&nbsp;대여정보가&nbsp;존재하지않습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

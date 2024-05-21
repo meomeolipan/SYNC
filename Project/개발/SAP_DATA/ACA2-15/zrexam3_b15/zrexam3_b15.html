@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B15</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B15</h2>
+<h3> Description: Program ZREXAM3_B15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZREXAM3_B15<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zrexam3_b15 MESSAGE-ID zb15.<br />
+<br />
+include <a href ="zrexam3_b15_top.html">zrexam3_b15_top</a>.<br />
+include <a href ="zrexam3_b15_c01.html">zrexam3_b15_c01</a>.<br />
+include <a href ="zrexam3_b15_o01.html">zrexam3_b15_o01</a>.<br />
+<br />
+include <a href ="zrexam3_b15_i01.html">zrexam3_b15_i01</a>.<br />
+include <a href ="zrexam3_b15_f01.html">zrexam3_b15_f01</a>.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-------<br />
+*&nbsp;event<br />
+*-------<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+&nbsp;&nbsp;set&nbsp;TITLEBAR&nbsp;'T01'.<br />
+<br />
+&nbsp;&nbsp;CONCATENATE&nbsp;sy-datum+0(6)&nbsp;'01'&nbsp;INTO&nbsp;lv_date.<br />
+&nbsp;&nbsp;MOVE:&nbsp;'I'&nbsp;TO&nbsp;so_dat-sign,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'BT'&nbsp;TO&nbsp;so_dat-option,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_date&nbsp;TO&nbsp;so_dat-low,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sy-datum&nbsp;TO&nbsp;so_dat-high.<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;so_dat.<br />
+<br />
+AT SELECTION-SCREEN OUTPUT. "pbo - 라디오 버튼 클릭 시 실행<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;screen-group1.&nbsp;"function&nbsp;code별&nbsp;case<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'PF'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;p1&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.&nbsp;"케이스문&nbsp;이후&nbsp;modify&nbsp;screen<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;CASE&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;p1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;get_data.&nbsp;"데이터베이스에서&nbsp;조회조건을&nbsp;기준으로&nbsp;데이터&nbsp;가져옴<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;make_data.&nbsp;"갖고온&nbsp;데이터&nbsp;가공&nbsp;및&nbsp;처리<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_data.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;p2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;get_data_member.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_data_member.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T01&nbsp;--&gt;&nbsp;[CL2-B15]&nbsp;도서&nbsp;대여&nbsp;현황&nbsp;조회&nbsp;및&nbsp;반납&nbsp;처리<br />
+*&nbsp;T100&nbsp;--&gt;&nbsp;[CL2-B15]&nbsp;회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;T200&nbsp;--&gt;&nbsp;[CL2-B15]&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;PB1&nbsp;네<br />
+*&nbsp;PB2&nbsp;아니요<br />
+*&nbsp;PT1&nbsp;반납처리확인<br />
+*&nbsp;PTQ&nbsp;해당&nbsp;대여건을&nbsp;반납&nbsp;처리하시겠습니까?<br />
+*&nbsp;T01&nbsp;회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;T02&nbsp;대서&nbsp;도여&nbsp;반납처리<br />
+*&nbsp;TLF&nbsp;선택조건<br />
+*&nbsp;TLO&nbsp;조회조건<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;P2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+*&nbsp;PA_STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원상태<br />
+*&nbsp;SO_DAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반납예정일<br />
+*&nbsp;SO_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원번호<br />
+*&nbsp;SO_ID2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원번호<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;BC405_408<br />
+*010&nbsp;&nbsp;&nbsp;Error&nbsp;creating&nbsp;the&nbsp;container&nbsp;object<br />
+*012&nbsp;&nbsp;&nbsp;Error&nbsp;calling&nbsp;the&nbsp;method.<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;반납처리&nbsp;대상을&nbsp;선택하세요<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB15<br />
+*001&nbsp;&nbsp;&nbsp;조건에&nbsp;해당하는&nbsp;회원의&nbsp;대여정보가&nbsp;존재하지&nbsp;않습니다.<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

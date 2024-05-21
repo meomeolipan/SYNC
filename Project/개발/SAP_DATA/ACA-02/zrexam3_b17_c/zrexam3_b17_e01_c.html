@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B17_E01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B17_E01_C</h2>
+<h3> Description: Include ZREXAM3_B17_E01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B17_E01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+&nbsp;&nbsp;so_rpd-sign&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;so_rpd-option&nbsp;=&nbsp;'BT'.<br />
+&nbsp;&nbsp;so_rpd-low&nbsp;=&nbsp;'20240301'.&nbsp;&nbsp;&nbsp;"(시스템&nbsp;변수와&nbsp;문자열&nbsp;활용할&nbsp;것)<br />
+&nbsp;&nbsp;so_rpd-high&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;APPEND&nbsp;so_rpd.<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_rpd.<br />
+<br />
+&nbsp;&nbsp;pa_con1&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;pa_con2&nbsp;=&nbsp;'space'.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*********************************************************************<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;EVENT&nbsp;AT&nbsp;SELECTION-SCREEN&nbsp;OUTPUT&nbsp;:&nbsp;PBO<br />
+&nbsp;&nbsp;"&nbsp;Selection&nbsp;Screen이&nbsp;출력되기&nbsp;직전에&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+&nbsp;&nbsp;"&nbsp;Selection&nbsp;Screen에&nbsp;영향이&nbsp;되는&nbsp;로직들이&nbsp;주로&nbsp;위치<br />
+&nbsp;&nbsp;"&nbsp;Text,&nbsp;Parameters나&nbsp;Select-Options에&nbsp;대한&nbsp;입력필드의&nbsp;잠금,숨김,필수&nbsp;등등<br />
+&nbsp;&nbsp;"&nbsp;화면에&nbsp;대한&nbsp;갱신&nbsp;Dynamic&nbsp;화면&nbsp;설정<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT.<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_con1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-group1&nbsp;=&nbsp;'FD1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;screen-group1&nbsp;=&nbsp;'FD2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;pa_con2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-group1&nbsp;=&nbsp;'FD2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;screen-group1&nbsp;=&nbsp;'FD1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;EVENT&nbsp;ON&nbsp;SELECTION-SCREEN&nbsp;:&nbsp;PAI<br />
+&nbsp;&nbsp;"&nbsp;Selection&nbsp;Screen에서&nbsp;사용자가&nbsp;무언가의&nbsp;행동을&nbsp;했을&nbsp;때&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+&nbsp;&nbsp;"&nbsp;대표적인&nbsp;케이스가&nbsp;Enter&nbsp;또는&nbsp;F8(실행버튼)에&nbsp;대한&nbsp;경우가&nbsp;있다.<br />
+&nbsp;&nbsp;"&nbsp;입력값에&nbsp;대한&nbsp;점검(권한,유효성)<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;CASE&nbsp;sscrfields-ucomm.&nbsp;"사용자가&nbsp;FIELDS&nbsp;부분에&nbsp;액션&nbsp;일으키면<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'FIELDS'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gv_cond&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_cond&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;gv_cond&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_cond&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;AT&nbsp;SELECTION-SCREEN&nbsp;에서&nbsp;오류&nbsp;없이&nbsp;사용자가&nbsp;F8으로&nbsp;실행했을&nbsp;때&nbsp;띄울&nbsp;화면<br />
+&nbsp;&nbsp;"&nbsp;사용자가&nbsp;F8(실행버튼)을&nbsp;눌러서&nbsp;AT&nbsp;SELECTION-SCREEN에서<br />
+&nbsp;&nbsp;"&nbsp;오류&nbsp;메시지&nbsp;없이&nbsp;통과된&nbsp;경우&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+&nbsp;&nbsp;"&nbsp;주로&nbsp;데이터&nbsp;조회&nbsp;및&nbsp;검색결과에&nbsp;대한&nbsp;출력<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;PERFORM&nbsp;get_data.&nbsp;"DB에서&nbsp;데이터&nbsp;전체조회<br />
+&nbsp;&nbsp;PERFORM&nbsp;make_data.&nbsp;"가져온&nbsp;전체데이터&nbsp;가공&nbsp;및&nbsp;처리<br />
+&nbsp;&nbsp;PERFORM&nbsp;sort_data.&nbsp;"데이터&nbsp;정렬<br />
+&nbsp;&nbsp;PERFORM&nbsp;display_data.&nbsp;"기본(100번)&nbsp;스크린&nbsp;호출&nbsp;:&nbsp;데이터&nbsp;화면에&nbsp;뿌림&nbsp;(Grid&nbsp;Data)<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_APPEND_INSERT_ITAB</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_APPEND_INSERT_ITAB</h2>
+<h3> Description: internal table : insert, append (sorted 와 비교)</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_MAINTAIN_ITAB<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Data&nbsp;조작&nbsp;실습<br />
+*&&nbsp;Unique<br />
+*&&nbsp;header&nbsp;line&nbsp;없음<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_append_insert_itab.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;structure&nbsp;type&nbsp;선언<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF ty_type,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num(6)&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name(10)&nbsp;&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phone(15)&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_type.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;internal&nbsp;table&nbsp;선언<br />
+*DATA&nbsp;:&nbsp;gt_itab&nbsp;&nbsp;TYPE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;ty_type&nbsp;WITH&nbsp;UNIQUE&nbsp;KEY&nbsp;num.<br />
+   </div>
+   <div class="code">
+DATA : gt_itab  TYPE TABLE OF ty_type.<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gt_itab&nbsp;&nbsp;TYPE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;ty_type&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;num.<br />
+*DATA&nbsp;:&nbsp;gt_itab2&nbsp;TYPE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;ty_type&nbsp;WITH&nbsp;UNIQUE&nbsp;KEY&nbsp;num.<br />
+<br />
+*&nbsp;work&nbsp;area&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA : gs_itab  LIKE LINE OF gt_itab.<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gs_itab2&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_itab2.<br />
+<br />
+*&nbsp;itab&nbsp;갯수<br />
+   </div>
+   <div class="code">
+DATA : gv_line TYPE i.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*&nbsp;INSERT<br />
+*--------------------------------------------------------------------*<br />
+*-&nbsp;데이터&nbsp;삽입<br />
+<br />
+   </div>
+   <div class="code">
+gs_itab-num = '0004'.<br />
+gs_itab-name = '구도현'.<br />
+gs_itab-phone = '010-444-4444'.<br />
+<br />
+INSERT gs_itab INTO TABLE gt_itab.<br />
+<br />
+<br />
+gs_itab-num = '0001'.<br />
+gs_itab-name = '강은혜'.<br />
+gs_itab-phone = '010-111-1111'.<br />
+<br />
+INSERT gs_itab INTO TABLE gt_itab.<br />
+<br />
+gs_itab-num = '0001'.<br />
+gs_itab-name = '강은혜'.<br />
+gs_itab-phone = '010-999-0000'.<br />
+<br />
+INSERT gs_itab INTO TABLE gt_itab.<br />
+<br />
+gs_itab-num = '0004'.<br />
+gs_itab-name = '강태윤'.<br />
+gs_itab-phone = '010-222-2222'.<br />
+<br />
+INSERT gs_itab INTO TABLE gt_itab.<br />
+<br />
+gs_itab-num = '0002'.<br />
+gs_itab-name = '고가현'.<br />
+gs_itab-phone = '010-333-3333'.<br />
+<br />
+INSERT gs_itab INTO TABLE gt_itab.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*SORT&nbsp;gt_itab.<br />
+*SORT&nbsp;gt_itab&nbsp;by&nbsp;num.&nbsp;"as<br />
+*SORT&nbsp;gt_itab&nbsp;BY&nbsp;num&nbsp;DESCENDING&nbsp;name&nbsp;ASCENDING.<br />
+<br />
+*BREAK-POINT.<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;APPEND<br />
+*--------------------------------------------------------------------*<br />
+*CLEAR&nbsp;:&nbsp;gs_itab,&nbsp;gt_itab.<br />
+<br />
+   </div>
+   <div class="code">
+gs_itab-num = '0004'.<br />
+gs_itab-name = '구도현'.<br />
+gs_itab-phone = '010-444-4444'.<br />
+<br />
+APPEND gs_itab TO gt_itab.<br />
+<br />
+gs_itab-num = '0005'.<br />
+gs_itab-name = '김범일'.<br />
+gs_itab-phone = '010-555-5555'.<br />
+<br />
+APPEND gs_itab TO gt_itab.<br />
+<br />
+gs_itab-num = '0005'.<br />
+gs_itab-name = '김용준'.<br />
+gs_itab-phone = '010-666-6666'.<br />
+<br />
+APPEND gs_itab TO gt_itab.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;데이터&nbsp;갯수<br />
+<br />
+   </div>
+   <div class="code">
+DESCRIBE TABLE gt_itab LINES  gv_line.   " TYPE I<br />
+<br />
+WRITE gv_line.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*&nbsp;DELETE<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+BREAK-POINT.<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;중복&nbsp;제거<br />
+   </div>
+   <div class="code">
+" 1. 중복 제거 기준으로 정렬한다.<br />
+" 2. comparing 에 해당 기준 필드를 입력하여 중복 제거한다.<br />
+<br />
+SORT gt_itab BY num.<br />
+DELETE ADJACENT DUPLICATES FROM gt_itab COMPARING num.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*LOOP&nbsp;AT&nbsp;gt_itab.<br />
+*READ&nbsp;TABLE&nbsp;tmp_itab&nbsp;....<br />
+*ENDLOOP.<br />
+<br />
+*BREAK-POINT.<br />
+*<br />
+*LOOP&nbsp;AT&nbsp;gt_itab&nbsp;INTO&nbsp;gs_itab.<br />
+*&nbsp;&nbsp;DELETE&nbsp;gt_itab&nbsp;WHERE&nbsp;num&nbsp;=&nbsp;'0004'.<br />
+*ENDLOOP.<br />
+*<br />
+*<br />
+*BREAK-POINT.<br />
+*<br />
+*DELETE&nbsp;gt_itab&nbsp;WHERE&nbsp;num&nbsp;=&nbsp;'0005'.<br />
+*<br />
+*BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

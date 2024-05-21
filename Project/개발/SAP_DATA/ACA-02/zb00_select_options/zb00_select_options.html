@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_SELECT_OPTIONS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_SELECT_OPTIONS</h2>
+<h3> Description: SELECT-OPTIONS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_SELECT_OPTIONS&nbsp;:&nbsp;S_,&nbsp;SO_<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;SELECTION-SCREEN&nbsp;INCLUDE<br />
+*&&nbsp;SELECT-OPTIONS&nbsp;selcrit<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[OBLIGATORY&nbsp;[OFF]]<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NO&nbsp;INTERVALS&nbsp;[OFF]]<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NO-EXTENSION&nbsp;[OFF]]<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MODIF&nbsp;ID&nbsp;modid]<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ID&nbsp;id].<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_select_options.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*&nbsp;SELECT-OPTIONS<br />
+*--------------------------------------------------------------------*<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+" Option : EQ, NE, =&gt; low<br />
+" LT, GT, GE, LE... : 논리에 맞게 low, high 위치가 정해져있다.<br />
+" BT =&gt; low, high<br />
+<br />
+" structured type (WA..)  : database table, structure, database view<br />
+TABLES : scarr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mara,&nbsp;"&nbsp;(&nbsp;=&nbsp;data&nbsp;:&nbsp;mara&nbsp;TYPE&nbsp;mara.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sflight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gs_mara&nbsp;TYPE&nbsp;mara.<br />
+<br />
+<br />
+<br />
+*DATA&nbsp;:&nbsp;일반적인&nbsp;변수&nbsp;선언<br />
+<br />
+*RANGES&nbsp;:&nbsp;&nbsp;"&nbsp;[&nbsp;=&nbsp;SELECT-OPTIONS&nbsp;]<br />
+   </div>
+   <div class="code">
+" sign option low high<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;기본&nbsp;선언<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: s_date FOR sy-datum." DEFAULT '20210101' TO '20220101'.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;필수값<br />
+*SELECT-OPTIONS:&nbsp;s_oblig&nbsp;FOR&nbsp;sy-datum&nbsp;OBLIGATORY.<br />
+<br />
+*SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+*<br />
+*&nbsp;기본&nbsp;값&nbsp;+&nbsp;최소&nbsp;/&nbsp;최대값&nbsp;초기&nbsp;설정<br />
+*SELECT-OPTIONS:&nbsp;s_def&nbsp;FOR&nbsp;sy-datum&nbsp;DEFAULT&nbsp;sy-datum.<br />
+*<br />
+*SELECT-OPTIONS:&nbsp;s_minmax&nbsp;FOR&nbsp;sflight-seatsmax&nbsp;DEFAULT&nbsp;18&nbsp;TO&nbsp;60<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIGN&nbsp;I&nbsp;OPTION&nbsp;BT.<br />
+*<br />
+*&nbsp;화면에서&nbsp;안&nbsp;보이게<br />
+*SELECT-OPTIONS:&nbsp;s_nodisp&nbsp;FOR&nbsp;sy-datum&nbsp;NO-DISPLAY.<br />
+*<br />
+*SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+*<br />
+*&nbsp;소문자&nbsp;인식<br />
+*SELECT-OPTIONS:&nbsp;s_url&nbsp;FOR&nbsp;scarr-url&nbsp;&nbsp;LOWER&nbsp;CASE.<br />
+*<br />
+*&nbsp;길이&nbsp;셋팅<br />
+*SELECT-OPTIONS:&nbsp;s_length&nbsp;FOR&nbsp;scarr-url&nbsp;VISIBLE&nbsp;LENGTH&nbsp;5.<br />
+*<br />
+*SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+*<br />
+*&nbsp;확장&nbsp;안&nbsp;함<br />
+*SELECT-OPTIONS:&nbsp;s_ext&nbsp;FOR&nbsp;sy-datum&nbsp;NO-EXTENSION.<br />
+*<br />
+*&nbsp;범위&nbsp;안&nbsp;함<br />
+*SELECT-OPTIONS:&nbsp;s_int&nbsp;FOR&nbsp;sy-datum&nbsp;NO&nbsp;INTERVALS.<br />
+*<br />
+*&nbsp;확장&nbsp;안&nbsp;함&nbsp;+&nbsp;범위&nbsp;안&nbsp;함<br />
+*SELECT-OPTIONS:&nbsp;s_ei&nbsp;FOR&nbsp;sy-datum&nbsp;NO-EXTENSION&nbsp;NO&nbsp;INTERVALS.<br />
+<br />
+*SELECTION-SCREEN&nbsp;SKIP&nbsp;2.<br />
+<br />
+*&nbsp;도움말&nbsp;적용&nbsp;(search&nbsp;help&nbsp;:&nbsp;F4)<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: s_matnr FOR mara-matnr MATCHCODE OBJECT mat.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;메모리&nbsp;설정&nbsp;(ABAP&nbsp;메모리&nbsp;활용)<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: s_memory FOR mara-matnr MEMORY ID mat.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;화면&nbsp;수정&nbsp;식별자&nbsp;(screen&nbsp;modify)<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: s_modif FOR mara-matnr MODIF ID mat.<br />
+<br />
+" 초기값, 권한 체크<br />
+<br />
+INITIALIZATION.    " 초기화, 화면이 나타나기 전에 수행되는 이벤트 블록<br />
+<br />
+&nbsp;&nbsp;"&nbsp;header&nbsp;line&nbsp;포함&nbsp;,&nbsp;이름이&nbsp;같아.<br />
+&nbsp;&nbsp;s_date-sign&nbsp;&nbsp;&nbsp;=&nbsp;'I'.&nbsp;&nbsp;"&nbsp;or&nbsp;E'.<br />
+&nbsp;&nbsp;s_date-option&nbsp;=&nbsp;'BT'.<br />
+&nbsp;&nbsp;s_date-low&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'20210101'.<br />
+&nbsp;&nbsp;s_date-high&nbsp;&nbsp;&nbsp;=&nbsp;'20220101'.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;라인을&nbsp;인터널&nbsp;테이블에&nbsp;추가하는&nbsp;명령&nbsp;키워드&nbsp;APPEND&nbsp;&gt;&nbsp;&nbsp;INSERT<br />
+&nbsp;&nbsp;APPEND&nbsp;s_date.<br />
+&nbsp;&nbsp;CLEAR&nbsp;s_date.<br />
+<br />
+&nbsp;&nbsp;s_date-sign&nbsp;&nbsp;&nbsp;=&nbsp;'E'.&nbsp;&nbsp;"&nbsp;or&nbsp;E'.<br />
+&nbsp;&nbsp;s_date-option&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;s_date-low&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'20210801'.<br />
+   </div>
+   <div class="codeComment">
+*s_date-high&nbsp;&nbsp;&nbsp;=&nbsp;'20220101'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;라인을&nbsp;인터널&nbsp;테이블에&nbsp;추가하는&nbsp;명령&nbsp;키워드&nbsp;APPEND&nbsp;&gt;&nbsp;&nbsp;INSERT<br />
+&nbsp;&nbsp;APPEND&nbsp;s_date.<br />
+&nbsp;&nbsp;CLEAR&nbsp;s_date.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*BREAK-POINT.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+*TABLES&nbsp;scarr.&nbsp;&nbsp;&nbsp;"&nbsp;구조&nbsp;형태를&nbsp;선언하는&nbsp;키워드.<br />
+<br />
+*SELECT-OPTIONS&nbsp;:&nbsp;so_carr&nbsp;FOR&nbsp;scarr-carrid.&nbsp;"internal&nbsp;table<br />
+*<br />
+*<br />
+*<br />
+*DATA&nbsp;:&nbsp;gs_scarr&nbsp;TYPE&nbsp;scarr.<br />
+*<br />
+*SELECT-OPTIONS&nbsp;:&nbsp;so_carr2&nbsp;FOR&nbsp;gs_scarr-carrid.&nbsp;"internal&nbsp;table<br />
+<br />
+<br />
+<br />
+*DATA&nbsp;:&nbsp;gt_scarr&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;scarr,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_scarr&nbsp;TYPE&nbsp;scarr.<br />
+*<br />
+*SELECT&nbsp;*&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_scarr<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;scarr<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_carr.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;carrid&nbsp;NE&nbsp;'AC'<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;carrid&nbsp;BETWEEN&nbsp;'AA'&nbsp;AND&nbsp;'AZ'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_scarr&nbsp;INTO&nbsp;gs_scarr.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;gs_scarr.<br />
+*<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+*<br />
+*ENDIF.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;S_EI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no확장&no범위<br />
+*&nbsp;S_EXT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no확장<br />
+*&nbsp;S_INT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no범위<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

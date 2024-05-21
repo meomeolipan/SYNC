@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_NATIVE_SQL</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_NATIVE_SQL</h2>
+<h3> Description: NATIVE_SQL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBOO_NATIVE_SQL<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[T-code:&nbsp;ST04]&nbsp;=&gt;&nbsp;Diagnostics&nbsp;=&gt;&nbsp;SQL&nbsp;Editor<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_native_sql.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;1)&nbsp;기본구문<br />
+*&nbsp;변수명&nbsp;앞에&nbsp;콜론(:)&nbsp;기호를&nbsp;추가해야&nbsp;한다.<br />
+*&nbsp;WHERE(조건)&nbsp;구문&nbsp;내에&nbsp;클라이언트&nbsp;구분자,&nbsp;즉&nbsp;MANDT&nbsp;필드를&nbsp;반드시&nbsp;기술해야&nbsp;한다.<br />
+*&nbsp;미기술시,&nbsp;인덱스활용이&nbsp;불가능해&nbsp;테이블&nbsp;full-scan으로인해&nbsp;성능이&nbsp;저하된다.<br />
+*<br />
+   </div>
+   <div class="code">
+" format<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;EXEC&nbsp;SQL&nbsp;.<br />
+*&nbsp;&nbsp;&nbsp;&lt;NATIVE&nbsp;SQL&nbsp;statement&gt;<br />
+*&nbsp;ENDEXEC.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*DATA&nbsp;:&nbsp;gv_carrid&nbsp;LIKE&nbsp;sflight-carrid&nbsp;VALUE&nbsp;'AA',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_connid&nbsp;LIKE&nbsp;sflight-connid.<br />
+*<br />
+*"&nbsp;ㄹㅇ&nbsp;sql&nbsp;.으로&nbsp;접근,&nbsp;변수&nbsp;앞&nbsp;:&nbsp;,&nbsp;","&nbsp;사용<br />
+*EXEC&nbsp;SQL.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;SELECT&nbsp;a.connid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;:gv_connid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight&nbsp;a<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;a.mandt&nbsp;&nbsp;=&nbsp;:sy-mandt<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;a.carrid&nbsp;=&nbsp;:gv_carrid<br />
+*<br />
+*ENDEXEC.<br />
+*<br />
+*WRITE&nbsp;:/&nbsp;gv_connid.<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*2)&nbsp;Native&nbsp;SQL&nbsp;+&nbsp;Internal&nbsp;table<br />
+*<br />
+*&nbsp;PERFORMING&nbsp;구문을&nbsp;통해&nbsp;여러개의&nbsp;데이터를&nbsp;internal&nbsp;table에&nbsp;한번에&nbsp;삽입할&nbsp;수&nbsp;있다.<br />
+*&nbsp;PERFORMING구문:&nbsp;SELECT문이&nbsp;한번&nbsp;실행될때마다&nbsp;특정&nbsp;Subroutine을&nbsp;실행<br />
+*<br />
+*&nbsp;EXEC&nbsp;SQL&nbsp;PERFORMING&nbsp;&lt;form&gt;<br />
+*&nbsp;&nbsp;&nbsp;&lt;NATIVE&nbsp;SQL&nbsp;statement&gt;<br />
+*&nbsp;ENDEXEC.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;t_str,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;TYPE&nbsp;sflight-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;t_str.<br />
+*<br />
+*DATA&nbsp;:&nbsp;gt_itab&nbsp;&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;t_str,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_wa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;t_str,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_carrid&nbsp;LIKE&nbsp;sflight-carrid&nbsp;VALUE&nbsp;'AA'.<br />
+*<br />
+*EXEC&nbsp;SQL&nbsp;PERFORMING&nbsp;append_itab.&nbsp;"퍼폼문같은<br />
+*&nbsp;&nbsp;SELECT&nbsp;A.CARRID,&nbsp;A.CONNID<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;:GS_WA-CARRID,&nbsp;:GS_WA-CONNID<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;A<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;A.MANDT&nbsp;=&nbsp;:SY-MANDT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID&nbsp;=&nbsp;:GV_CARRID<br />
+*ENDEXEC.<br />
+*<br />
+*FORM&nbsp;append_itab.<br />
+*&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_wa-carrid,&nbsp;gs_wa-connid.<br />
+*&nbsp;&nbsp;APPEND&nbsp;gs_wa&nbsp;TO&nbsp;gt_itab.<br />
+*&nbsp;&nbsp;CLEAR&nbsp;gt_itab.<br />
+*ENDFORM.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;3)&nbsp;Native&nbsp;SQL&nbsp;+&nbsp;JOIN<br />
+*&---------------------------------------------------------------------*<br />
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;t_str,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-connid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;t_str.<br />
+*<br />
+*DATA&nbsp;:&nbsp;gs_wa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;t_str,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_carrid&nbsp;LIKE&nbsp;sflight-carrid&nbsp;VALUE&nbsp;'AA'.<br />
+<br />
+   </div>
+   <div class="code">
+" inner join<br />
+   </div>
+   <div class="codeComment">
+*EXEC&nbsp;SQL&nbsp;PERFORMING&nbsp;write_data.<br />
+*&nbsp;&nbsp;SELECT&nbsp;A.CARRID,&nbsp;B.CARRNAME<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;:GS_WA-CARRID,&nbsp;:GS_WA-CARRNAME<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;A,&nbsp;SCARR&nbsp;B<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;A.MANDT&nbsp;=&nbsp;B.MANDT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID&nbsp;=&nbsp;B.CARRID<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.MANDT&nbsp;=&nbsp;:SY-MANDT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID&nbsp;=&nbsp;:GV_CARRID<br />
+*ENDEXEC.<br />
+<br />
+   </div>
+   <div class="code">
+" outer join<br />
+   </div>
+   <div class="codeComment">
+*EXEC&nbsp;SQL&nbsp;PERFORMING&nbsp;WRITE_DATA.<br />
+*&nbsp;&nbsp;SELECT&nbsp;A.CARRID,&nbsp;B.CARRNAME<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;:GS_WA-CARRID,&nbsp;:GS_WA-CARRNAME<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;A,&nbsp;SCARR&nbsp;B<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;A.MANDT(+)&nbsp;=&nbsp;B.MANDT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID(+)&nbsp;=&nbsp;B.CARRID<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.MANDT&nbsp;=&nbsp;:SY-MANDT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID&nbsp;=&nbsp;:GV_CARRID<br />
+*ENDEXEC.<br />
+<br />
+*<br />
+*FORM&nbsp;write_data.<br />
+*&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_wa-carrid,&nbsp;gs_wa-carrname.<br />
+*ENDFORM.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*4)&nbsp;Native&nbsp;SQL&nbsp;+&nbsp;SUBSTRING<br />
+*gv_char&nbsp;문자열의&nbsp;3번째&nbsp;문자부터&nbsp;길이&nbsp;2만큼&nbsp;추출<br />
+*Abap의&nbsp;Length&Offset이용:&nbsp;gv_char+2(2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;인덱스(2)&nbsp;==&nbsp;3번째&nbsp;문자<br />
+*Oracle&nbsp;DB의&nbsp;SUBSTR이용:&nbsp;&nbsp;&nbsp;SUBSTR(gv_char,&nbsp;3,&nbsp;2)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA : gs_wa       TYPE sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid&nbsp;VALUE&nbsp;'AA'.<br />
+<br />
+EXEC SQL PERFORMING write_data.<br />
+&nbsp;&nbsp;SELECT&nbsp;A.CARRID,&nbsp;SUBSTR(B.CARRNAME,&nbsp;1,&nbsp;8)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;:GS_WA-CARRID,&nbsp;:GV_CARRNAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;A,&nbsp;SCARR&nbsp;B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;A.MANDT&nbsp;=&nbsp;B.MANDT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID&nbsp;=&nbsp;B.CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.MANDT&nbsp;=&nbsp;:SY-MANDT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A.CARRID&nbsp;=&nbsp;:GV_CARRID<br />
+ENDEXEC.<br />
+<br />
+FORM write_data.<br />
+&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;gs_wa-carrid,&nbsp;gs_wa-connid,&nbsp;gv_carrname.<br />
+ENDFORM.<br />
+<br />
+"offset : abap<br />
+   </div>
+   <div class="codeComment">
+*DATA:&nbsp;gv_char&nbsp;type&nbsp;c&nbsp;length&nbsp;10.<br />
+*gv_char&nbsp;=&nbsp;'TEST_SAP'.<br />
+*WRITE&nbsp;gv_char+2(2).&nbsp;"ST<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

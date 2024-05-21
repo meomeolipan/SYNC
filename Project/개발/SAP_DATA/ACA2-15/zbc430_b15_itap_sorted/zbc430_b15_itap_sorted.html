@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC430_B15_ITAP_SORTED</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC430_B15_ITAP_SORTED</h2>
+<h3> Description: Program ZBC430_B15_ITAP_SORTED</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC430_B15_ITAP_SORTED<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc430_b15_itap_sorted.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*dictionary에&nbsp;정의된&nbsp;table&nbsp;type&nbsp;활용해&nbsp;internal&nbsp;table&nbsp;변수&nbsp;선언<br />
+<br />
+   </div>
+   <div class="code">
+DATA: gt_sflight TYPE zit_sflightb15, " gt: general table. sorted table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight&nbsp;TYPE&nbsp;sflight.&nbsp;"&nbsp;line&nbsp;structure&nbsp;(=work&nbsp;area)&nbsp;flat&nbsp;structure<br />
+<br />
+write: / 'Printout in tableorder of DB'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*array&nbsp;fetch&nbsp;-&nbsp;&nbsp;한&nbsp;줄씩&nbsp;가져와서&nbsp;쓰기<br />
+   </div>
+   <div class="code">
+SELECT *<br />
+&nbsp;&nbsp;FROM&nbsp;sflight<br />
+&nbsp;&nbsp;INTO&nbsp;gs_sflight&nbsp;"한&nbsp;줄(값)&nbsp;만<br />
+&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'JL'.<br />
+&nbsp;&nbsp;"AND&nbsp;fldate&nbsp;&lt;&nbsp;'20210103'.&nbsp;추가&nbsp;로직&nbsp;작성&nbsp;가능<br />
+<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;gs_sflight-carrid,&nbsp;gs_sflight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-fldate,&nbsp;gs_sflight-price,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-currency,&nbsp;gs_sflight-planetype.<br />
+<br />
+ENDSELECT. "select 문이 반복문처럼 사용될 때 select-endselect<br />
+<br />
+ULINE.<br />
+<br />
+write: / 'Printout in tableorder of sorted ITAB'.<br />
+<br />
+SELECT *<br />
+&nbsp;&nbsp;FROM&nbsp;sflight<br />
+&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_sflight&nbsp;"데이터&nbsp;전체&nbsp;갖고오기<br />
+&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'JL'<br />
+&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;fldate.&nbsp;"fldate&nbsp;날짜&nbsp;순으로&nbsp;정렬&nbsp;(예전&nbsp;날짜부터)<br />
+<br />
+LOOP AT gt_sflight INTO gs_sflight. "internal data 한 줄씩 처리, gt_sflight에 있는 data structure 한 줄이 gs_sflight에 차례대로 들어감<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;gs_sflight-carrid,&nbsp;gs_sflight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-fldate,&nbsp;gs_sflight-price,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight-currency,&nbsp;gs_sflight-planetype.<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

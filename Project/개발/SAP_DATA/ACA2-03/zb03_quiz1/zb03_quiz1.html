@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB03_QUIZ1</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB03_QUIZ1</h2>
+<h3> Description: DB 조회 + Function Module</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB03_QUIZ1<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb03_quiz1.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------<br />
+*&nbsp;&nbsp;INTERNAL&nbsp;TABLE&nbsp;활용<br />
+*----------------------------------------------------------------------<br />
+**&nbsp;선언부<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_sd,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbeln&nbsp;TYPE&nbsp;vbak-vbeln,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;erdat&nbsp;TYPE&nbsp;vbak-erdat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trvog&nbsp;TYPE&nbsp;vbak-trvog,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbtyp&nbsp;TYPE&nbsp;vbak-vbtyp,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auart&nbsp;TYPE&nbsp;vbak-auart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bezei&nbsp;TYPE&nbsp;tvakt-bezei,&nbsp;"AUART&nbsp;코드에&nbsp;맞는&nbsp;텍스트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desc&nbsp;&nbsp;TYPE&nbsp;char50,&nbsp;"VBTYP&nbsp;코드에&nbsp;맞는&nbsp;텍스트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_sd.<br />
+DATA: gt_sd LIKE TABLE OF gs_sd.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;구현부<br />
+*&nbsp;VBAK&nbsp;데이터베이스&nbsp;조회<br />
+   </div>
+   <div class="code">
+SELECT vbeln erdat trvog vbtyp auart<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sd<br />
+&nbsp;&nbsp;FROM&nbsp;vbak.<br />
+<br />
+LOOP AT gt_sd INTO gs_sd.<br />
+&nbsp;&nbsp;"&nbsp;AUART&nbsp;코드&nbsp;-&gt;&nbsp;BEZEI&nbsp;필드&nbsp;할당<br />
+&nbsp;&nbsp;call&nbsp;function&nbsp;<a&nbsp;href&nbsp;="zfmb03_get_bezei/zfmb03_get_bezei.html">'ZFMB03_GET_BEZEI'</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv_auart&nbsp;=&nbsp;gs_sd-auart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ev_bezei&nbsp;=&nbsp;gs_sd-bezei.<br />
+<br />
+&nbsp;&nbsp;"VBTYP&nbsp;코드&nbsp;-&gt;&nbsp;DESC&nbsp;필드&nbsp;할당<br />
+&nbsp;&nbsp;call&nbsp;function&nbsp;<a&nbsp;href&nbsp;="zfmb03_get_desc/zfmb03_get_desc.html">'ZFMB03_GET_DESC'</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_vbtyp&nbsp;=&nbsp;gs_sd-vbtyp<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ev_desc&nbsp;&nbsp;=&nbsp;gs_sd-desc.<br />
+<br />
+&nbsp;&nbsp;"할당된&nbsp;정보&nbsp;-&gt;&nbsp;internal&nbsp;table&nbsp;갱신<br />
+&nbsp;&nbsp;MODIFY&nbsp;gt_sd&nbsp;FROM&nbsp;gs_sd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;bezei&nbsp;desc&nbsp;"칼럼&nbsp;지정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;vbeln&nbsp;=&nbsp;gs_sd-vbeln.<br />
+<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;출력부<br />
+   </div>
+   <div class="code">
+LOOP AT gt_sd INTO gs_sd.<br />
+&nbsp;&nbsp;cl_demo_output=&gt;display(&nbsp;gs_sd&nbsp;).<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------<br />
+*&nbsp;&nbsp;STRUCTURE&nbsp;활용<br />
+*----------------------------------------------------------------------<br />
+<br />
+**&nbsp;선언부<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;gs_vbak,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbeln&nbsp;TYPE&nbsp;vbak-vbeln,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;erdat&nbsp;TYPE&nbsp;vbak-erdat,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trvog&nbsp;TYPE&nbsp;vbak-trvog,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbtyp&nbsp;TYPE&nbsp;vbak-vbtyp,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auart&nbsp;TYPE&nbsp;vbak-auart,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bezei&nbsp;TYPE&nbsp;tvakt-bezei,&nbsp;"AUART&nbsp;코드에&nbsp;맞는&nbsp;텍스트<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desc&nbsp;&nbsp;TYPE&nbsp;char50,&nbsp;"VBTYP&nbsp;코드에&nbsp;맞는&nbsp;텍스트<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_vbak.<br />
+*<br />
+***&nbsp;구현부<br />
+**&nbsp;VBAK&nbsp;데이터베이스&nbsp;조회<br />
+*SELECT&nbsp;SINGLE&nbsp;vbeln&nbsp;erdat&nbsp;trvog&nbsp;vbtyp&nbsp;auart<br />
+*&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;gs_vbak<br />
+*&nbsp;&nbsp;FROM&nbsp;vbak.<br />
+*<br />
+**&nbsp;AUART&nbsp;코드&nbsp;-&gt;&nbsp;BEZEI&nbsp;필드&nbsp;할당<br />
+*CALL&nbsp;FUNCTION&nbsp;'ZFMB03_GET_BEZEI'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_auart&nbsp;=&nbsp;gs_vbak-auart<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_bezei&nbsp;=&nbsp;gs_vbak-bezei.<br />
+*<br />
+**&nbsp;VBTYP&nbsp;코드&nbsp;-&gt;&nbsp;DESC&nbsp;필드&nbsp;할당<br />
+*CALL&nbsp;FUNCTION&nbsp;'ZFMB03_GET_DESC'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;lv_vbtyp&nbsp;=&nbsp;gs_vbak-vbtyp<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_desc&nbsp;&nbsp;=&nbsp;gs_vbak-desc.<br />
+*<br />
+*<br />
+***&nbsp;출력부<br />
+**WRITE:/&nbsp;gs_vbak-vbeln,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_vbak-erdat.&nbsp;WRITE:/.<br />
+**WRITE:AT&nbsp;25&nbsp;gs_vbak-trvog,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_vbak-vbtyp.&nbsp;WRITE:/.<br />
+**WRITE:AT&nbsp;25&nbsp;gs_vbak-auart,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_vbak-bezei,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_vbak-desc.<br />
+*<br />
+*cl_demo_output=&gt;display(&nbsp;gs_vbak&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

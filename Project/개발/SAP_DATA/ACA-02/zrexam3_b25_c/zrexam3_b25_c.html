@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B25_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B25_C</h2>
+<h3> Description: Report ZEXAM_B25</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEXAM_B25<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;최종욱<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZREXAM3_B25_C MESSAGE-ID ZB25.<br />
+<br />
+include <a href ="zexam_b25_top_c.html">ZEXAM_B25_TOP_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEXAM_B25_TOP.<br />
+   </div>
+   <div class="code">
+include <a href ="zexam_b25_s01_c.html">ZEXAM_B25_S01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEXAM_B25_S01.<br />
+   </div>
+   <div class="code">
+include <a href ="zexam_b25_c01_c.html">ZEXAM_B25_C01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEXAM_B25_C01.<br />
+<br />
+   </div>
+   <div class="code">
+include <a href ="zexam_b25_o01_c.html">ZEXAM_B25_O01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEXAM_B25_O01.<br />
+   </div>
+   <div class="code">
+include <a href ="zexam_b25_i01_c.html">ZEXAM_B25_I01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEXAM_B25_I01.<br />
+   </div>
+   <div class="code">
+include <a href ="zexam_b25_f01_c.html">ZEXAM_B25_F01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEXAM_B25_F01.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;프로그램&nbsp;실행&nbsp;시&nbsp;가장&nbsp;먼저&nbsp;실행되는&nbsp;이벤트&nbsp;구간(1회성)<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+"셀렉트 옵션의 초깃값 설정<br />
+SO_RTD-SIGN   = 'I'.<br />
+SO_RTD-OPTION = 'BT'.<br />
+SO_RTD-LOW    = '20240301'.   "(시스템변수와 문자열 관련한 로직 적용)<br />
+SO_RTD-HIGH   = SY-DATUM.<br />
+<br />
+APPEND SO_RTD.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selection&nbsp;Screen이&nbsp;출력되기&nbsp;직전에&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+*&nbsp;Selection&nbsp;Screen에&nbsp;영향이&nbsp;되는&nbsp;로직들이&nbsp;주로&nbsp;위치<br />
+*&nbsp;Text,&nbsp;Parameters나&nbsp;Select-Options에&nbsp;대한&nbsp;입력필드의&nbsp;잠금,숨김,필수&nbsp;등등<br />
+*--------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selection&nbsp;Screen에서&nbsp;사용자가&nbsp;무언가의&nbsp;행동을&nbsp;했을&nbsp;때&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+*&nbsp;대표적인&nbsp;케이스가&nbsp;Enter&nbsp;또는&nbsp;F8(실행버튼)에&nbsp;대한&nbsp;경우가&nbsp;있다.<br />
+*&nbsp;입력값에&nbsp;대한&nbsp;점검(권한,유효성)<br />
+*--------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;사용자가&nbsp;F8(실행버튼)을&nbsp;눌러서&nbsp;AT&nbsp;SELECTION-SCREEN에서<br />
+*&nbsp;오류&nbsp;메시지&nbsp;없이&nbsp;통과된&nbsp;경우&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+*&nbsp;주로&nbsp;데이터&nbsp;조회&nbsp;및&nbsp;검색결과에&nbsp;대한&nbsp;출력<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+PERFORM SELECT_DATA.<br />
+PERFORM MODIFY_DATA.<br />
+PERFORM DISPLAY_DATA.<br />
+CALL SCREEN 0100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;0100&nbsp;--&gt;&nbsp;[CL2-B25]&nbsp;회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;조회&nbsp;조건<br />
+*&nbsp;002&nbsp;선택&nbsp;조건<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;P_R2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+*&nbsp;SO_MID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원번호<br />
+*&nbsp;SO_MST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원상태<br />
+*&nbsp;SO_RTD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반납예정일<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB25<br />
+*001&nbsp;&nbsp;&nbsp;조건에&nbsp;만족하는&nbsp;데이터가&nbsp;없습니다.<br />
+*006&nbsp;&nbsp;&nbsp;총&nbsp;&건이&nbsp;조회되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

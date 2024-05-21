@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B15_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B15_TOP</h2>
+<h3> Description: Include ZREXAM3_B15_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B15_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*---------<br />
+*&nbsp;top<br />
+*---------<br />
+<br />
+   </div>
+   <div class="code">
+TABLES: ztmember_b15, ztrent_b15, ztbook_b15. "사용할 테이블 선언<br />
+<br />
+DATA: lv_date TYPE string.<br />
+<br />
+DATA: ok_code LIKE sy-ucomm.<br />
+<br />
+DATA: BEGIN OF gs_rent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b15-mb_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_nm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztmember_b15-mb_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_id&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b15-book_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztbook_b15-book_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_dt&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b15-rent_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;TYPE&nbsp;ztrent_b15-rplan_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st&nbsp;TYPE&nbsp;ztrent_b15-return_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st_txt&nbsp;like&nbsp;DD07T-DDTEXT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_dt&nbsp;TYPE&nbsp;ztrent_b15-return_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_st&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztmember_b15-mb_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_field_colors&nbsp;&nbsp;TYPE&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_rent.<br />
+<br />
+DATA: gt_rent LIKE STANDARD TABLE OF gs_rent.<br />
+data:  gv_answer type C,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st_txt&nbsp;type&nbsp;string.<br />
+<br />
+<br />
+DATA: BEGIN OF gs_split,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;ztrent_b15-mb_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_id&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;ztrent_b15-book_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;ztbook_b15-book_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_dt&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;ztrent_b15-rent_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;&nbsp;like&nbsp;ztrent_b15-rplan_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rentprice&nbsp;&nbsp;type&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency&nbsp;&nbsp;&nbsp;type&nbsp;string,&nbsp;"s_curr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell_color&nbsp;type&nbsp;lvc_t_scol,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row_color&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;4,<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_split.<br />
+<br />
+<br />
+DATA: gt_split  LIKE TABLE OF gs_split,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_member&nbsp;TYPE&nbsp;ztmember_b15,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_member&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_member.<br />
+DATA : gs_cell TYPE lvc_s_scol.<br />
+<br />
+DATA: gs_rent_table TYPE ztrent_b15,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_rent_table&nbsp;type&nbsp;ztrent_b15.<br />
+<br />
+"메인 데이터 (1번)<br />
+DATA: go_alv_grid  TYPE REF TO cl_gui_alv_grid, "클래스 참조변수 선언<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_docking&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,&nbsp;"global&nbsp;object&nbsp;선언<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container.&nbsp;"global&nbsp;object&nbsp;선언<br />
+<br />
+DATA: gs_variant TYPE disvariant.<br />
+<br />
+"2번 데이터 (split)<br />
+DATA : gc_grid TYPE REF TO cl_gui_alv_grid.<br />
+DATA : gc_grid2 TYPE REF TO cl_gui_alv_grid.<br />
+DATA : gc_docking TYPE REF TO cl_gui_docking_container.<br />
+DATA : gc_split TYPE REF TO cl_gui_splitter_container.<br />
+DATA : gc_container TYPE REF TO cl_gui_container.<br />
+DATA : gc_container2 TYPE REF TO cl_gui_container.<br />
+<br />
+<br />
+<br />
+" layout을 위해 필요한 data<br />
+DATA: gs_layout      TYPE lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_color&nbsp;TYPE&nbsp;lvc_s_scol.<br />
+<br />
+DATA : gs_layo TYPE lvc_s_layo.<br />
+DATA : gs_layo2 TYPE lvc_s_layo.<br />
+<br />
+<br />
+"Sort<br />
+DATA : gs_sort  TYPE lvc_s_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort2&nbsp;TYPE&nbsp;lvc_t_sort.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;field&nbsp;catalog<br />
+   </div>
+   <div class="code">
+DATA : gs_fcat TYPE lvc_s_fcat.<br />
+DATA : gt_fcat1 TYPE lvc_t_fcat.<br />
+DATA : gt_fcat2 TYPE lvc_t_fcat.<br />
+<br />
+DATA: gt_field_cat TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;event&nbsp;class<br />
+   </div>
+   <div class="code">
+CLASS lcl_event DEFINITION DEFERRED.<br />
+DATA : go_event TYPE REF TO lcl_event.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;overfee&nbsp;class<br />
+   </div>
+   <div class="code">
+CLASS lcl_overfee DEFINITION DEFERRED.<br />
+DATA: go_fee TYPE REF TO lcl_overfee.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;screen<br />
+<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK bl_opt WITH FRAME TITLE TEXT-tlo. "첫번째 radio 버튼 블락<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p1&nbsp;USER-COMMAND&nbsp;radio&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1&nbsp;DEFAULT&nbsp;'X',&nbsp;"sflight기본선택<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1.<br />
+SELECTION-SCREEN END OF BLOCK bl_opt.<br />
+<br />
+SELECTION-SCREEN SKIP 1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK bl_field WITH FRAME TITLE TEXT-tlf. "두번째 바뀌는 블락<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_id&nbsp;FOR&nbsp;ztmember_b15-mb_id&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;pa_sta&nbsp;LIKE&nbsp;ztmember_b15-mb_st&nbsp;DEFAULT&nbsp;'A'&nbsp;MODIF&nbsp;ID&nbsp;pf&nbsp;.&nbsp;"fg&nbsp;=&nbsp;펑션코드<br />
+&nbsp;&nbsp;"No..&nbsp;대신에&nbsp;parameter로&nbsp;해도&nbsp;상관&nbsp;ㄴ<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_dat&nbsp;FOR&nbsp;ztrent_b15-rplan_dt&nbsp;MODIF&nbsp;ID&nbsp;pf&nbsp;.<br />
+<br />
+<br />
+SELECTION-SCREEN END OF BLOCK bl_field.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

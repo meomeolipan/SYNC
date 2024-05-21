@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC430_B05_STRUCT_DEEP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC430_B05_STRUCT_DEEP</h2>
+<h3> Description: Program ZBC430_B05_STRUCT_DEEP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC430_B05_STRUCT_DEEP<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc430_b05_struct_deep.<br />
+<br />
+DATA wa_person TYPE zpersonb05. "structure<br />
+DATA wa_phone TYPE str_phone.   "work area<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Fill&nbsp;deep&nbsp;structure&nbsp;with&nbsp;data<br />
+   </div>
+   <div class="code">
+wa_person-name-firstname = '신'.<br />
+wa_person-name-lastname = '짱구'.<br />
+wa_person-city = '서울'.<br />
+wa_person-zip = '집'.<br />
+wa_person-street = '몰루'.<br />
+wa_person-nr = '5'.<br />
+<br />
+"새로 추가된 테이블 타입( = Internal Table )에 data를 넣는 방법<br />
+<br />
+"1.  structure의 component가 가진 table type의 line type형태의 work area에 입력<br />
+wa_phone-p_type = 'p'.<br />
+wa_phone-p_number = '0123456789'.<br />
+<br />
+"2. 구성된 work area의 값을 table type에 넣는다.<br />
+INSERT wa_phone INTO TABLE wa_person-phone.<br />
+<br />
+wa_phone-p_type = 'f'.<br />
+wa_phone-p_number = '9876543210'.<br />
+<br />
+INSERT wa_phone INTO TABLE wa_person-phone.<br />
+<br />
+wa_phone-p_type = 'm'.<br />
+wa_phone-p_number = '55555555555'.<br />
+<br />
+<br />
+INSERT wa_phone INTO TABLE wa_person-phone.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Write&nbsp;on&nbsp;List<br />
+   </div>
+   <div class="code">
+WRITE: / wa_person-name-firstname(2),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_person-name-lastname(4),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_person-street(5),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_person-nr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_person-zip(2),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_person-city(4).<br />
+<br />
+WRITE: / 'Phone-Numbers:'.<br />
+<br />
+LOOP AT wa_person-phone INTO wa_phone."sy-tabix 를 해서 반복문횟수 체크 가능<br />
+<br />
+&nbsp;&nbsp;WRITE:&nbsp;AT&nbsp;20&nbsp;wa_phone-p_type,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_phone-p_number.<br />
+&nbsp;&nbsp;NEW-LINE.<br />
+<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

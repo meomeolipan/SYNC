@@ -1,0 +1,827 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B03_ALV_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B03_ALV_F01</h2>
+<h3> Description: Include ZBC405_B03_ALV_F01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC405_B03_ALV_F01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;GET_VARIANT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;F4&nbsp;Variant&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_f4_variant .<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'LVC_VARIANT_SAVE_LOAD'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_save_load&nbsp;=&nbsp;'F'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs_variant&nbsp;&nbsp;=&nbsp;gs_variant<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pv_lv&nbsp;=&nbsp;gs_variant-variant.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;get_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;조회<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_data .<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;DB에서&nbsp;데이터&nbsp;조회&nbsp;-&gt;&nbsp;INTERNAL&nbsp;TABLE<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_flight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"SELECT-OPTIONS&nbsp;조건<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_carid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;IN&nbsp;so_conid.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;make_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;가공&nbsp;및&nbsp;처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM make_data .<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ICON&nbsp;FILED<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"INTERNAL&nbsp;TABLE의&nbsp;LIGHT&nbsp;필드를&nbsp;SEATSOCC&nbsp;필드&nbsp;값에&nbsp;따라&nbsp;지정<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-seatsocc&nbsp;&lt;&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-light&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;gs_flight-seatsocc&nbsp;&lt;&nbsp;100.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-light&nbsp;=&nbsp;'2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-light&nbsp;=&nbsp;'3'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;COLOR<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"현재&nbsp;동일년도+동일달인&nbsp;경우(YYYYMM)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-fldate(6)&nbsp;=&nbsp;sy-datum(6).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-color&nbsp;=&nbsp;'C'&nbsp;&&&nbsp;col_negative&nbsp;&&&nbsp;'10'.&nbsp;&nbsp;&nbsp;&nbsp;"COLOR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"CELL&nbsp;COLOR&nbsp;지정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-planetype&nbsp;=&nbsp;'747-400'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-fname&nbsp;=&nbsp;'PLANETYPE'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-color-col&nbsp;=&nbsp;col_positive.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-color-int&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-color-inv&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-nokeycol&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;gs_field&nbsp;TO&nbsp;gs_flight-it_colfields.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-currency&nbsp;=&nbsp;'USD'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-fname&nbsp;=&nbsp;'CURRENCY'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-color-col&nbsp;=&nbsp;col_negative.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-color-int&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-color-inv&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field-nokeycol&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;gs_field&nbsp;TO&nbsp;gs_flight-it_colfields.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;CATALOG<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-fldate&nbsp;&lt;&nbsp;sy-datum.&nbsp;"운행날짜가&nbsp;현재&nbsp;시간보다&nbsp;이전일&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-changes_possible&nbsp;=&nbsp;icon_space.&nbsp;"icon&nbsp;공백&nbsp;처리<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-changes_possible&nbsp;=&nbsp;icon_okay.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Cell&nbsp;Button<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gs_flight-fldate&nbsp;&gt;&nbsp;sy-datum.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_cell_style-fieldname&nbsp;=&nbsp;'DISPLAY_BOOKINGS'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_cell_style-style&nbsp;=&nbsp;cl_gui_alv_grid=&gt;mc_style_button.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;gs_cell_style&nbsp;TO&nbsp;gs_flight-it_cell_style.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-display_bookings&nbsp;=&nbsp;'예약가능'(t11).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;INTERNAL&nbsp;TABLE&nbsp;업데이트<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;gt_flight&nbsp;FROM&nbsp;gs_flight&nbsp;TRANSPORTING&nbsp;light&nbsp;color&nbsp;it_colfields&nbsp;changes_possible&nbsp;display_bookings&nbsp;it_cell_style.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;데이터&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_data .<br />
+&nbsp;&nbsp;"DESCRIBE&nbsp;TABLE&nbsp;gt_flight.&nbsp;"건수(sy-fill)&nbsp;활용<br />
+&nbsp;&nbsp;DATA&nbsp;lv_lin&nbsp;TYPE&nbsp;i.<br />
+&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;gt_flight&nbsp;LINES&nbsp;lv_lin.&nbsp;"위의&nbsp;시스템&nbsp;변수를&nbsp;변수로&nbsp;선언하와&nbsp;활용.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;gt_flight&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s002&nbsp;WITH&nbsp;sy-tfill.&nbsp;"&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;100.&nbsp;&nbsp;"ALV&nbsp;스크린&nbsp;조회<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"SELECT&nbsp;문에서&nbsp;불러온&nbsp;데이터가&nbsp;없을&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s001.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;LIST-PROCESSING.&nbsp;"&nbsp;스크린&nbsp;조회&nbsp;X<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"LEAVE&nbsp;TO&nbsp;LIST-PROCESSING&nbsp;AND&nbsp;RETURN&nbsp;TO&nbsp;SCREEN&nbsp;0.&nbsp;"초기화면&nbsp;반환<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"LEAVE&nbsp;LIST-PROCESSING.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_CATALOG<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GRID&nbsp;CATALOG&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_catalog .<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'LIGHT'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'Utilization'(h02).<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;"예약된&nbsp;이코노미&nbsp;좌석&nbsp;합계&nbsp;필드<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'SEATSOCC'.<br />
+&nbsp;&nbsp;gs_field_cat-do_sum&nbsp;=&nbsp;'X'.&nbsp;"합계<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;"현재&nbsp;총&nbsp;예약&nbsp;필드&nbsp;숨김<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'PAYMENTSUM'.<br />
+&nbsp;&nbsp;gs_field_cat-no_out&nbsp;=&nbsp;'X'.&nbsp;"필드&nbsp;숨김&nbsp;처리<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;"CHANGES_POSSIBLE&nbsp;필드&nbsp;추가<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'CHANGES_POSSIBLE'.<br />
+&nbsp;&nbsp;gs_field_cat-icon&nbsp;=&nbsp;'X'.&nbsp;"ICON&nbsp;명시<br />
+&nbsp;&nbsp;gs_field_cat-col_pos&nbsp;=&nbsp;5.&nbsp;"5번째&nbsp;위치에&nbsp;출력<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'Changes&nbsp;possible'(h03)."필드&nbsp;Heading&nbsp;값&nbsp;변경<br />
+&nbsp;&nbsp;gs_field_cat-tooltip&nbsp;=&nbsp;'Are&nbsp;Changes&nbsp;Possible?'(t01).&nbsp;"빠른&nbsp;정보<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;"hotspot&nbsp;이벤트&nbsp;추가<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'FLDATE'.<br />
+&nbsp;&nbsp;gs_field_cat-hotspot&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+&nbsp;&nbsp;"PUSH&nbsp;버튼&nbsp;필드&nbsp;추가<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_field_cat.<br />
+&nbsp;&nbsp;gs_field_cat-fieldname&nbsp;=&nbsp;'DISPLAY_BOOKINGS'.<br />
+&nbsp;&nbsp;gs_field_cat-coltext&nbsp;=&nbsp;'Reservation'(h04).<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_field_cat&nbsp;TO&nbsp;gt_field_cat.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_LAYOUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GRID&nbsp;LAYOUT&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_layout .<br />
+&nbsp;&nbsp;gs_layout-excp_fname&nbsp;=&nbsp;'LIGHT'.&nbsp;"예외사항&nbsp;필드&nbsp;지정&nbsp;-&nbsp;신호등&nbsp;표시<br />
+&nbsp;&nbsp;"gs_layout-excp_led&nbsp;=&nbsp;'X'.&nbsp;&nbsp;"LED&nbsp;표시<br />
+&nbsp;&nbsp;gs_layout-ctab_fname&nbsp;=&nbsp;'IT_FIELD_COLORS'.<br />
+&nbsp;&nbsp;gs_layout-sel_mode&nbsp;=&nbsp;'D'.<br />
+&nbsp;&nbsp;gs_layout-info_fname&nbsp;=&nbsp;'COLOR'.<br />
+&nbsp;&nbsp;gs_layout-stylefname&nbsp;&nbsp;=&nbsp;'IT_CELL_STYLE'.&nbsp;"cell&nbsp;style<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_SORT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GRID&nbsp;SORTING&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_sort .<br />
+&nbsp;&nbsp;gs_sorting_criterion-fieldname&nbsp;=&nbsp;'FLDATE'.<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_sorting_criterion&nbsp;TO&nbsp;gt_sorting_criteria.<br />
+&nbsp;&nbsp;CLEAR&nbsp;gs_sorting_criterion.<br />
+<br />
+&nbsp;&nbsp;gs_sorting_criterion-fieldname&nbsp;=&nbsp;'CARRID'.<br />
+&nbsp;&nbsp;"gs_sorting_criterion-UP&nbsp;=&nbsp;'X'.&nbsp;DEFAULT&nbsp;오름차순<br />
+&nbsp;&nbsp;APPEND&nbsp;gs_sorting_criterion&nbsp;TO&nbsp;gt_sorting_criteria.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_EXCLUDE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GRID&nbsp;EXCLUDE&nbsp;TOOLBAR&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_exclude .<br />
+&nbsp;&nbsp;APPEND&nbsp;cl_gui_alv_grid=&gt;mc_fc_info&nbsp;TO&nbsp;gt_excluded.<br />
+&nbsp;&nbsp;APPEND&nbsp;cl_gui_alv_grid=&gt;mc_fc_find&nbsp;TO&nbsp;gt_excluded.<br />
+&nbsp;&nbsp;APPEND&nbsp;cl_gui_alv_grid=&gt;mc_mb_sum&nbsp;TO&nbsp;gt_excluded.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CREATE_GRID<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;CONTAINER&nbsp;+&nbsp;GRID&nbsp;생성&nbsp;및&nbsp;연결<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM create_grid .<br />
+&nbsp;&nbsp;"&nbsp;container&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_cont<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"100번&nbsp;스크린&nbsp;LAYOUT에&nbsp;설정한&nbsp;CUSTOM&nbsp;&nbsp;CONTROL&nbsp;&nbsp;필드<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container_name&nbsp;=&nbsp;'MY_CONTROL_AREA'.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;a010(bc505_408).<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"grid&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"GRID와&nbsp;연결할&nbsp;컨테이너<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_cont.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;a010(bc505_408).<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DISPLAY_GRID<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GRID&nbsp;SCREEN에&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_grid .<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_structure_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'SFLIGHT'&nbsp;&nbsp;"아웃풋&nbsp;테이블의&nbsp;필드&nbsp;=&nbsp;데이터의&nbsp;구조<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'A'&nbsp;&nbsp;"변경&nbsp;권한<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_layout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_layout&nbsp;"LAYOUT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_variant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gs_variant&nbsp;"VARIONT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_toolbar_excluding&nbsp;=&nbsp;gt_excluded&nbsp;"TOOLBAR&nbsp;제외<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_flight&nbsp;"아웃풋&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"it_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_sorting_criteria&nbsp;"SORT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcatalog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_field_cat&nbsp;"CATALOG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;a012(bc505_408).<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;double_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;더블&nbsp;클릭&nbsp;이벤트&nbsp;핸들링<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_ROW<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_COLUMN<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM double_click  USING  e_row TYPE lvc_s_row<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_column&nbsp;TYPE&nbsp;lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;es_row_no&nbsp;TYPE&nbsp;lvc_s_roid.<br />
+<br />
+&nbsp;&nbsp;"변수&nbsp;선언<br />
+&nbsp;&nbsp;DATA:&nbsp;lv_bookings&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+<br />
+&nbsp;&nbsp;"사용자가&nbsp;선택한&nbsp;row를&nbsp;index&nbsp;조건으로&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;es_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"총&nbsp;예약&nbsp;수&nbsp;=&nbsp;economy&nbsp;+&nbsp;business&nbsp;+&nbsp;first&nbsp;class<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_bookings&nbsp;=&nbsp;gs_flight-seatsocc&nbsp;+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-seatsocc_b&nbsp;+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_flight-seatsocc_f.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i005&nbsp;WITH&nbsp;lv_bookings.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;s001&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;hotspot_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;HOTSPOT&nbsp;이벤트&nbsp;핸들링<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_ROW_ID<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_COLUMN_ID<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM hotspot_click  USING    p_row_id TYPE lvc_s_row<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_column_id&nbsp;TYPE&nbsp;lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ps_row_no&nbsp;TYPE&nbsp;lvc_s_roid&nbsp;&nbsp;.<br />
+<br />
+&nbsp;&nbsp;"사용자가&nbsp;선택한&nbsp;row를&nbsp;index&nbsp;조건으로&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;ps_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;p_column_id-fieldname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'FLDATE'.&nbsp;"FLDATE&nbsp;필드에&nbsp;HOTSPOT&nbsp;이벤트&nbsp;실행<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i000&nbsp;WITH&nbsp;gs_flight-connid.&nbsp;"조회된&nbsp;비행기&nbsp;타입&nbsp;조회<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_handler<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GRID&nbsp;핸들러&nbsp;생성&nbsp;및&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_handler .<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_handler.&nbsp;"<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER:&nbsp;go_handler-&gt;handle_double_click&nbsp;&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_hotspot&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_toolbar&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_user_command&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_context_menu_request&nbsp;FOR&nbsp;go_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler-&gt;handle_button_click&nbsp;FOR&nbsp;go_grid.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;toolbar<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;툴바&nbsp;이벤트&nbsp;처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_OBJECT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM toolbar  USING    p_e_object TYPE REF TO cl_alv_event_toolbar_set.<br />
+&nbsp;&nbsp;DATA&nbsp;ls_button&nbsp;TYPE&nbsp;stb_button.<br />
+&nbsp;&nbsp;"Button&nbsp;1<br />
+&nbsp;&nbsp;ls_button-function&nbsp;=&nbsp;'PERCENTAGE'.<br />
+&nbsp;&nbsp;ls_button-text&nbsp;=&nbsp;'%&nbsp;(total)'(tot).<br />
+&nbsp;&nbsp;ls_button-quickinfo&nbsp;=&nbsp;TEXT-z01.<br />
+&nbsp;&nbsp;ls_button-butn_type&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;INSERT&nbsp;ls_button&nbsp;INTO&nbsp;TABLE&nbsp;p_e_object-&gt;mt_toolbar.<br />
+<br />
+&nbsp;&nbsp;"Button&nbsp;2<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_button.<br />
+&nbsp;&nbsp;ls_button-function&nbsp;=&nbsp;'PERCENTAGE_MARKED'.<br />
+&nbsp;&nbsp;ls_button-text&nbsp;=&nbsp;'%&nbsp;(marked)'(mar).<br />
+&nbsp;&nbsp;ls_button-icon&nbsp;=&nbsp;icon_checked.<br />
+&nbsp;&nbsp;ls_button-quickinfo&nbsp;=&nbsp;TEXT-z02.<br />
+&nbsp;&nbsp;ls_button-butn_type&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;INSERT&nbsp;ls_button&nbsp;INTO&nbsp;TABLE&nbsp;p_e_object-&gt;mt_toolbar.<br />
+<br />
+&nbsp;&nbsp;"Separator<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_button.<br />
+&nbsp;&nbsp;ls_button-butn_type&nbsp;=&nbsp;3.<br />
+&nbsp;&nbsp;INSERT&nbsp;ls_button&nbsp;INTO&nbsp;TABLE&nbsp;p_e_object-&gt;mt_toolbar.<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;user_command<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;사용자&nbsp;이벤트&nbsp;처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_UCOMM<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM user_command  USING    p_e_ucomm TYPE sy-ucomm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pv_rowid.<br />
+&nbsp;&nbsp;CASE&nbsp;p_e_ucomm.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'PERCENTAGE'.&nbsp;"전체&nbsp;예약좌석율&nbsp;계산<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;total_percentage.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'PERCENTAGE_MARKED'.&nbsp;"선택&nbsp;예약좌석율&nbsp;계산<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;marked_percentage.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'DISP_CARR'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_carrinfo&nbsp;USING&nbsp;pv_rowid.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;TOTAL_PERCENTAGE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;전체&nbsp;예약좌석율&nbsp;계산<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM total_percentage .<br />
+&nbsp;&nbsp;DATA:&nbsp;lv_occupied&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,&nbsp;"예약좌석<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_capacity&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,&nbsp;"수용좌석<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_percentage&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;8&nbsp;DECIMALS&nbsp;1,&nbsp;"예약&nbsp;좌석율<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;string,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_row_no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_roid,&nbsp;"선택된&nbsp;ROW에&nbsp;대한&nbsp;정보&nbsp;테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_row_no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;lt_row_no.<br />
+<br />
+&nbsp;&nbsp;"전체&nbsp;항공&nbsp;테이블&nbsp;반복<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_occupied&nbsp;=&nbsp;lv_occupied&nbsp;+&nbsp;gs_flight-seatsocc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_capacity&nbsp;=&nbsp;lv_capacity&nbsp;+&nbsp;gs_flight-seatsmax.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;"예약좌석율&nbsp;=&nbsp;&nbsp;예약&nbsp;좌석&nbsp;/&nbsp;수용&nbsp;좌석&nbsp;*&nbsp;100<br />
+&nbsp;&nbsp;lv_percentage&nbsp;=&nbsp;lv_occupied&nbsp;/&nbsp;lv_capacity&nbsp;*&nbsp;100.<br />
+&nbsp;&nbsp;MOVE&nbsp;lv_percentage&nbsp;TO&nbsp;lv_text.<br />
+<br />
+&nbsp;&nbsp;lv_text&nbsp;=&nbsp;'예약&nbsp;좌석율&nbsp;:'(occ)&nbsp;&&&nbsp;`&nbsp;`&nbsp;&&&nbsp;lv_text.<br />
+<br />
+&nbsp;&nbsp;MESSAGE&nbsp;i000&nbsp;WITH&nbsp;lv_text.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;MARKED_PERCENTAGE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;선택된&nbsp;열의&nbsp;예약좌석율&nbsp;계산<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM marked_percentage .<br />
+&nbsp;&nbsp;DATA:&nbsp;lv_occupied&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,&nbsp;"예약좌석<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_capacity&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,&nbsp;"수용좌석<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_percentage&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;8&nbsp;DECIMALS&nbsp;1,&nbsp;"예약&nbsp;좌석율<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;string,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_row_no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_roid,&nbsp;"선택된&nbsp;ROW에&nbsp;대한&nbsp;정보&nbsp;테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_row_no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;lt_row_no.<br />
+<br />
+&nbsp;&nbsp;"GRID에서&nbsp;선택된&nbsp;ROW들&nbsp;확인<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;get_selected_rows<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;et_row_no&nbsp;=&nbsp;lt_row_no.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;lines(&nbsp;lt_row_no&nbsp;)&nbsp;&gt;&nbsp;0.&nbsp;"선택된&nbsp;row의&nbsp;개수가&nbsp;0&nbsp;초과일&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"선택된&nbsp;행&nbsp;테이블&nbsp;반복<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;lt_row_no&nbsp;INTO&nbsp;ls_row_no.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"INDEX&nbsp;조건에&nbsp;해당하는&nbsp;행의&nbsp;항공&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;ls_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_occupied&nbsp;=&nbsp;lv_occupied&nbsp;+&nbsp;gs_flight-seatsocc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_capacity&nbsp;=&nbsp;lv_capacity&nbsp;+&nbsp;gs_flight-seatsmax.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"예약좌석율&nbsp;=&nbsp;&nbsp;예약&nbsp;좌석&nbsp;/&nbsp;수용&nbsp;좌석&nbsp;*&nbsp;100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_percentage&nbsp;=&nbsp;lv_occupied&nbsp;/&nbsp;lv_capacity&nbsp;*&nbsp;100.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MOVE&nbsp;lv_percentage&nbsp;TO&nbsp;lv_text.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_text&nbsp;=&nbsp;'예약&nbsp;좌석율&nbsp;:'(occ)&nbsp;&&&nbsp;`&nbsp;`&nbsp;&&&nbsp;lv_text.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i000&nbsp;WITH&nbsp;lv_text.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i006.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;context_menu_request<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;E_OBJECT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM context_menu_request  USING    e_object TYPE REF TO cl_ctmenu<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;cv_rowid&nbsp;TYPE&nbsp;i.<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_column_info&nbsp;TYPE&nbsp;lvc_s_col.&nbsp;"열&nbsp;ID&nbsp;정보<br />
+<br />
+&nbsp;&nbsp;"GRID의&nbsp;현재&nbsp;CELL&nbsp;좌표와&nbsp;값&nbsp;반환<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;get_current_cell<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;cv_rowid&nbsp;"선택한&nbsp;행의&nbsp;index&nbsp;값<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;es_col_id&nbsp;=&nbsp;ls_column_info.&nbsp;"현재&nbsp;CELL의&nbsp;열<br />
+<br />
+&nbsp;&nbsp;"열의&nbsp;필드&nbsp;이름별&nbsp;분기<br />
+&nbsp;&nbsp;CASE&nbsp;ls_column_info-fieldname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'CARRID'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"CONTEXT&nbsp;추가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;e_object-&gt;add_function<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fcode&nbsp;=&nbsp;'DISP_CARR'&nbsp;"USER&nbsp;COMMAND에서&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;&nbsp;=&nbsp;'Display&nbsp;more&nbsp;details'(t01).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_carrinfo<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;선택한&nbsp;행&nbsp;ID&nbsp;정보를&nbsp;통해&nbsp;항공사&nbsp;이름&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;PV_ROWID<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_carrinfo  USING    pv_rowid.<br />
+&nbsp;&nbsp;DATA:&nbsp;lv_carrname&nbsp;TYPE&nbsp;scarr-carrname.<br />
+&nbsp;&nbsp;"선택한&nbsp;행&nbsp;ID를&nbsp;INDEX&nbsp;조건으로&nbsp;항공&nbsp;테이블&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;pv_rowid.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"조회된&nbsp;데이터에서&nbsp;항공사&nbsp;이름&nbsp;조회&nbsp;및&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;carrname&nbsp;INTO&nbsp;lv_carrname<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;scarr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;gs_flight-carrid.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i000&nbsp;WITH&nbsp;lv_carrname.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i001.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;button_click<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;버튼&nbsp;클릭시&nbsp;해당&nbsp;운항&nbsp;일정&nbsp;예약&nbsp;정보&nbsp;다이얼로그&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_COL_ID<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;ES_ROW_NO<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM button_click  USING    ps_col_id TYPE lvc_s_col<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ps_row_no&nbsp;TYPE&nbsp;lvc_s_roid.<br />
+&nbsp;&nbsp;"선택한&nbsp;행&nbsp;ID를&nbsp;INDEX&nbsp;조건으로&nbsp;항공&nbsp;테이블&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;gt_flight&nbsp;INTO&nbsp;gs_flight&nbsp;INDEX&nbsp;ps_row_no-row_id.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i001.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"조회된&nbsp;항공&nbsp;데이터를&nbsp;통해&nbsp;예약&nbsp;테이블&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;CLEAR&nbsp;gt_bookings.<br />
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;sbook&nbsp;INTO&nbsp;TABLE&nbsp;gt_bookings<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;gs_flight-carrid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;=&nbsp;gs_flight-connid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;fldate&nbsp;=&nbsp;gs_flight-fldate.<br />
+<br />
+&nbsp;&nbsp;"조회된&nbsp;예약&nbsp;데이터를&nbsp;다이얼로그&nbsp;박스로&nbsp;출력<br />
+&nbsp;&nbsp;IF&nbsp;go_dialogbox&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_dialog_object.&nbsp;"Dialog&nbsp;Conatiner&nbsp;+&nbsp;Dialog&nbsp;Grid&nbsp;생성&nbsp;및&nbsp;연결<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_dialog_handler."Dialog&nbsp;Event&nbsp;handler&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;display_dialog_grid.&nbsp;"Dialog&nbsp;출력<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;refresh_alv_grid.&nbsp;"Dialog&nbsp;Grid&nbsp;초기화<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_dialog_object<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;dialogbox&nbsp;object&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_dialog_object .<br />
+&nbsp;&nbsp;"Dialogbox&nbsp;continer&nbsp;object&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_dialogbox<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;&nbsp;&nbsp;=&nbsp;800<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height&nbsp;&nbsp;=&nbsp;200<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;120<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;120<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;=&nbsp;'Bookings'(boo)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;a010(bc405_408).<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"Dialog&nbsp;GRID&nbsp;생성<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;go_alv_bookings<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_parent&nbsp;=&nbsp;go_dialogbox<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;a010(bc405_408).<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;set_dialog_handler<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Dialog&nbsp;Event&nbsp;처리<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM set_dialog_handler .<br />
+&nbsp;&nbsp;"Dialog를&nbsp;닫는&nbsp;이벤트&nbsp;설정<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;go_handler-&gt;handle_close&nbsp;FOR&nbsp;go_dialogbox.<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;display_dialog_grid<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Dialog&nbsp;출력<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM display_dialog_grid .<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_alv_bookings-&gt;set_table_for_first_display<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_structure_name&nbsp;=&nbsp;'SBOOK'&nbsp;"아웃풋&nbsp;필드&nbsp;테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gt_bookings<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;a012(bc405_408).<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;refresh_alv_grid<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Dialog&nbsp;Grid&nbsp;초기화<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM refresh_alv_grid .<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;go_grid-&gt;refresh_table_display.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

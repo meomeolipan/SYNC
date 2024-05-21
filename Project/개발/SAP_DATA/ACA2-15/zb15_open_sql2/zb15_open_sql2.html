@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB15_OPEN_SQL2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB15_OPEN_SQL2</h2>
+<h3> Description: Program ZB15_OPEN_SQL2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB15_OPEN_SQL2<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Structured&nbsp;Query&nbsp;Language<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb15_open_sql2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;서브쿼리&nbsp;(Subquery)<br />
+*&nbsp;SELECT문&nbsp;내부의&nbsp;WHERE&nbsp;구문&nbsp;조건에&nbsp;또&nbsp;다른&nbsp;SELECT&nbsp;문을&nbsp;추가하여&nbsp;조건&nbsp;비교를&nbsp;하기위해&nbsp;사용된다.<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;SCALAR&nbsp;SUBQUERY<br />
+*&nbsp;&nbsp;SELECT절&nbsp;안에&nbsp;기술된&nbsp;SELECT절.<br />
+*&nbsp;&nbsp;JOIN구문과&nbsp;유사한&nbsp;기능<br />
+*&nbsp;&nbsp;SUBQUERY&nbsp;는&nbsp;반드시&nbsp;한&nbsp;컬럼만을&nbsp;반환해야한다.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF ty_data,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paymentsum&nbsp;TYPE&nbsp;sflight-paymentsum,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_data.<br />
+<br />
+DATA : gs_data TYPE ty_data,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_data&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_data.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*SELECT&nbsp;carrid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paymentsum<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_data<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight&nbsp;AS&nbsp;a&nbsp;"SUBQUERY&nbsp;안에서&nbsp;사용할&nbsp;ALIAS&nbsp;(별칭)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;(&nbsp;SELECT&nbsp;carrid&nbsp;"반드시&nbsp;한&nbsp;컬럼만을&nbsp;반환해야함.&nbsp;(조건&nbsp;컬럼)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;spfli<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;a~carrid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;=&nbsp;a~connid&nbsp;)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;a~carrid&nbsp;=&nbsp;'AA'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;a~connid&nbsp;=&nbsp;'0017'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;cl_demo_output=&gt;display(&nbsp;gt_data&nbsp;).&nbsp;"개발자용<br />
+*ELSE.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'데이터없음'&nbsp;TYPE&nbsp;'I'.<br />
+*<br />
+*ENDIF.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;NON-SCALAR&nbsp;SUBQUERY<br />
+*&nbsp;&nbsp;&nbsp;SUBQUERY&nbsp;의&nbsp;반환값이&nbsp;존재하면&nbsp;TRUE를&nbsp;반환하고,&nbsp;존재하지&nbsp;않으면&nbsp;FALSE를&nbsp;반환한다.<br />
+*&nbsp;&nbsp;&nbsp;EXIST&nbsp;구문을&nbsp;사용하여&nbsp;구현.<br />
+*&nbsp;&nbsp;&nbsp;NOT을&nbsp;붙여&nbsp;NOT&nbsp;EXISTS&nbsp;로&nbsp;구현&nbsp;할수&nbsp;있음.&nbsp;이&nbsp;경우에는&nbsp;반환값이&nbsp;존재하면&nbsp;FALSE를&nbsp;반환함.<br />
+*&nbsp;&nbsp;&nbsp;존재하면&nbsp;반환하고,&nbsp;존재하지&nbsp;않으면&nbsp;반환하지&nbsp;않음<br />
+*&---------------------------------------------------------------------*<br />
+*<br />
+*SELECT&nbsp;carrid&nbsp;connid&nbsp;paymentsum<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_data<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight&nbsp;AS&nbsp;a<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;NOT&nbsp;EXISTS&nbsp;(&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;spfli<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;EXISTS&nbsp;(&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;spfli<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;a~carrid<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;connid&nbsp;=&nbsp;a~connid&nbsp;)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;a~carrid&nbsp;=&nbsp;'AA'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;a~connid&nbsp;=&nbsp;'0017'.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;fldate&nbsp;&nbsp;&nbsp;=&nbsp;'20230817'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;cl_demo_output=&gt;display(&nbsp;gt_data&nbsp;).<br />
+*ELSE.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'데이터없음'&nbsp;TYPE&nbsp;'I'.<br />
+*ENDIF.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;OPEN&nbsp;SQL&nbsp;transparent&nbsp;DATA&nbsp;변경<br />
+*&---------------------------------------------------------------------*<br />
+*--&nbsp;INSERT&nbsp;:&nbsp;테이블에&nbsp;하나&nbsp;또는&nbsp;여러개의&nbsp;데이터를&nbsp;삽입함.<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;INSERT&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;&lt;wa&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&lt;키필드&gt;&nbsp;기준으로&nbsp;한줄의&nbsp;데이터&nbsp;생성<br />
+*&nbsp;INSERT&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;TABLE&nbsp;&lt;itab&gt;"&nbsp;&lt;키필드&gt;&nbsp;기준으로&nbsp;여러줄의&nbsp;데이터를&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA : gs_ztbook TYPE ztbook_b15.<br />
+DATA : gt_ztbook LIKE TABLE OF gs_ztbook.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+**<br />
+***--한&nbsp;라인을&nbsp;삽입&nbsp;WA&nbsp;구성<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24AA123'.&nbsp;&nbsp;&nbsp;"&lt;-&nbsp;key<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'별헤는밤'.<br />
+*gs_ztbook-author&nbsp;&nbsp;=&nbsp;'윤동주'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'A'.<br />
+*<br />
+*"&nbsp;1)<br />
+*INSERT&nbsp;ztbook_b15&nbsp;FROM&nbsp;gs_ztbook.<br />
+*<br />
+*"&nbsp;2)<br />
+**--한&nbsp;라인을&nbsp;삽입&nbsp;WA&nbsp;구성<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24CC123'.&nbsp;&nbsp;&nbsp;"&lt;-&nbsp;key<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'ABAP기초'.<br />
+*gs_ztbook-author&nbsp;&nbsp;=&nbsp;'윤동설'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'A'.<br />
+*<br />
+*INSERT&nbsp;INTO&nbsp;ztbook_b15&nbsp;VALUES&nbsp;gs_ztbook.&nbsp;"insert&nbsp;/&nbsp;insert&nbsp;into&nbsp;차이<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;&nbsp;"&nbsp;메세지로&nbsp;알림<br />
+*ENDIF.<br />
+*<br />
+*"&nbsp;dump&nbsp;-&gt;&nbsp;예외처리&nbsp;try&nbsp;catch.<br />
+***--여러라인을&nbsp;삽입하기&nbsp;위해&nbsp;ITAB&nbsp;사용<br />
+*CLEAR&nbsp;gt_ztbook.<br />
+*<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'밤양갱'.<br />
+*gs_ztbook-author&nbsp;&nbsp;=&nbsp;'비비'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'A'.<br />
+*APPEND&nbsp;gs_ztbook&nbsp;TO&nbsp;gt_ztbook.<br />
+*CLEAR&nbsp;gs_ztbook.<br />
+*<br />
+*"ACC~&nbsp;를&nbsp;사용해보기&nbsp;위해&nbsp;상위에&nbsp;추가한&nbsp;것과&nbsp;같은&nbsp;KEY값을&nbsp;입력<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'밤양갱'.<br />
+*gs_ztbook-author&nbsp;&nbsp;=&nbsp;'비비'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'A'.<br />
+*APPEND&nbsp;gs_ztbook&nbsp;TO&nbsp;gt_ztbook.<br />
+*CLEAR&nbsp;gs_ztbook.<br />
+*<br />
+*"같은&nbsp;키값을&nbsp;INSERT&nbsp;하면&nbsp;DUMP가&nbsp;발생하기&nbsp;때문에&nbsp;ACC~&nbsp;구문&nbsp;사용<br />
+**INSERT&nbsp;ztbook_b15&nbsp;FROM&nbsp;TABLE&nbsp;gt_ztbook&nbsp;ACCEPTING&nbsp;DUPLICATE&nbsp;KEYS.<br />
+*<br />
+**TRY.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;ztbook_b15&nbsp;FROM&nbsp;TABLE&nbsp;gt_ztbook.<br />
+**&nbsp;&nbsp;CATCH&nbsp;cx_sy_open_sql_db&nbsp;INTO&nbsp;DATA(oref).<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;oref-&gt;get_text(&nbsp;).<br />
+**ENDTRY.<br />
+*<br />
+*"&nbsp;덤프&nbsp;발생을&nbsp;피한다.<br />
+*TRY.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;ztbook_b00&nbsp;FROM&nbsp;TABLE&nbsp;gt_ztbook.<br />
+*&nbsp;&nbsp;CATCH&nbsp;cx_root&nbsp;INTO&nbsp;DATA(go_root).<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;go_root-&gt;get_text(&nbsp;).<br />
+*ENDTRY.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*<br />
+*ELSE.<br />
+*<br />
+*ENDIF.<br />
+<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+**&nbsp;UPDATE&nbsp;:&nbsp;테이블의&nbsp;하나&nbsp;또는&nbsp;여러&nbsp;LINE을&nbsp;변경<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;UPDATE&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;&lt;wa&gt;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;키필드&nbsp;기준으로&nbsp;한줄의&nbsp;데이터&nbsp;수정<br />
+*&nbsp;UPDATE&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;TABLE&nbsp;&lt;itab&gt;"&nbsp;키필드&nbsp;기준으로&nbsp;여러줄의&nbsp;데이터를&nbsp;수정<br />
+*&nbsp;UPDATE&nbsp;&lt;dbtab&gt;&nbsp;SET&nbsp;&lt;field1&gt;&nbsp;=&nbsp;&lt;value1&gt;<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field2&gt;&nbsp;=&nbsp;&lt;value2&gt;<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;&lt;condition&gt;.<br />
+*&---------------------------------------------------------------------*<br />
+*CLEAR&nbsp;gs_ztbook.<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'별헤는밤'.<br />
+*gs_ztbook-author&nbsp;&nbsp;=&nbsp;'윤동주'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'B'.<br />
+*<br />
+**&nbsp;1)<br />
+*UPDATE&nbsp;ztbook_b15&nbsp;FROM&nbsp;gs_ztbook.<br />
+*<br />
+**&nbsp;2)&nbsp;특정행의&nbsp;특정&nbsp;필드값&nbsp;변경<br />
+*UPDATE&nbsp;ztbook_b15<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;book_st&nbsp;=&nbsp;'A'<br />
+*&nbsp;&nbsp;&nbsp;WHERE&nbsp;book_id&nbsp;=&nbsp;'24BB123'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'업데이트&nbsp;완료'&nbsp;TYPE&nbsp;'S'.<br />
+*ELSE.<br />
+*&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'업데이트&nbsp;오류'&nbsp;TYPE&nbsp;'E'.<br />
+*ENDIF.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;DELETE&nbsp;:&nbsp;테이블에&nbsp;하나&nbsp;또는&nbsp;여러LINE의&nbsp;데이터를&nbsp;삭제.<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;DELETE&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;&lt;wa&gt;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;키필드&nbsp;기준으로&nbsp;한줄의&nbsp;데이터&nbsp;삭제<br />
+*&nbsp;DELETE&nbsp;FROM&nbsp;&lt;dbtab&gt;&nbsp;WHERE&nbsp;&lt;condition&gt;.<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;1)<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*DELETE&nbsp;ztbook_b15&nbsp;FROM&nbsp;gs_ztbook.<br />
+*<br />
+*"&nbsp;2)&nbsp;특정행의&nbsp;특정&nbsp;필드값&nbsp;변경<br />
+*DELETE&nbsp;FROM&nbsp;ztbook_b15&nbsp;WHERE&nbsp;book_id&nbsp;=&nbsp;'24BB123'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'삭제&nbsp;완료'&nbsp;TYPE&nbsp;'S'.<br />
+*&nbsp;&nbsp;COMMIT&nbsp;WORK."&nbsp;AND&nbsp;WAIT.&nbsp;&nbsp;"DB변경에&nbsp;관한&nbsp;수행이&nbsp;확정&nbsp;(최종에)<br />
+*ELSE.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'삭제&nbsp;오류'&nbsp;TYPE&nbsp;'E'.<br />
+*&nbsp;&nbsp;ROLLBACK&nbsp;WORK.&nbsp;&nbsp;"DB변경&nbsp;확정을&nbsp;복구.&nbsp;(릴리즈)<br />
+*ENDIF.<br />
+<br />
+   </div>
+   <div class="code">
+" -&gt; 프로그램이 끝나면 내부에서 commit work<br />
+" -&gt; 에러 발생시 내부에서 rollback work<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;MODIFY&nbsp;:&nbsp;INSERT와&nbsp;UPDATE&nbsp;기능을&nbsp;모두&nbsp;수행하는&nbsp;것&nbsp;(존재하면&nbsp;Update,&nbsp;없으면&nbsp;Insert)<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;MODIFY&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;&lt;wa&gt;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;키필드&nbsp;기준으로&nbsp;한줄의&nbsp;데이터&nbsp;생성&nbsp;및&nbsp;수정<br />
+*&nbsp;MODIFY&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;TABLE&nbsp;&lt;itab&gt;"&nbsp;키필드&nbsp;기준으로&nbsp;여러줄의&nbsp;데이터를&nbsp;생성&nbsp;및&nbsp;수정<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;1)&nbsp;단건<br />
+   </div>
+   <div class="code">
+CLEAR gs_ztbook.<br />
+gs_ztbook-book_id = '24AA123'.<br />
+gs_ztbook-book_nm = '별헤는밤'.<br />
+gs_ztbook-author  = '윤동주'.<br />
+gs_ztbook-book_st = 'A'.<br />
+<br />
+MODIFY ztbook_b15 FROM gs_ztbook.<br />
+<br />
+gs_ztbook-book_id = '24AA234'.<br />
+gs_ztbook-book_nm = '소나기'.<br />
+gs_ztbook-author  = '황순원'.<br />
+gs_ztbook-book_st = 'A'.<br />
+<br />
+MODIFY ztbook_b15 FROM gs_ztbook.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;2)&nbsp;다건<br />
+   </div>
+   <div class="code">
+gs_ztbook-book_id = '24AA123'.<br />
+gs_ztbook-book_nm = '별헤는밤'.<br />
+gs_ztbook-author  = '윤동주'.<br />
+gs_ztbook-book_st = 'A'.<br />
+APPEND gs_ztbook TO gt_ztbook.<br />
+CLEAR gs_ztbook.<br />
+<br />
+gs_ztbook-book_id = '24AA234'.<br />
+gs_ztbook-book_nm = '소나기'.<br />
+gs_ztbook-author  = '황순원'.<br />
+gs_ztbook-book_st = 'A'.<br />
+<br />
+APPEND gs_ztbook TO gt_ztbook.<br />
+CLEAR gs_ztbook.<br />
+<br />
+MODIFY ztbook_b00 FROM TABLE gt_ztbook.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YB05_ABTEST</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YB05_ABTEST</h2>
+<h3> Description: self AB Test</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YB05_ABTEST<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT yb05_abtest.<br />
+<br />
+"Default 값 숫자 : 0, 문자 : " "<br />
+   </div>
+   <div class="codeComment">
+*1.&nbsp;Type&nbsp;선언&nbsp;(&nbsp;변수&nbsp;x&nbsp;값을&nbsp;넣을&nbsp;수&nbsp;없다.&nbsp;)<br />
+*&nbsp;Local&nbsp;:&nbsp;ABAP&nbsp;프로그램&nbsp;내부&nbsp;유효<br />
+   </div>
+   <div class="code">
+TYPES: tv_c TYPE c LENGTH 8,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tv_n&nbsp;TYPE&nbsp;n&nbsp;LENGTH&nbsp;5.<br />
+TYPES  tv_p TYPE p LENGTH 3 DECIMALS 2. "정수3자리 소수점2자리<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Global&nbsp;:&nbsp;Dictionary&nbsp;(&nbsp;SE11&nbsp;),&nbsp;Predefined&nbsp;data&nbsp;type&nbsp;(&nbsp;standard&nbsp;)<br />
+   </div>
+   <div class="code">
+" ABAP교재1 248p<br />
+" s_carr_id, s_conn_id ( Data Element )<br />
+" SE11에서 찾아보면 나옴<br />
+<br />
+   </div>
+   <div class="codeComment">
+*2.&nbsp;Object(&nbsp;변수&nbsp;O&nbsp;값을&nbsp;assign&nbsp;가능&nbsp;&nbsp;)선언<br />
+*&nbsp;Local&nbsp;에&nbsp;존재하는&nbsp;정의된&nbsp;type<br />
+   </div>
+   <div class="code">
+DATA gv_c TYPE tv_c.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Dictionary&nbsp;에&nbsp;존재하는&nbsp;정의된&nbsp;type<br />
+   </div>
+   <div class="code">
+DATA gv_m TYPE matnr. "Char (40)<br />
+DATA gv_carrid TYPE s_carr_id. "Char (3)<br />
+DATA gv_connid TYPE s_conn_id. "Numc (4)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Predefined&nbsp;(&nbsp;Standard&nbsp;type&nbsp;)<br />
+   </div>
+   <div class="code">
+DATA gv_i TYPE i. "integer (4)<br />
+<br />
+   </div>
+   <div class="codeComment">
+*LIKE&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA gv_l LIKE gv_c. " gv_c 타입처럼 변수 선언, 기 선언된 변수처럼<br />
+<br />
+"Length 표현<br />
+DATA gv_myvar TYPE c LENGTH 15.<br />
+DATA gv_myvar2(15) TYPE c.<br />
+<br />
+"Literals, Constants ABAP 교재1 251p<br />
+<br />
+"초기값이 있는 변수 선언<br />
+DATA gv_alpa TYPE c LENGTH 3 VALUE 'ABC'.<br />
+<br />
+"상수값을 선언<br />
+CONSTANTS gv_const TYPE c LENGTH 3 VALUE 'ABC'.<br />
+<br />
+<br />
+gv_alpa = 'CDE'.<br />
+"gv_const = 'CDE'. "오류 남<br />
+WRITE gv_alpa.<br />
+WRITE / gv_const.<br />
+<br />
+"결과값<br />
+"CDE<br />
+"ABC<br />
+<br />
+"Text Symbol<br />
+WRITE: / TEXT-a01. "숫자와 알파벳 조합의 3자리로 심볼 이름을 지정<br />
+WRITE / TEXT-001. "WRITE 다음에 나오는 / 줄바꿈 의미함<br />
+WRITE / 'SYNC4CL2'(003). "하드코딩<br />
+WRITE TEXT-003.<br />
+<br />
+WRITE: /15 TEXT-001, "열 바꾸고 15bite 띄우고 써<br />
+35 sy-datum,        "35bite 띄우고 써<br />
+/15 'Manager'(002),<br />
+35 sy-uname.<br />
+<br />
+write text-003.<br />
+<br />
+<br />
+<br />
+<br />
+DATA : gv_a      TYPE i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;TYPE&nbsp;i.<br />
+<br />
+gv_a = 1.<br />
+gv_b = 99.<br />
+gv_result = gv_a + gv_b.<br />
+<br />
+WRITE gv_result.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;SYNC&nbsp;CL2<br />
+*&nbsp;003&nbsp;SYNC4CL2<br />
+*&nbsp;A01&nbsp;데이터가&nbsp;성공적으로&nbsp;조회되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

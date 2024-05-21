@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B19_TOP_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B19_TOP_C</h2>
+<h3> Description: Include ZREXAM3_B19_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B19_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+"______<br />
+" ABAP<br />
+TABLES : ztmember_b19, ztbook_b19, ztrent_b19, sscrfields.<br />
+<br />
+CLASS : lcl_event_handler DEFINITION DEFERRED.<br />
+<br />
+DATA : go_handler TYPE REF TO lcl_event_handler.<br />
+<br />
+DATA : BEGIN OF gs_rent_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b19-mb_id,&nbsp;"회원번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_nm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b19-mb_nm,&nbsp;"회원이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_id&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztbook_b19-book_id,&nbsp;"도서번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztbook_b19-book_nm,&nbsp;"도서명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_dt&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztrent_b19-rent_dt,&nbsp;"대여일<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;LIKE&nbsp;ztrent_b19-rplan_dt,&nbsp;"반납예정일<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st&nbsp;LIKE&nbsp;ztrent_b19-return_st,&nbsp;"반납여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_dt&nbsp;LIKE&nbsp;ztrent_b19-return_dt,&nbsp;"반냡완료일<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;icon-id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;telno&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b19-telno,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b19-email,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_rent_st.<br />
+<br />
+DATA : gt_rent_st LIKE TABLE OF gs_rent_st.<br />
+<br />
+DATA : gs_mb TYPE ztmember_b19,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mb&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_mb.<br />
+<br />
+TYPES BEGIN OF gty_mb_book.<br />
+include structure <a href ="ztrent_b19/dictionary-ztrent_b19.html">ztrent_b19</a>.<br />
+TYPES : fee      TYPE i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currency&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_mb_book.<br />
+<br />
+DATA : gs_mb_book TYPE gty_mb_book,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mb_book&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;gty_mb_book.<br />
+<br />
+<br />
+DATA : gv_lin TYPE i.<br />
+<br />
+CONSTANTS : gv_a VALUE 'A', "대여중 상태<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_x&nbsp;VALUE&nbsp;'X'.<br />
+<br />
+"_______<br />
+" SCREEN<br />
+DATA : ok_code   TYPE sy-ucomm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_switch&nbsp;TYPE&nbsp;n&nbsp;VALUE&nbsp;'1'.<br />
+<br />
+"- container (check each constructor method)<br />
+DATA : go_cont1  TYPE REF TO cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont2&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_custom&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container,&nbsp;"screen:custom&nbsp;control&nbsp;area<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dock&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dock2&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_split&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container.<br />
+<br />
+<br />
+"- grid<br />
+DATA : go_grid1 TYPE REF TO cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid2&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid3&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid4&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+<br />
+"- layout variant<br />
+DATA : gs_variant TYPE disvariant,   "메소드 전달 매개변수용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save.<br />
+<br />
+"- layout<br />
+"1) docking<br />
+DATA : gs_layout1 TYPE lvc_s_layo.<br />
+"2) split<br />
+DATA : gs_layout2 TYPE lvc_s_layo.<br />
+DATA : gs_layout3 TYPE lvc_s_layo.<br />
+<br />
+"- toolbar excluding<br />
+DATA : gt_excluded TYPE ui_functions.   "툴바 제외<br />
+<br />
+"- sort<br />
+DATA : gs_sort TYPE lvc_s_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;TYPE&nbsp;lvc_t_sort.<br />
+<br />
+"- filter<br />
+DATA : gs_filt TYPE lvc_s_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt&nbsp;TYPE&nbsp;lvc_t_filt.<br />
+<br />
+"- field catalog<br />
+"1) docking<br />
+DATA : gt_field_cat1 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat1&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+"2) split<br />
+DATA : gt_field_cat2 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat2&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+DATA : gt_field_cat3 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat3&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SELECTION-SCREEN<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-t01.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;pa_r1&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;g1&nbsp;USER-COMMAND&nbsp;p1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_r2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;g1.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-t02.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;:&nbsp;so_mbid&nbsp;FOR&nbsp;ztmember_b19-mb_id.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;pa_mbst&nbsp;TYPE&nbsp;ztmember_b19-mb_st&nbsp;MODIF&nbsp;ID&nbsp;add.<br />
+&nbsp;&nbsp;SELECT-OPTIONS&nbsp;:&nbsp;so_rpdt&nbsp;FOR&nbsp;ztrent_b19-rplan_dt&nbsp;MODIF&nbsp;ID&nbsp;add.<br />
+SELECTION-SCREEN END OF BLOCK b2.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

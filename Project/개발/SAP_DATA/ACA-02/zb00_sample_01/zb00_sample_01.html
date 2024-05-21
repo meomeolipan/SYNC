@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_SAMPLE_01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_SAMPLE_01</h2>
+<h3> Description: example</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_ABTEST<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_sample_01.<br />
+<br />
+DATA : BEGIN OF gs_itab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;TYPE&nbsp;scarr-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrname&nbsp;TYPE&nbsp;scarr-carrname,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currcode&nbsp;TYPE&nbsp;scarr-currcode,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_itab.<br />
+<br />
+DATA : gt_itab LIKE TABLE OF gs_itab WITH KEY carrid.<br />
+DATA : gt_itab2 LIKE TABLE OF gs_itab WITH KEY carrid.<br />
+<br />
+<br />
+DATA : BEGIN OF gs_scarr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;STRUCTURE&nbsp;scarr.&nbsp;&nbsp;"필드5개<br />
+DATA :   flag     TYPE c LENGTH 2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name(15)&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;matnr.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;STRUCTURE&nbsp;bc400_s_connection.<br />
+   </div>
+   <div class="code">
+DATA : END OF gs_scarr.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;gs_itab,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;s_carrid,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_itab.<br />
+<br />
+   </div>
+   <div class="code">
+DATA BEGIN OF gs_itab2.<br />
+DATA carrid TYPE s_carrid.<br />
+DATA END OF gs_itab2.<br />
+<br />
+PARAMETERS : pa_carr TYPE s_carrid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--&nbsp;&nbsp;인터널&nbsp;테이블&nbsp;값&nbsp;할당&nbsp;표현<br />
+   </div>
+   <div class="code">
+MOVE-CORRESPONDING gt_itab TO gt_itab2.<br />
+MOVE gt_itab   TO gt_itab2.<br />
+MOVE gt_itab[] TO gt_itab2[].<br />
+gt_itab2   = gt_itab.<br />
+gt_itab2[] = gt_itab[].<br />
+<br />
+DATA : gv_a1 TYPE i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b1&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_r1&nbsp;TYPE&nbsp;i.<br />
+<br />
+PERFORM value_and_result(zb00_perform)<br />
+&nbsp;&nbsp;USING&nbsp;gv_a1&nbsp;gv_b1<br />
+&nbsp;&nbsp;CHANGING&nbsp;gv_r1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;gs_scarr_a&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;scarr.<br />
+*DATA&nbsp;gs_scarr_b&nbsp;TYPE&nbsp;&nbsp;scarr.<br />
+*<br />
+*BREAK-POINT.<br />
+<br />
+**TYPES&nbsp;:&nbsp;ty_a&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;8,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ty_b&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;8.<br />
+**TYPES&nbsp;&nbsp;ty_c&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;8.<br />
+*<br />
+**&nbsp;선언부<br />
+*<br />
+*DATA&nbsp;:&nbsp;gv_a&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*DATA&nbsp;:&nbsp;gv_result&nbsp;TYPE&nbsp;i.<br />
+*<br />
+**&nbsp;추출&nbsp;+&nbsp;처리<br />
+*<br />
+*gv_a&nbsp;=&nbsp;1.&nbsp;&nbsp;"&nbsp;왼쪽에&nbsp;오른쪽&nbsp;값을&nbsp;넣어준다&nbsp;assign<br />
+*gv_b&nbsp;=&nbsp;2.<br />
+*<br />
+*gv_result&nbsp;=&nbsp;&nbsp;gv_a&nbsp;&nbsp;+&nbsp;gv_b.<br />
+*<br />
+**&nbsp;출력<br />
+*<br />
+*WRITE&nbsp;:&nbsp;gv_result.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;1.&nbsp;TYPE&nbsp;선언&nbsp;(변수&nbsp;X&nbsp;-&nbsp;'틀'이다)<br />
+*--------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+" Local : ABAP 프로그램 내부 유효<br />
+" Global : Dictionary (SE11), Predefined data type (standard)<br />
+<br />
+<br />
+TYPES : ty_a     TYPE c LENGTH 8.  "거푸집 (틀)<br />
+TYPES : ty_matnr TYPE matnr.<br />
+TYPES : ty_i     TYPE i.<br />
+<br />
+TYPES : ty_like  TYPE ty_a.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*ty_a&nbsp;=&nbsp;'12345667'.&nbsp;(X)<br />
+<br />
+*--------------------------------------------------------------------*<br />
+*&nbsp;2.&nbsp;Object&nbsp;(변수&nbsp;O&nbsp;-&nbsp;값을&nbsp;assign&nbsp;가능&nbsp;)&nbsp;선언<br />
+*--------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+" 1. local type<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gv_a&nbsp;TYPE&nbsp;ty_a.&nbsp;"&nbsp;타입은&nbsp;타입이다.&nbsp;&nbsp;"char&nbsp;(8)<br />
+   </div>
+   <div class="code">
+DATA : gv_a TYPE ty_matnr. " 타입은 타입이다.  "char (8)<br />
+<br />
+" 2. Dictionary에 존재하는 정의된 타입<br />
+DATA : gv_b TYPE matnr.   "Char (40)<br />
+<br />
+" 3. Predefined (스탠다드 타입)<br />
+DATA : gv_c TYPE i.   " integer (4)<br />
+<br />
+" LIKE선언 (~처럼) 같은 변수내에서만 따라하자.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gv_d&nbsp;TYPE&nbsp;gv_a.&nbsp;"(X)<br />
+   </div>
+   <div class="code">
+DATA : gv_d TYPE ty_matnr. "기 선언된 변수 (~처럼) 따라하기<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gv_d&nbsp;LIKE&nbsp;gv_a.&nbsp;"기&nbsp;선언된&nbsp;변수&nbsp;(~처럼)&nbsp;따라하기<br />
+<br />
+   </div>
+   <div class="code">
+" 4. length 표현<br />
+<br />
+DATA : gv_myvar TYPE c LENGTH 15.<br />
+DATA : gv_myvar2(15) TYPE c.<br />
+<br />
+" 5. 초기값이 있는 변수 선언<br />
+DATA : gv_e TYPE c LENGTH 3 VALUE 'ABC'.<br />
+<br />
+" 6. 상수값을 선언<br />
+CONSTANTS : gv_const TYPE c LENGTH 3 VALUE 'ABC'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*gv_a&nbsp;=&nbsp;'!@#$#'.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+gv_e = 'CDE'.<br />
+   </div>
+   <div class="codeComment">
+*gv_const&nbsp;=&nbsp;'CDE'.<br />
+<br />
+   </div>
+   <div class="code">
+WRITE gv_e.<br />
+   </div>
+   <div class="codeComment">
+*WRITE&nbsp;/&nbsp;gv_const.<br />
+*<br />
+*"&nbsp;Text&nbsp;symbol<br />
+*WRITE&nbsp;:&nbsp;/&nbsp;TEXT-a01.&nbsp;&nbsp;&nbsp;"숫자와&nbsp;알파벳&nbsp;조합의&nbsp;3자리로&nbsp;심볼&nbsp;이름을&nbsp;지정<br />
+*<br />
+*WRITE&nbsp;:&nbsp;/&nbsp;TEXT-001.<br />
+*<br />
+*WRITE&nbsp;:&nbsp;/&nbsp;'SYNC4CL2'(003).&nbsp;&nbsp;&nbsp;"하드코딩&nbsp;:&nbsp;지양<br />
+*<br />
+*WRITE&nbsp;:&nbsp;text-003.<br />
+<br />
+   </div>
+   <div class="code">
+WRITE : /15 TEXT-100,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35&nbsp;sy-datum,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/15&nbsp;'Manager'(101),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35&nbsp;sy-uname.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;SYNC4&nbsp;CL2<br />
+*&nbsp;003&nbsp;SYNC4CL2<br />
+*&nbsp;100&nbsp;Date&nbsp;of&nbsp;hire<br />
+*&nbsp;101&nbsp;Manager<br />
+*&nbsp;A01&nbsp;데이터가&nbsp;성공적으로&nbsp;조회되었습니다.<br />
+*&nbsp;S99&nbsp;데이터가&nbsp;성공적으로&nbsp;조회되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

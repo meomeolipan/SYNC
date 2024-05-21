@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB00_MODIFY_ITAB</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB00_MODIFY_ITAB</h2>
+<h3> Description: modify itab</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_MODIFY_ITAB<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;MODIFY&nbsp;활용&nbsp;예제<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb00_modify_itab.<br />
+<br />
+DATA : BEGIN OF gs_itab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;spfli-carrid,&nbsp;&nbsp;"s_carrid&nbsp;"database-field&nbsp;"structure-component&nbsp;"predefined&nbsp;type<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;TYPE&nbsp;spfli-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;period&nbsp;TYPE&nbsp;spfli-period,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_itab.<br />
+<br />
+DATA : gt_itab LIKE TABLE OF gs_itab.<br />
+<br />
+DATA : gt_spfli TYPE TABLE OF spfli.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;multi&nbsp;데이터를&nbsp;select<br />
+   </div>
+   <div class="code">
+" select 컬럼명 : single (데이터 한 줄)<br />
+" into 추출한 데이터를 넣을 변수 (structrue, itab, 단일변수) : from 앞, 뒤<br />
+" from (추출하려는)테이블명<br />
+" where 조건<br />
+SELECT * "모두 "원하는 필드를 넣어 준다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_itab&nbsp;"타겟테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;spfli&nbsp;&nbsp;&nbsp;"소스테이블<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'&nbsp;&nbsp;&nbsp;"&nbsp;&lt;,&nbsp;&gt;,&nbsp;&lt;&gt;,&nbsp;&lt;=,&nbsp;&gt;=&nbsp;....<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;carrid&nbsp;EQ&nbsp;'LH'.&nbsp;"GT,&nbsp;LT,&nbsp;GE,&nbsp;LE,&nbsp;NE&nbsp;...&nbsp;&nbsp;&nbsp;"OR&nbsp;AND<br />
+<br />
+   </div>
+   <div class="codeComment">
+*SELECT&nbsp;*&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_itab&nbsp;"타겟테이블<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;spfli&nbsp;&nbsp;&nbsp;"소스테이블<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;(&nbsp;'AA',&nbsp;'LH'&nbsp;).&nbsp;&nbsp;&nbsp;"&nbsp;속하는,&nbsp;안에...<br />
+<br />
+*SELECT&nbsp;*&nbsp;INTO&nbsp;TABLE&nbsp;gt_spfli&nbsp;"타겟테이블<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;spfli&nbsp;&nbsp;&nbsp;"소스테이블<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;'AA'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;carrid&nbsp;EQ&nbsp;'LH'.<br />
+<br />
+*&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;(TABLE)&nbsp;:&nbsp;이름이&nbsp;같은&nbsp;필드에만&nbsp;넣어준다.<br />
+   </div>
+   <div class="code">
+" -&gt; from 테이블 형태 (&lt;&gt;) into 테이블 형태<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;INTO&nbsp;(TABLE)&nbsp;~<br />
+   </div>
+   <div class="code">
+" -&gt; from 테이블 형태 (=) into 테이블 형태<br />
+<br />
+<br />
+WRITE : 'Before Modify', /.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Output&nbsp;Original&nbsp;data<br />
+   </div>
+   <div class="code">
+LOOP AT gt_itab INTO gs_itab.<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;(5)&nbsp;gs_itab-carrid,&nbsp;(5)&nbsp;gs_itab-connid,&nbsp;(5)&nbsp;gs_itab-period,&nbsp;/.<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Modify&nbsp;Itab<br />
+   </div>
+   <div class="code">
+LOOP AT gt_itab INTO gs_itab.<br />
+&nbsp;&nbsp;gs_itab-period&nbsp;=&nbsp;gs_itab-period&nbsp;+&nbsp;1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;MODIFY&nbsp;gt_itab&nbsp;FROM&nbsp;gs_itab.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;MODIFY&nbsp;TABLE&nbsp;gt_itab&nbsp;FROM&nbsp;gs_itab.&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;V<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Output&nbsp;After&nbsp;modify<br />
+   </div>
+   <div class="code">
+WRITE : 'After Modify', /.<br />
+<br />
+LOOP AT gt_itab INTO gs_itab.<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;(5)&nbsp;gs_itab-carrid,&nbsp;(5)&nbsp;gs_itab-connid,&nbsp;(5)&nbsp;gs_itab-period,&nbsp;/.<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Modify&nbsp;Where<br />
+   </div>
+   <div class="code">
+gs_itab-carrid = 'LH'.<br />
+gs_itab-connid = '9999'.<br />
+gs_itab-period = '100'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*MODIFY&nbsp;gt_itab&nbsp;FROM&nbsp;gs_itab.&nbsp;"warnning&nbsp;&nbsp;-&gt;&nbsp;run&nbsp;time&nbsp;error<br />
+*MODIFY&nbsp;TABLE&nbsp;gt_itab&nbsp;FROM&nbsp;gs_itab.&nbsp;"warnning<br />
+   </div>
+   <div class="code">
+MODIFY gt_itab FROM gs_itab TRANSPORTING period WHERE carrid = 'LH'.<br />
+<br />
+WRITE : 'After Modify transporting where', /.<br />
+<br />
+LOOP AT gt_itab INTO gs_itab.<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;(5)&nbsp;gs_itab-carrid,&nbsp;(5)&nbsp;gs_itab-connid,&nbsp;(5)&nbsp;gs_itab-period,&nbsp;/.<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

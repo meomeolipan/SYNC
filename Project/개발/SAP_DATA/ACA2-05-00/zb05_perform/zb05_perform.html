@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_PERFORM</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_PERFORM</h2>
+<h3> Description: subroutine : PERFORM ~ ENDFORM.</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_PERFORM<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;FORM&nbsp;과&nbsp;ENDFORM으로&nbsp;종료되는&nbsp;구문을&nbsp;말하며,&nbsp;모듈화(Encapsulation)을&nbsp;통해<br />
+*&&nbsp;재사용을&nbsp;하여&nbsp;코드의&nbsp;가독성을&nbsp;높이기&nbsp;위한&nbsp;목적으로&nbsp;사용한다.<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&lt;재사용&gt;&nbsp;&lt;가독성&gt;<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_perform.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*PERFORM&nbsp;select_data(zb00_perform).<br />
+<br />
+<br />
+*PERFORM&nbsp;value_and_result(zb00_perform)<br />
+*&nbsp;&nbsp;USING&nbsp;pv_a&nbsp;pv_b<br />
+*&nbsp;&nbsp;CHANGING&nbsp;pv_r.<br />
+<br />
+   </div>
+   <div class="code">
+DATA : gv_a      TYPE i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;TYPE&nbsp;i.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;:&nbsp;gv_c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result2&nbsp;TYPE&nbsp;i.<br />
+<br />
+   </div>
+   <div class="code">
+gv_a = 100.<br />
+gv_b = 200.<br />
+<br />
+PERFORM calc_data USING gv_a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;gv_result.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WRITE&nbsp;gv_result.<br />
+<br />
+*PERFORM&nbsp;calc_data&nbsp;USING&nbsp;gv_c<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_d<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;gv_result2.<br />
+*---------------------------------------------------------------------*<br />
+*-CALL&nbsp;By&nbsp;Value&nbsp;:&nbsp;USING<br />
+*---------------------------------------------------------------------*<br />
+*DATA&nbsp;:&nbsp;gv_aa&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;2&nbsp;VALUE&nbsp;'AA'.<br />
+*<br />
+*"&nbsp;호출하는&nbsp;입장<br />
+*PERFORM&nbsp;call_by_value&nbsp;USING&nbsp;gv_aa.&nbsp;&nbsp;"Actual&nbsp;Parameter<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;call_by_value<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GV_AA&nbsp;&nbsp;:&nbsp;call&nbsp;by&nbsp;value<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+" 호출 당하는 입장<br />
+   </div>
+   <div class="codeComment">
+*FORM&nbsp;call_by_value&nbsp;&nbsp;USING&nbsp;&nbsp;pv_aa.&nbsp;"p_gv_aa.&nbsp;Formal&nbsp;Parameter<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;pv_aa.<br />
+*<br />
+*ENDFORM.<br />
+<br />
+<br />
+<br />
+*---------------------------------------------------------------------*<br />
+*-CALL&nbsp;By&nbsp;Reference&nbsp;:&nbsp;CHANGING<br />
+*---------------------------------------------------------------------*<br />
+<br />
+*DATA&nbsp;:&nbsp;gv_org(10)&nbsp;TYPE&nbsp;c."&nbsp;VALUE&nbsp;'Original'.<br />
+*<br />
+*gv_org&nbsp;=&nbsp;'Original'.<br />
+*<br />
+*WRITE&nbsp;:&nbsp;gv_org.<br />
+*<br />
+*PERFORM&nbsp;call_by_reference&nbsp;CHANGING&nbsp;gv_org.<br />
+*<br />
+*WRITE&nbsp;gv_org.<br />
+*<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;Form&nbsp;call_by_reference<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;text<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GV_ORG<br />
+**&---------------------------------------------------------------------*<br />
+*FORM&nbsp;call_by_reference&nbsp;&nbsp;CHANGING&nbsp;pv_org."&nbsp;p_gv_org.<br />
+*<br />
+*&nbsp;&nbsp;pv_org&nbsp;=&nbsp;'Changing'.<br />
+*<br />
+*ENDFORM.<br />
+<br />
+*---------------------------------------------------------------------*<br />
+*-&nbsp;CALL&nbsp;By&nbsp;Value&nbsp;and&nbsp;Result&nbsp;:&nbsp;CHANGING,&nbsp;VALUE<br />
+*---------------------------------------------------------------------*<br />
+*DATA&nbsp;:&nbsp;gv_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;'2',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;'3',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_result&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*PERFORM&nbsp;value_and_result&nbsp;USING&nbsp;gv_a<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_b<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;gv_result.&nbsp;&nbsp;&nbsp;"Result<br />
+*<br />
+*<br />
+*WRITE&nbsp;gv_result.<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;value_and_result<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GV_A<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GV_B<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GV_RESULT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM value_and_result  USING    VALUE(pv_a)"p_gv_a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(pv_b)"p_gv_b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;pv_r."VALUE(pv_r)."p_gv_result.<br />
+   </div>
+   <div class="codeComment">
+*FORM&nbsp;value_and_result&nbsp;&nbsp;USING&nbsp;&nbsp;&nbsp;&nbsp;pv_a<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pv_b<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;pv_r&nbsp;&nbsp;.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;pv_r&nbsp;=&nbsp;pv_a&nbsp;+&nbsp;pv_b.<br />
+&nbsp;&nbsp;pv_a&nbsp;=&nbsp;5.&nbsp;&nbsp;&nbsp;&nbsp;"FORM&nbsp;문&nbsp;안에서는&nbsp;변수로써&nbsp;활용이&nbsp;가능하나,<br />
+&nbsp;&nbsp;"ENDFORM&nbsp;나오게&nbsp;되면&nbsp;ACTUAL&nbsp;값이&nbsp;보존된다.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*&nbsp;Structure,&nbsp;Internal&nbsp;Table도&nbsp;Parameter&nbsp;로....<br />
+*--------------------------------------------------------------------*<br />
+*DATA&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;gs_data,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val1&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val2&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_data.<br />
+*<br />
+*DATA&nbsp;:&nbsp;gt_data&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_data.<br />
+*<br />
+*CLEAR&nbsp;gs_data.<br />
+*gs_data-val1&nbsp;=&nbsp;1.<br />
+*gs_data-val2&nbsp;=&nbsp;2.<br />
+*APPEND&nbsp;gs_data&nbsp;TO&nbsp;gt_data.<br />
+*<br />
+*CLEAR&nbsp;gs_data.<br />
+*gs_data-val1&nbsp;=&nbsp;3.<br />
+*gs_data-val2&nbsp;=&nbsp;4.<br />
+*APPEND&nbsp;gs_data&nbsp;TO&nbsp;gt_data.<br />
+*<br />
+*CLEAR&nbsp;gs_data.<br />
+*gs_data-val1&nbsp;=&nbsp;5.<br />
+*gs_data-val2&nbsp;=&nbsp;6.<br />
+*APPEND&nbsp;gs_data&nbsp;TO&nbsp;gt_data.<br />
+*<br />
+*<br />
+*PERFORM&nbsp;write_data&nbsp;USING&nbsp;gs_data<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_data.<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;Form&nbsp;write_data<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;text<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GS_DATA<br />
+**&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GT_DATA<br />
+**&---------------------------------------------------------------------*<br />
+*FORM&nbsp;write_data&nbsp;&nbsp;USING&nbsp;&nbsp;&nbsp;&nbsp;ps_data&nbsp;STRUCTURE&nbsp;gs_data<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pt_data&nbsp;LIKE&nbsp;gt_data.<br />
+*<br />
+*&nbsp;&nbsp;DATA&nbsp;:&nbsp;ls_data&nbsp;LIKE&nbsp;gs_data.<br />
+*<br />
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;pt_data&nbsp;INTO&nbsp;ls_data.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;ls_data-val1,&nbsp;ls_data-val2.<br />
+*<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+*<br />
+*&nbsp;&nbsp;ULINE.<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;ps_data-val1,&nbsp;ps_data-val2.<br />
+*<br />
+*ENDFORM.<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;calc_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;GV_A와&nbsp;GV_B를&nbsp;더하여&nbsp;GV_RESULT&nbsp;에&nbsp;반환한다.<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GV_A<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;GV_B<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GV_RESULT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM calc_data  USING pv_a<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pv_b<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;cv_result.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*&nbsp;&nbsp;DATA&nbsp;:&nbsp;gv_a&nbsp;TYPE&nbsp;i.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lv_a&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_b&nbsp;TYPE&nbsp;i.<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lv_res&nbsp;TYPE&nbsp;i.&nbsp;&nbsp;&nbsp;"결과&nbsp;값을&nbsp;넣을&nbsp;로컬&nbsp;변수<br />
+<br />
+&nbsp;&nbsp;"&nbsp;1.&nbsp;로컬변수에&nbsp;활용할&nbsp;변수를&nbsp;셋팅&nbsp;&nbsp;(USING)<br />
+&nbsp;&nbsp;lv_a&nbsp;=&nbsp;pv_a.<br />
+&nbsp;&nbsp;lv_b&nbsp;=&nbsp;pv_b.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;2.&nbsp;로직&nbsp;수행<br />
+&nbsp;&nbsp;lv_res&nbsp;=&nbsp;lv_a&nbsp;+&nbsp;lv_b.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;lv_res&nbsp;=&nbsp;pv_a&nbsp;+&nbsp;pv_b.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;3.&nbsp;반환할&nbsp;파라미터&nbsp;값에&nbsp;assign&nbsp;(CHANGING)<br />
+&nbsp;&nbsp;cv_result&nbsp;=&nbsp;lv_res.<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;select_data<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM select_data .<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

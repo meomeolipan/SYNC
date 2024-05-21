@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB18_EXCEL_UP_C01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB18_EXCEL_UP_C01</h2>
+<h3> Description: Include ZB18_EXCEL_UP_C01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZTEST14_C01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;CLASS&nbsp;*<br />
+<br />
+   </div>
+   <div class="code">
+CLASS lcl_event_receiver DEFINITION DEFERRED.<br />
+DATA: g_event_receiver TYPE REF TO lcl_event_receiver.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------<br />
+*&nbsp;클래스&nbsp;선언<br />
+*-------------------------------------------------<br />
+   </div>
+   <div class="code">
+CLASS lcl_event_receiver DEFINITION.<br />
+PUBLIC SECTION.<br />
+METHODS : handle_double_click<br />
+FOR EVENT double_click OF cl_gui_alv_grid<br />
+IMPORTING e_row<br />
+e_column.<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------<br />
+*&nbsp;클래스&nbsp;구현<br />
+*--------------------------------------------<br />
+   </div>
+   <div class="code">
+CLASS lcl_event_receiver IMPLEMENTATION.<br />
+METHOD handle_double_click.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;내가&nbsp;선택하는&nbsp;alv&nbsp;....&nbsp;line<br />
+<br />
+   </div>
+   <div class="code">
+IF r1 ='X'.<br />
+&nbsp;&nbsp;DATA:&nbsp;tmp_GT_ZSC&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;GT_ZSC.<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_ZSC&nbsp;INDEX&nbsp;e_row-index&nbsp;INTO&nbsp;tmp_GT_ZSC.<br />
+&nbsp;&nbsp;tmp_GT_ZSC-carrname&nbsp;=&nbsp;'ZSCARR'.<br />
+&nbsp;&nbsp;set&nbsp;PARAMETER&nbsp;ID&nbsp;'DTB'&nbsp;FIELD&nbsp;tmp_GT_ZSC-carrname.<br />
+ELSEIF r2 ='X'.<br />
+&nbsp;&nbsp;DATA:&nbsp;tmp_GT_ZSCARR&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;GT_ZSCARR.<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_ZSCARR&nbsp;INDEX&nbsp;e_row-index&nbsp;INTO&nbsp;tmp_GT_ZSCARR.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;tmp_GT_ZSCARR-carrname&nbsp;=&nbsp;'ZSCARR'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;set&nbsp;PARAMETER&nbsp;ID&nbsp;'DTB'&nbsp;FIELD&nbsp;tmp_GT_ZSCARR-carrname.<br />
+ENDIF.<br />
+<br />
+<br />
+call TRANSACTION 'SE11' WITHOUT AUTHORITY-CHECK.<br />
+<br />
+<br />
+ENDMETHOD.<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

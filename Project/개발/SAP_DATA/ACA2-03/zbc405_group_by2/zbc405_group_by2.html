@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_GROUP_BY2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_GROUP_BY2</h2>
+<h3> Description: Program ZBC405_GROUP_BY2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC405_GROUP_BY2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc405_group_by2.<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;선언부<br />
+   </div>
+   <div class="code">
+DATA: go_alv_grid TYPE REF TO cl_salv_table.<br />
+<br />
+"출력필드 타입 선언<br />
+TYPES: BEGIN OF gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsmax&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sflight-seatsocc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsmax_avg&nbsp;TYPE&nbsp;sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc_avg&nbsp;TYPE&nbsp;sflight-seatsocc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_connid&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_flights&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_sflight.<br />
+<br />
+DATA: gt_sflights TYPE TABLE OF gty_sflight,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sflight&nbsp;&nbsp;TYPE&nbsp;gty_sflight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;입력부<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: so_car FOR gs_sflight-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_avgmx&nbsp;FOR&nbsp;gs_sflight-seatsmax,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_avgoc&nbsp;FOR&nbsp;gs_sflight-seatsocc.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;구현부<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;SELECT&nbsp;carrid&nbsp;"항공사&nbsp;ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUM(&nbsp;seatsmax&nbsp;)&nbsp;AS&nbsp;seatsmax&nbsp;"이코노미&nbsp;좌석수&nbsp;합계<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUM(&nbsp;seatsocc&nbsp;)&nbsp;AS&nbsp;seatsocc&nbsp;"이코노미&nbsp;예약&nbsp;좌석수&nbsp;합계<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AVG(&nbsp;seatsmax&nbsp;)&nbsp;AS&nbsp;seatsmax_avg&nbsp;"이코노미&nbsp;좌석수&nbsp;평균<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AVG(&nbsp;seatsocc&nbsp;)&nbsp;AS&nbsp;seatsocc_avg&nbsp;"이코노미&nbsp;예약&nbsp;좌석수&nbsp;평균<br />
+&nbsp;&nbsp;&nbsp;&nbsp;COUNT(&nbsp;DISTINCT&nbsp;connid&nbsp;)&nbsp;AS&nbsp;num_connid&nbsp;"연결항공편&nbsp;개수-항공사별&nbsp;항공기&nbsp;중복&nbsp;제거<br />
+&nbsp;&nbsp;&nbsp;&nbsp;COUNT(*)&nbsp;AS&nbsp;num_flights&nbsp;"전체&nbsp;항공편&nbsp;개수<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;gt_sflights<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;sflight<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;IN&nbsp;so_car&nbsp;"사용자&nbsp;입력&nbsp;항공사&nbsp;조건<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GROUP&nbsp;BY&nbsp;carrid&nbsp;"항공사별&nbsp;그룹화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;HAVING&nbsp;AVG(&nbsp;seatsmax&nbsp;)&nbsp;IN&nbsp;so_avgmx&nbsp;"좌석/예악좌석&nbsp;개수&nbsp;조건을&nbsp;갖는&nbsp;그룹<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;AVG(&nbsp;seatsocc&nbsp;)&nbsp;IN&nbsp;so_avgoc<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;seatsmax_avg&nbsp;DESCENDING&nbsp;"정렬<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seatsocc_avg&nbsp;DESCENDING.<br />
+<br />
+&nbsp;&nbsp;"출력<br />
+&nbsp;&nbsp;cl_salv_table=&gt;factory(<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;=&nbsp;&nbsp;go_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;=&nbsp;gt_sflights&nbsp;).<br />
+&nbsp;&nbsp;go_alv_grid-&gt;display(&nbsp;).<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_AVGMX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;평균&nbsp;좌석&nbsp;수<br />
+*&nbsp;SO_AVGOC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;평균&nbsp;예약&nbsp;좌석&nbsp;수<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;항공사&nbsp;코드<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

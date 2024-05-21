@@ -1,0 +1,195 @@
+** 각 업무별 사용 Table 내역
+1. 자재마스타 관리 Table
+- MARA Material Master: General Data
+- MARC Material Master: 자재에 대한 플랜트데이타
+- MARD Material Master: Storage Location/Batch Segment
+- MAKT Material Descriptions
+- MBEW Material Valuation
+- MVKE Material Master: Sales Data
+- MARC_WERK 
+- T132 Status definition
+- MBEWH 기초재고관리 TABLE
+- MARM 자재별 단위 conversion rule
+2. BOM 관리 Table
+- MAST : Material to BOM Link
+- STKO : BOM Header
+- STPO : BOM Item
+- STPU : BOM Sub-Item
+- STAS : BOMs - Item Selection
+3. INFO Record 관리 Table
+- A018 Material Info Record
+- EINA Purchasing Info Record - General Data
+- EINE Purchasing Info Record - Purchasing Organization Data
+- KONH Conditions (Header)
+- KONP Conditions (Item)
+4. Quota Arrangement 관리 Table
+- EQUK Quota File - Header
+- EQUP Quota File - Item
+5. Source List 관리 Table
+- EORD Purchasing Source List
+6. Vendor Master 관리 Table
+- LFA1 Vendor master (general section)
+- LFB1 Vendor master (company code)
+- LFBK Vendor master (bank details)
+- LFM1 Vendor master record purchasing organization data
+
+7. Inspection Plan 관리 Table
+- MAPL Allocation of task lists to materials
+- PLKO Task list - header
+- PLMK Inspection characteristic
+- PLMW MAPL-dependent characteristic values (inspection plan)
+- PLPO Task list - operation/activity
+8. Customer Master 관리 Table
+- KNA1 General Data in Customer Master
+9. Quality Management 관리 Table
+- MAPL Allocation of task lists to materials
+- QDQL Quality level
+- QALS Inspection lot record
+- QAMR Characteristic results during inspection processing
+- QAMV Characteristic specifications for inspection processing
+- QAVE Inspection processing: Usage decision
+- QMAT Inspection type - material parameters
+10. Kanban Master 관리 Table
+- PKHD Control cycle header
+11. Purchase Requisition 관리 Table
+- EBAN Purchase Requisition
+- EINA Purchasing Info Record - General Data
+- EINE Purchasing Info Record - Purchasing Organization Data
+- LFM1 Vendor master record purchasing organization data
+- T001K Valuation area
+- T001W Plants/Locations
+- T024E Purchasing Organizations
+- T160 SAP Transaction Control, Purchasing
+- T161A Linkage of Requisition Doc. Type to Purchasing Document Type
+- T161W Order Types for Stock Transfer
+12. Purchase Document 관리 Table
+- EKKO Purchasing Document(RFQ,CONTRACT,PO) Header
+- EKPO Purchasing Document(RFQ,CONTRACT,PO) Item
+- EKET Delivery Schedules
+- EKBE History of Purchasing Document
+- EKKN 계정지정 구매문서 관련 테이블
+13. Sales Order 관리 Table
+- KNA1 General Data in Customer Master
+- VBAK Sales Document: Header Data
+- VBAP Sales Document: Item Data
+- VBEP Sales Document: Schedule Line Data
+14. SOP (Sales & Operation Planning) 관리 Table
+- S076 Sales & Operations Planning
+- S076E S076 - Structural Information
+- SAUF SOP Orders
+- P445G Parameters for PLOB Version_Key Figure
+- P445X LIS Planning Versions Table
+- P44V Planning Versions
+15. Demand Management 관리 Table
+- PBIM Independent requirements for material
+- PBED Independent requirements data
+- PBHI Independent requirements history
+16. Work Center 관리 Table
+- CRHD Work Center Header
+- CRCO Assignment of Work Center to Cost Center
+- KAKO Capacity Header Segment
+- TC31A Key for performance efficiency rate
+17. Cost Center 관리 Table
+- CSKS Cost center master
+- CRCO Assignment of Work Center to Cost Center 
+18. Routings 관리 Table
+- MAPL Allocation of task lists to materials
+- PLAS Task list - selection of operations/activities
+- PLKO Task list - header
+- PLPO Task list - operation/activity
+19. Complete Confirmation 관리 Table
+- AFRU Order completion confirmations
+
+20. Planned Order 관리 Table
+- PLAF Planned order
+- MKAL Production Versions of Material
+21. Production Order 관리 Table
+- AFKO Order header data PP orders
+- AUFK Order master data
+- AFPO Order item
+- AFVV DB structure of the quantities/dates/values in the operation
+- AFVC Operation within an order
+- AFRU 확정번호를 키로 해서 액티비티 값을 가지고 있는 테이블
+22. CRP (Capacity Requirement Planning) 관리 Table
+- KAKO Capacity Header Segment
+- KBKO Header record for capacity requirements
+- KBED Capacity requirements records
+23. Reservation 관리 Table
+- RKPF 예약문서:헤더
+- RESB Reservation/dependent requirements
+- JEST Object status
+24. 구매조직 관리 Table
+- T024 Purchasing Groups
+- T024D MRP
+25. Storage Loc. 관리 Table
+- T001L Storage Locations
+26. 화폐단위 관리 Table
+- TCURX Decimal places in currencies
+- TCURR Currency exchange rates
+27. Goods Receipt/Issue 관리 Table
+- MKPF Header: Material Document
+- MSEG Document Segment: Material
+- MSLB Special Stocks with Vendor
+- S031 기간(월..)별 입출고 합계수량/금액
+- S032 재고이동이나 송장검증 또는 자재금액변경 등의 transaction이 발생할 때 
+이 정보구조에 반영.기간이 없다.
+- S033 일 기준으로 재고이동이나 송장검증, 자재금액변경 등의 transaction이 발생할 때 
+이 정보구조에 반영. transaction 개개별로 update가 된다.
+28. Message관리 Table
+- T100 Messages
+
+29. Plant 관리 Table
+- T001 Company Codes
+- T001W Plants/Locations
+- T001L Locations정보
+30. User 관리 Table
+- USR01 User master record (run-time data)
+- USR02 Logon data
+- USR03 User address data
+- USR04 User master authorizations
+- USR05 User Master Parameter ID
+31. SAP R/3 프로그램 관리 Table (SAP & CBO)
+- DD02V Generated table for view DD02V
+- TRDIR System table TRDIR
+32. SAP R/3 테이블 관리 Table (SAP & CBO)
+- DD02L SAP tables
+- DD02T R/3-DD: SAP Table Texts
+- DD02V Generated table for view DD02V
+- TADIR Catalog of R/3 Repository objects
+33. MRP 관련 Table
+- MKPF Header: Material Document
+- MDSM Simulative dependent requirements
+- MDTB MRP table
+- MDVM Entry in MRP File
+- MDKP Header data for MRP document
+34. Vendor Evaluation관련 Table
+- ELBK 가중키,Overall score(업체별)
+- ELBP scores for main/subcriteria(업체별)
+- S013 업체평가관련 통계테이블(업체-자재별)
+- T147K customizing의 채점방법관련 테이블
+35. Invoice Verification관련 Table
+- RBKP Header 관련
+- RSEG Item 관련
+- BKPF 회계전표:Header 관련
+- BSEG 회계전표:Item 관련
+36. Batch관련 테이블
+- MCHA Batch
+- MCH1 Batch (플랜트간 Batch 관리일 경우)
+- MCHB Batch재고
+- MCHBH Batch 재고: 이력
+36. Archive관련 테이블
+- ADMI_RUN Object name : MM-EBAN(for Purchase Requisitions)
+MM-EKKO(for Purchasing Documents)
+37. Classification관련 테이블
+- ZSD001V object별 특성값
+38. AUTOPOSTING관련 테이블
+- T030 
+39. 세금관련 테이블
+- BSET 
+- T007S 코드와 내역
+40. 이동유형(Customizing) 관련 테이블
+- t156 이동유형관련 Customizing 테이블
+41. 업체주소관리 테이블
+- ADRC 업체명,주소,전화번호 관리 테이블
+벤더마스타와 구매문서의 ADRNR필드와 ADRC-ADDRNUMBER가 키로 되어 있음.
+출처: https://paransilverlight.tistory.com/83 [paran silverlight:티스토리]

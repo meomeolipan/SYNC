@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB18_SORTED_ITAB</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB18_SORTED_ITAB</h2>
+<h3> Description: sorted table, unique key, read구문</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB18_SORTED_ITAB<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;sorted&nbsp;itab&nbsp;선언하여&nbsp;입력하고&nbsp;출력,&nbsp;비교하<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+REPORT zb18_sorted_itab.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;scarr&nbsp;타입의&nbsp;internal&nbsp;table&nbsp;두&nbsp;개&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA gt_itab TYPE TABLE OF scarr.<br />
+DATA gt_itab_sorted TYPE SORTED TABLE OF scarr WITH UNIQUE KEY carrid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Work&nbsp;Area&nbsp;변수&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA gs_scarr TYPE scarr.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Data&nbsp;삽입<br />
+   </div>
+   <div class="code">
+gs_scarr-carrid = 'AA'.<br />
+gs_scarr-carrname = 'American Airlines'.<br />
+gs_scarr-currcode = 'USD'.<br />
+gs_scarr-url = 'http://www.aa.com'.<br />
+<br />
+INSERT gs_scarr INTO TABLE gt_itab.<br />
+INSERT gs_scarr INTO TABLE gt_itab_sorted.<br />
+CLEAR gs_scarr.<br />
+<br />
+gs_scarr-carrid = 'UA'.<br />
+gs_scarr-carrname = 'United Airlines'.<br />
+gs_scarr-currcode = 'USD'.<br />
+gs_scarr-url = 'http://www.ual.com'.<br />
+<br />
+INSERT gs_scarr INTO TABLE gt_itab.<br />
+INSERT gs_scarr INTO TABLE gt_itab_sorted.<br />
+CLEAR gs_scarr.<br />
+<br />
+gs_scarr-carrid = 'AB'.<br />
+gs_scarr-carrname = 'Air Berlin'.<br />
+gs_scarr-currcode = 'EUR'.<br />
+gs_scarr-url = 'http://www.airberlin.de'.<br />
+<br />
+INSERT gs_scarr INTO TABLE gt_itab.<br />
+INSERT gs_scarr INTO TABLE gt_itab_sorted.<br />
+CLEAR gs_scarr.<br />
+<br />
+gs_scarr-carrid = 'AA'.<br />
+gs_scarr-carrname = 'American Airlines'.<br />
+gs_scarr-currcode = 'USD'.<br />
+gs_scarr-url = 'http://www.aa.com'.<br />
+<br />
+INSERT gs_scarr INTO TABLE gt_itab. " non-unique 테이블이기 떄문에 값이 중복되어도 데이터가 잘 삽입된다.<br />
+INSERT gs_scarr INTO TABLE gt_itab_sorted. " 중복된 키 값을 가진 데이터가 삽입되지 않는다.<br />
+CLEAR gs_scarr.<br />
+<br />
+LOOP AT gt_itab INTO gs_scarr.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;gs_scarr.<br />
+ENDLOOP.<br />
+<br />
+ULINE.<br />
+<br />
+LOOP AT gt_itab_sorted INTO gs_scarr.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;gs_scarr.<br />
+ENDLOOP.<br />
+<br />
+ULINE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+*&nbsp;read&nbsp;with&nbsp;table&nbsp;key와&nbsp;with&nbsp;key&nbsp;테스트<br />
+*--------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+READ TABLE gt_itab_sorted INTO gs_scarr WITH TABLE KEY carrid = 'UA'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;READ&nbsp;TABLE&nbsp;gt_itab_sorted&nbsp;INTO&nbsp;gs_scarr&nbsp;WITH&nbsp;TABLE&nbsp;KEY&nbsp;carrname&nbsp;=&nbsp;'American&nbsp;Airlines'.&nbsp;에러&nbsp;발생<br />
+<br />
+   </div>
+   <div class="code">
+IF sy-subrc = 0.<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;gs_scarr.<br />
+ENDIF.<br />
+<br />
+ULINE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;READ&nbsp;TABLE&nbsp;gt_itab&nbsp;INTO&nbsp;gs_scarr&nbsp;WITH&nbsp;KEY&nbsp;carrid&nbsp;=&nbsp;'AB'.&nbsp;table&nbsp;key&nbsp;구문을&nbsp;사용하지&nbsp;않더라도&nbsp;검색이&nbsp;가능함<br />
+   </div>
+   <div class="code">
+READ TABLE gt_itab INTO gs_scarr WITH KEY carrname = 'American Airlines'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;READ&nbsp;TABLE&nbsp;gt_itab&nbsp;INTO&nbsp;gs_scarr&nbsp;WITH&nbsp;TABLE&nbsp;KEY&nbsp;carrid&nbsp;=&nbsp;'AB'.&nbsp;에러&nbsp;발생<br />
+   </div>
+   <div class="code">
+IF sy-subrc = 0.<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;gs_scarr.<br />
+ENDIF.<br />
+<br />
+BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

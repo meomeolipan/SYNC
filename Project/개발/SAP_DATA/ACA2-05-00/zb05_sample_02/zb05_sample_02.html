@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB05_SAMPLE_02</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB05_SAMPLE_02</h2>
+<h3> Description: example</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_0125<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb05_sample_02.<br />
+<br />
+DATA : gv_result TYPE i.<br />
+<br />
+<br />
+PERFORM select_data(zb00_perform).<br />
+<br />
+<br />
+CALL FUNCTION 'ZB00_TEMP_01'<br />
+&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;iv_int1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;iv_int2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ev_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_result<br />
+&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;result_over_10&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+IF sy-subrc &lt;&gt; 0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;sy-subrc.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'result_value_over_10'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ELSEIF sy-subrc = 0.<br />
+&nbsp;&nbsp;WRITE&nbsp;gv_result.<br />
+ENDIF.<br />
+<br />
+<br />
+CASE sy-subrc.<br />
+&nbsp;&nbsp;WHEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;gv_result.<br />
+&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'result_value_over_10'.<br />
+&nbsp;&nbsp;WHEN&nbsp;2.<br />
+ENDCASE.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*<br />
+*PARAMETERS&nbsp;:&nbsp;pa_int1&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_int2&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*"&nbsp;IMPORT&nbsp;PARAMETER<br />
+*DATA&nbsp;:&nbsp;gv_base&nbsp;&nbsp;TYPE&nbsp;&nbsp;bc400_compute_base,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_power&nbsp;TYPE&nbsp;&nbsp;bc400_compute_power.<br />
+*<br />
+*"&nbsp;EXPORT&nbsp;PARAMETER<br />
+*DATA&nbsp;:&nbsp;gv_result&nbsp;&nbsp;TYPE&nbsp;&nbsp;bc400_compute_result.<br />
+*<br />
+**-&nbsp;값&nbsp;할당<br />
+*gv_base&nbsp;&nbsp;=&nbsp;pa_int1.<br />
+*gv_power&nbsp;=&nbsp;pa_int2.<br />
+*<br />
+*CALL&nbsp;FUNCTION&nbsp;'BC400_MOS_POWER'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_base&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_base<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_power&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_power<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_result<br />
+*&nbsp;&nbsp;EXCEPTIONS&nbsp;&nbsp;"&nbsp;sy-subrc<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;power_value_too_high&nbsp;&nbsp;=&nbsp;1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;result_value_too_high&nbsp;=&nbsp;2<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+**&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+*ENDIF.<br />
+*<br />
+*CASE&nbsp;sy-subrc.<br />
+*&nbsp;&nbsp;WHEN&nbsp;0.&nbsp;&nbsp;"positive<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;gv_result.<br />
+*&nbsp;&nbsp;WHEN&nbsp;1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'power_value_too_high'(pvh).&nbsp;&nbsp;"text&nbsp;symbol<br />
+*&nbsp;&nbsp;WHEN&nbsp;2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'result_value_too_high'.<br />
+**&nbsp;&nbsp;WHEN&nbsp;3.<br />
+*&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;text-pvh.<br />
+*ENDCASE.<br />
+*<br />
+*WRITE&nbsp;text-009.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+*DATA&nbsp;:&nbsp;gv_int1&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_int2&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_return&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_test&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*gv_int1&nbsp;=&nbsp;3.<br />
+*gv_int2&nbsp;=&nbsp;5.<br />
+*gv_test&nbsp;=&nbsp;1.<br />
+*<br />
+*CALL&nbsp;FUNCTION&nbsp;'ZB00_TEST_01'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_int1&nbsp;&nbsp;&nbsp;=&nbsp;gv_int1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_int2&nbsp;&nbsp;&nbsp;=&nbsp;gv_int2&nbsp;&nbsp;"pass&nbsp;by&nbsp;value<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_return&nbsp;=&nbsp;gv_return<br />
+*&nbsp;&nbsp;CHANGING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;cv_test&nbsp;&nbsp;&nbsp;=&nbsp;gv_test.&nbsp;"reference<br />
+*<br />
+*WRITE&nbsp;:&nbsp;gv_int1,"&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_int2,"&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_return,"&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_test."&nbsp;TYPE&nbsp;i.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+*<br />
+*PARAMETERS&nbsp;:&nbsp;pa_int1&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_int2&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*"&nbsp;import&nbsp;parameter&nbsp;(=exporting)<br />
+*DATA&nbsp;:&nbsp;gv_int1&nbsp;TYPE&nbsp;bc400_compute_base,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_int2&nbsp;TYPE&nbsp;bc400_compute_power.<br />
+*<br />
+**DATA&nbsp;:&nbsp;gV_BASE&nbsp;&nbsp;TYPE&nbsp;&nbsp;bc400_compute_base,<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gV_POWER&nbsp;TYPE&nbsp;&nbsp;bc400_compute_power.<br />
+*"&nbsp;export&nbsp;parameter&nbsp;(=importing)<br />
+*DATA&nbsp;:&nbsp;gv_result&nbsp;TYPE&nbsp;bc400_compute_result.<br />
+*<br />
+*gv_int1&nbsp;=&nbsp;pa_int1.<br />
+*gv_int2&nbsp;=&nbsp;pa_int2.<br />
+*<br />
+*CALL&nbsp;FUNCTION&nbsp;'BC400_MOS_POWER'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_base&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_int1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;iv_power&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_int2<br />
+*&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ev_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_result<br />
+*&nbsp;&nbsp;EXCEPTIONS&nbsp;"(sy-subrc)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;power_value_too_high&nbsp;&nbsp;=&nbsp;1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;result_value_too_high&nbsp;=&nbsp;2<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+*<br />
+*<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+**&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+*&nbsp;&nbsp;WRITE&nbsp;gv_result.<br />
+*<br />
+*ELSEIF&nbsp;sy-subrc&nbsp;=&nbsp;1.<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;sy-subrc.<br />
+*&nbsp;&nbsp;WRITE&nbsp;/&nbsp;'power_value_too_high'.<br />
+**&nbsp;&nbsp;MESSAGE...<br />
+**&nbsp;&nbsp;WRITE&nbsp;...&nbsp;error&nbsp;message.<br />
+*ENDIF.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+" TABLE : ICON<br />
+" TYPE GROUP : ICON<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WRITE&nbsp;/&nbsp;icon_green_light&nbsp;AS&nbsp;ICON.<br />
+*WRITE&nbsp;/&nbsp;icon_red_light&nbsp;AS&nbsp;ICON.<br />
+*WRITE&nbsp;/&nbsp;icon_yellow_light&nbsp;AS&nbsp;ICON.<br />
+*<br />
+*WRITE&nbsp;/&nbsp;icon_previous_value&nbsp;AS&nbsp;ICON.<br />
+*WRITE&nbsp;/&nbsp;icon_total_left&nbsp;AS&nbsp;ICON.<br />
+*<br />
+*WRITE&nbsp;/&nbsp;'@0V@'&nbsp;AS&nbsp;ICON.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*"&nbsp;LOCAL&nbsp;TYPE<br />
+*TYPES&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;ty_scarr,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;3,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_scarr.<br />
+*<br />
+*TYPES&nbsp;:&nbsp;ty_mara&nbsp;TYPE&nbsp;mara.<br />
+*<br />
+*<br />
+*DATA&nbsp;:&nbsp;gv_carr&nbsp;TYPE&nbsp;scarr-carrid.<br />
+*<br />
+*"&nbsp;특수한&nbsp;변수&nbsp;-&nbsp;화면을&nbsp;만들어주면서,&nbsp;입력&nbsp;필드로&nbsp;값을&nbsp;받는&nbsp;변수&nbsp;(&nbsp;=&nbsp;DATA)<br />
+*PARAMETERS&nbsp;:&nbsp;pa_c&nbsp;&nbsp;TYPE&nbsp;c,&nbsp;&nbsp;&nbsp;&nbsp;"pre-defined&nbsp;data&nbsp;type&nbsp;=&nbsp;standard&nbsp;data&nbsp;type<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_c1&nbsp;TYPE&nbsp;s_carr_id,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"data&nbsp;element<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_c2&nbsp;TYPE&nbsp;scarr-carrid,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"database-field&nbsp;(from&nbsp;data&nbsp;element)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_c3&nbsp;TYPE&nbsp;zsscarr_b06-carrid,&nbsp;"structure-component&nbsp;(from&nbsp;data&nbsp;element)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_c4&nbsp;TYPE&nbsp;ty_scarr-carrid,&nbsp;&nbsp;&nbsp;&nbsp;"local&nbsp;type<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_c5&nbsp;LIKE&nbsp;gv_carr.&nbsp;&nbsp;&nbsp;"기&nbsp;선언된&nbsp;변수를&nbsp;타입으로&nbsp;받았다.<br />
+*<br />
+*<br />
+*DATA&nbsp;:&nbsp;BEGIN&nbsp;OF&nbsp;gs_type.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;ty_scarr.&nbsp;"&nbsp;type<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;ty_mara.&nbsp;&nbsp;"&nbsp;type<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;mara.&nbsp;"Dic.&nbsp;object&nbsp;:&nbsp;structure,&nbsp;database&nbsp;table.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;STRUCTURE&nbsp;mara.&nbsp;"Dic.&nbsp;object&nbsp;:&nbsp;structure,&nbsp;database&nbsp;table.<br />
+*DATA&nbsp;:&nbsp;END&nbsp;OF&nbsp;gs_type.<br />
+<br />
+<br />
+*DATA&nbsp;:&nbsp;gv_i&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*gv_i&nbsp;=&nbsp;'test'.<br />
+*<br />
+*WRITE&nbsp;gv_i.<br />
+*TYPE-POOLS&nbsp;:&nbsp;zty25.&nbsp;&nbsp;&nbsp;"사양된&nbsp;문법...&nbsp;이제는&nbsp;안&nbsp;써도&nbsp;인식...<br />
+<br />
+*DATA&nbsp;:&nbsp;gv_circ&nbsp;TYPE&nbsp;p.<br />
+*DATA&nbsp;:&nbsp;gv_rad&nbsp;&nbsp;TYPE&nbsp;f&nbsp;VALUE&nbsp;'5.7'.<br />
+**DATA&nbsp;:&nbsp;gv_perc&nbsp;TYPE&nbsp;zty00_percentage&nbsp;VALUE&nbsp;'22.5'.<br />
+*DATA&nbsp;:&nbsp;gv_perc&nbsp;TYPE&nbsp;zty25_percentage&nbsp;VALUE&nbsp;'22.5'.&nbsp;&nbsp;"prefix&nbsp;-&gt;&nbsp;type&nbsp;group&nbsp;인식<br />
+*<br />
+*gv_circ&nbsp;=&nbsp;2&nbsp;*&nbsp;gv_rad&nbsp;*&nbsp;zty00_pi.<br />
+*<br />
+*WRITE&nbsp;gv_circ.<br />
+<br />
+*DATA&nbsp;gs_person&nbsp;TYPE&nbsp;zperson_e00.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*<br />
+*&nbsp;&nbsp;gs_person-name-firstname&nbsp;=&nbsp;'Harry'.<br />
+*&nbsp;&nbsp;gs_person-name-lastname&nbsp;=&nbsp;'Potter'.<br />
+*<br />
+*&nbsp;&nbsp;gs_person-street&nbsp;=&nbsp;'Privet&nbsp;Drive'.<br />
+*&nbsp;&nbsp;gs_person-nr&nbsp;=&nbsp;'3'.<br />
+*&nbsp;&nbsp;gs_person-zip&nbsp;=&nbsp;'GB-10889'.<br />
+*&nbsp;&nbsp;gs_person-city&nbsp;=&nbsp;'London'.<br />
+*<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;gs_person-name-firstname&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_person-name-lastname&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_person-street&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_person-nr&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_person-zip&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_person-city&nbsp;.<br />
+<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+<br />
+*TYPE-POOLS&nbsp;:&nbsp;slis.<br />
+*TYPE-POOLS&nbsp;:&nbsp;ZTYGE&nbsp;.<br />
+<br />
+*MESSAGE&nbsp;'TEST'&nbsp;TYPE&nbsp;'S'.<br />
+*WRITE&nbsp;:&nbsp;sy-mandt,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-uname,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-langu,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-uzeit,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;sy-datum.<br />
+*<br />
+*DO&nbsp;10&nbsp;TIMES.<br />
+*&nbsp;&nbsp;WRITE&nbsp;/&nbsp;sy-index.<br />
+*ENDDO.<br />
+*<br />
+*--------------------------------------------------------------------*<br />
+*DATA:&nbsp;lv_multiplier&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*DO&nbsp;9&nbsp;TIMES.<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;/&nbsp;TEXT-001.<br />
+*<br />
+*&nbsp;&nbsp;lv_multiplier&nbsp;=&nbsp;sy-index.<br />
+*<br />
+*&nbsp;&nbsp;DO&nbsp;9&nbsp;TIMES.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;lv_result&nbsp;=&nbsp;lv_multiplier&nbsp;*&nbsp;sy-index.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;lv_multiplier,&nbsp;'*',&nbsp;sy-index,&nbsp;'=',&nbsp;lv_result.<br />
+*&nbsp;&nbsp;ENDDO.<br />
+*<br />
+*ENDDO.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+*DATA&nbsp;:&nbsp;gv_str&nbsp;TYPE&nbsp;STRing.<br />
+*DATA&nbsp;:&nbsp;gv_len&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*gv_str&nbsp;=&nbsp;'ABSET'.<br />
+*<br />
+*gv_len&nbsp;=&nbsp;strlen(&nbsp;gv_str&nbsp;).<br />
+*<br />
+*WRITE&nbsp;gv_len.<br />
+*--------------------------------------------------------------------*<br />
+*<br />
+*DATA:&nbsp;lv_multiplier&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i.<br />
+*<br />
+*PARAMETERS:&nbsp;p_input&nbsp;TYPE&nbsp;i&nbsp;OBLIGATORY.<br />
+*<br />
+*lv_input&nbsp;=&nbsp;p_input.<br />
+*<br />
+*IF&nbsp;lv_input&nbsp;&lt;&nbsp;1&nbsp;OR&nbsp;lv_input&nbsp;&gt;&nbsp;9.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;'구구단은&nbsp;1부터&nbsp;9까지의&nbsp;숫자만&nbsp;가능합니다.'.<br />
+*ELSE.<br />
+*&nbsp;&nbsp;DO&nbsp;9&nbsp;TIMES.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;lv_multiplier&nbsp;=&nbsp;sy-index.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;lv_result&nbsp;=&nbsp;lv_input&nbsp;*&nbsp;sy-index.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;lv_input,&nbsp;'*',&nbsp;sy-index,&nbsp;'=',&nbsp;lv_result.<br />
+*&nbsp;&nbsp;ENDDO.<br />
+*ENDIF.<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;=======================================================<br />
+*&nbsp;009&nbsp;<br />
+*&nbsp;A01&nbsp;데이터가&nbsp;없습니다.<br />
+*&nbsp;PVH&nbsp;power_value_too_high<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_25</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_25</h2>
+<h3> Description: 예약 조회(ALV 템플릿)</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZCA_25<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZCA_25 MESSAGE-ID ZMESG99.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*선언<br />
+   </div>
+   <div class="code">
+include <a href ="zca_25_top.html">ZCA_25_TOP</a>.<br />
+include <a href ="zca_25_s01.html">ZCA_25_S01</a>.<br />
+include <a href ="zca_25_c01.html">ZCA_25_C01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*구현<br />
+   </div>
+   <div class="code">
+include <a href ="zca_25_o01.html">ZCA_25_O01</a>.<br />
+include <a href ="zca_25_i01.html">ZCA_25_I01</a>.<br />
+include <a href ="zca_25_f01.html">ZCA_25_F01</a>.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;프로그램&nbsp;실행&nbsp;시&nbsp;가장&nbsp;먼저&nbsp;실행되는&nbsp;이벤트&nbsp;구간(1회성)<br />
+*--------------------------------------------------------------------*<br />
+<br />
+*PERFORM&nbsp;SET_INIT_VALUE.<br />
+<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selection&nbsp;Screen이&nbsp;출력되기&nbsp;직전에&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+*&nbsp;Selection&nbsp;Screen에&nbsp;영향이&nbsp;되는&nbsp;로직들이&nbsp;주로&nbsp;위치<br />
+*&nbsp;Text,&nbsp;Parameters나&nbsp;Select-Options에&nbsp;대한&nbsp;입력필드의&nbsp;잠금,숨김,필수&nbsp;등등<br />
+*--------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+PERFORM INIT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selection&nbsp;Screen에서&nbsp;사용자가&nbsp;무언가의&nbsp;행동을&nbsp;했을&nbsp;때&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+*&nbsp;대표적인&nbsp;케이스가&nbsp;Enter&nbsp;또는&nbsp;F8(실행버튼)에&nbsp;대한&nbsp;경우가&nbsp;있다.<br />
+*&nbsp;입력값에&nbsp;대한&nbsp;점검(권한,유효성)<br />
+*--------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+PERFORM OPEN_CLOSE_SCREEN.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;사용자가&nbsp;F8(실행버튼)을&nbsp;눌러서&nbsp;AT&nbsp;SELECTION-SCREEN에서<br />
+*&nbsp;오류&nbsp;메시지&nbsp;없이&nbsp;통과된&nbsp;경우&nbsp;호출되는&nbsp;이벤트&nbsp;구간<br />
+*&nbsp;주로&nbsp;데이터&nbsp;조회&nbsp;및&nbsp;검색결과에&nbsp;대한&nbsp;출력<br />
+*--------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+PERFORM SELECT_DATA.<br />
+PERFORM MODIFY_DATA.<br />
+PERFORM DISPLAY_DATA.<br />
+CALL SCREEN 0100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;0100&nbsp;--&gt;&nbsp;&&nbsp;항공사&nbsp;예약&nbsp;조회&nbsp;&&nbsp;&<br />
+*&nbsp;0110&nbsp;--&gt;&nbsp;예약&nbsp;항공&nbsp;상세&nbsp;정보<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;P01&nbsp;OPEN<br />
+*&nbsp;P02&nbsp;CLOSE<br />
+*&nbsp;T01&nbsp;예약&nbsp;조회&nbsp;검색<br />
+*&nbsp;T02&nbsp;회원번호와&nbsp;예약일자&nbsp;추가&nbsp;조회<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;항공사&nbsp;ID<br />
+*&nbsp;SO_CID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;고객번호<br />
+*&nbsp;SO_CON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;연결&nbsp;번호<br />
+*&nbsp;SO_FLD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비행일자<br />
+*&nbsp;SO_ORD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예약일자<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZMESG99<br />
+*001&nbsp;&nbsp;&nbsp;조건에&nbsp;만족하는&nbsp;데이터가&nbsp;없습니다.<br />
+*006&nbsp;&nbsp;&nbsp;에러가&nbsp;발생하였습니다<br />
+*010&nbsp;&nbsp;&nbsp;총&nbsp;&건이&nbsp;조회되었습니다.<br />
+*011&nbsp;&nbsp;&nbsp;선택하신&nbsp;예약번호의&nbsp;비행&nbsp;출발일은&nbsp;&&nbsp;입니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

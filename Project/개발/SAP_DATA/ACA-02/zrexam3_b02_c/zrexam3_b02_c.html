@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B02_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B02_C</h2>
+<h3> Description: Program ZEXAM_B02</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEXAM_B02<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;강태윤&nbsp;:&nbsp;타이틀&nbsp;누락,&nbsp;날짜&nbsp;초기값,&nbsp;데이터조회안됨(조건필드잘못설정),&nbsp;메세지<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zrexam3_b02_c MESSAGE-ID zb02.<br />
+<br />
+include <a href ="zrexam3_b02_top_c.html">ZREXAM3_B02_TOP_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zexam_b02_top.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b02_scr_c.html">ZREXAM3_B02_SCR_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zexam_b02_scr.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b02_cls_c.html">ZREXAM3_B02_CLS_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zexam_b02_cls.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b02_pbo_c.html">ZREXAM3_B02_PBO_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zexam_b02_pbo.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b02_pai_c.html">ZREXAM3_B02_PAI_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zexam_b02_pai.<br />
+   </div>
+   <div class="code">
+include <a href ="zrexam3_b02_f01_c.html">ZREXAM3_B02_F01_C</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;zexam_b02_f01.<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+AT SELECTION-SCREEN.<br />
+<br />
+AT SELECTION-SCREEN OUTPUT.<br />
+&nbsp;&nbsp;PERFORM&nbsp;sel_rad.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;PERFORM&nbsp;select.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;ZEXAM_B02_TITLE_0100&nbsp;--&gt;&nbsp;[CL2_B02]&nbsp;회원별&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;ZEXAM_B02_TITLE_0200&nbsp;--&gt;&nbsp;[CL2-B02]&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;003&nbsp;조회조건<br />
+*&nbsp;004&nbsp;선택조건<br />
+*&nbsp;005&nbsp;조건에&nbsp;해당하는&nbsp;회원정보가&nbsp;존재하지&nbsp;않습니다.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원상태<br />
+*&nbsp;P_A1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도서&nbsp;대여&nbsp;현황<br />
+*&nbsp;P_A2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대여&nbsp;도서&nbsp;반납처리<br />
+*&nbsp;SO_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;회원번호<br />
+*&nbsp;SO_RDT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반납예정일<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB02<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

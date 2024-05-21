@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB18_0202</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB18_0202</h2>
+<h3> Description: Program ZB18_0202</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB18_0202<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb18_0202.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*1)&nbsp;dictionary에&nbsp;있는&nbsp;structure&nbsp;타입을&nbsp;통해&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: gs_001 TYPE bc400_s_flight.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*2)&nbsp;Local&nbsp;type을&nbsp;선언하고&nbsp;(TYPES),&nbsp;그&nbsp;타입을&nbsp;통해&nbsp;structure&nbsp;변수&nbsp;선언하기<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF ts_001,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carrid&nbsp;LIKE&nbsp;gs_001-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connid&nbsp;LIKE&nbsp;gs_001-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fldate&nbsp;LIKE&nbsp;gs_001-fldate,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ts_001.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*1)&nbsp;기&nbsp;선언된&nbsp;local&nbsp;type을&nbsp;활용하여,&nbsp;internal&nbsp;table&nbsp;선언하기,&nbsp;+&nbsp;work&nbsp;area<br />
+   </div>
+   <div class="code">
+DATA: gt_001 TYPE TABLE OF ts_001.<br />
+DATA: gs_002 LIKE LINE OF gt_001.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*2)&nbsp;dictionary&nbsp;에&nbsp;있는&nbsp;object&nbsp;활용하여&nbsp;각각&nbsp;선언하기&nbsp;+&nbsp;work&nbsp;area<br />
+*a)&nbsp;table&nbsp;:&nbsp;SCARR<br />
+   </div>
+   <div class="code">
+data: gt_002 type table of scarr.<br />
+data: wa_002 like line of gt_002.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*b)&nbsp;structure&nbsp;:&nbsp;ZNAME_B##<br />
+   </div>
+   <div class="code">
+data: gt_003 like table of znameb18.<br />
+data: wa_003 like line of gt_003.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*c)&nbsp;table&nbsp;type<br />
+   </div>
+   <div class="code">
+data: gt_004 type zit_phone_numberB18.<br />
+data: wa_004 like line of gt_004.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*3)&nbsp;structure&nbsp;(=work&nbsp;area)을&nbsp;구성하고&nbsp;internal&nbsp;table&nbsp;선언하기&nbsp;(begin&nbsp;of&nbsp;~&nbsp;end&nbsp;of&nbsp;활용)<br />
+*a)&nbsp;carrid,&nbsp;connid,&nbsp;fldate&nbsp;필드&nbsp;구성<br />
+<br />
+   </div>
+   <div class="code">
+data: begin of gs_003,<br />
+&nbsp;&nbsp;carrid&nbsp;type&nbsp;S_CARR_ID,<br />
+&nbsp;&nbsp;connid&nbsp;type&nbsp;S_CONN_ID,<br />
+&nbsp;&nbsp;fldate&nbsp;type&nbsp;S_DATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;gs_003.<br />
+<br />
+data: gt_005 like table of gs_003.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*4)&nbsp;3)번의&nbsp;구성과&nbsp;동일하게&nbsp;with&nbsp;header&nbsp;line&nbsp;형식으로&nbsp;internal&nbsp;table&nbsp;선언하기<br />
+<br />
+   </div>
+   <div class="code">
+data: begin of gs_004,<br />
+&nbsp;&nbsp;carrid&nbsp;type&nbsp;S_CARR_ID,<br />
+&nbsp;&nbsp;connid&nbsp;type&nbsp;S_CONN_ID,<br />
+&nbsp;&nbsp;fldate&nbsp;type&nbsp;S_DATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;gs_004.<br />
+<br />
+data: gt_006 like table of gs_004 WITH HEADER LINE.<br />
+<br />
+break-point.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

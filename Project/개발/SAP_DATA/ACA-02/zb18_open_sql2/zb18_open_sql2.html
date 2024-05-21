@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB18_OPEN_SQL2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB18_OPEN_SQL2</h2>
+<h3> Description: Report ZB18_OPEN_SQL2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB18_OPEN_SQL2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb18_open_sql2.<br />
+<br />
+DATA : gs_ztbook TYPE ztbook_b18.<br />
+DATA : gt_ztbook LIKE TABLE OF gs_ztbook.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*CLEAR&nbsp;gt_ztbook.<br />
+*<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'밤양갱'.<br />
+*gs_ztbook-author&nbsp;=&nbsp;'비비'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'A'.<br />
+*append&nbsp;gs_ztbook&nbsp;to&nbsp;gt_ztbook.<br />
+*clear&nbsp;gs_ztbook.<br />
+*<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'밤양갱'.<br />
+*gs_ztbook-author&nbsp;=&nbsp;'비비'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'A'.<br />
+*append&nbsp;gs_ztbook&nbsp;to&nbsp;gt_ztbook.<br />
+*clear&nbsp;gs_ztbook.<br />
+*<br />
+*"&nbsp;같은&nbsp;키값을&nbsp;insert&nbsp;하면&nbsp;dump가&nbsp;발생하기&nbsp;때문에&nbsp;ACC~&nbsp;구문&nbsp;사용<br />
+*<br />
+*insert&nbsp;ztbook_b18&nbsp;from&nbsp;table&nbsp;gt_ztbook&nbsp;ACCEPTING&nbsp;DUPLICATE&nbsp;KEYS.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*<br />
+*else.<br />
+*<br />
+*ENDIF.<br />
+<br />
+*"같은&nbsp;키값을&nbsp;INSERT&nbsp;하면&nbsp;DUMP가&nbsp;발생하기&nbsp;때문에&nbsp;ACC~&nbsp;구문&nbsp;사용<br />
+**INSERT&nbsp;ztbook_b00&nbsp;FROM&nbsp;TABLE&nbsp;gt_ztbook&nbsp;ACCEPTING&nbsp;DUPLICATE&nbsp;KEYS.<br />
+*<br />
+**TRY.<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;ztbook_b18&nbsp;FROM&nbsp;TABLE&nbsp;gt_ztbook.<br />
+**&nbsp;&nbsp;CATCH&nbsp;cx_sy_open_sql_db&nbsp;INTO&nbsp;DATA(oref).<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;oref-&gt;get_text(&nbsp;).<br />
+**ENDTRY.<br />
+*<br />
+*"&nbsp;덤프&nbsp;발생을&nbsp;피한다.<br />
+   </div>
+   <div class="code">
+TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;ztbook_b18&nbsp;FROM&nbsp;TABLE&nbsp;gt_ztbook.<br />
+&nbsp;&nbsp;CATCH&nbsp;cx_root&nbsp;INTO&nbsp;DATA(go_root).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;go_root-&gt;get_text(&nbsp;).<br />
+ENDTRY.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*<br />
+*ELSE.<br />
+*<br />
+*ENDIF.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+**&nbsp;UPDATE&nbsp;:&nbsp;테이블의&nbsp;하나&nbsp;또는&nbsp;여러&nbsp;LINE을&nbsp;변경<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;UPDATE&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;&lt;wa&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&lt;키필드&gt;&nbsp;기준으로&nbsp;한줄의&nbsp;데이터&nbsp;수정<br />
+*&nbsp;UPDATE&nbsp;&lt;dbtab&gt;&nbsp;FROM&nbsp;TABLE&nbsp;&lt;itab&gt;"&nbsp;&lt;키필드&gt;&nbsp;기준으로&nbsp;여러줄의&nbsp;데이터를&nbsp;수정<br />
+*&nbsp;UPDATE&nbsp;&lt;dbtab&gt;&nbsp;SET&nbsp;&lt;field1&gt;&nbsp;=&nbsp;&lt;value1&gt;<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field2&gt;&nbsp;=&nbsp;&lt;value2&gt;<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;&lt;condition&gt;.&nbsp;&nbsp;"&nbsp;키를&nbsp;조건으로...<br />
+*&---------------------------------------------------------------------*<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*gs_ztbook-book_nm&nbsp;=&nbsp;'별헤는밤'.<br />
+*gs_ztbook-author&nbsp;&nbsp;=&nbsp;'윤동주'.<br />
+*gs_ztbook-book_st&nbsp;=&nbsp;'B'.<br />
+*<br />
+*"&nbsp;1)<br />
+**UPDATE&nbsp;ztbook_b18&nbsp;FROM&nbsp;gs_ztbook.<br />
+*<br />
+*"&nbsp;2)&nbsp;특정행의&nbsp;특정&nbsp;필드값&nbsp;변경<br />
+*UPDATE&nbsp;ztbook_b18<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;book_st&nbsp;=&nbsp;'A'<br />
+*&nbsp;&nbsp;&nbsp;WHERE&nbsp;book_id&nbsp;=&nbsp;'24BB123'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'업데이트&nbsp;완료'&nbsp;TYPE&nbsp;'S'.<br />
+*ELSE.<br />
+*&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'업데이트&nbsp;오류'&nbsp;TYPE&nbsp;'E'.<br />
+*ENDIF.<br />
+<br />
+**&nbsp;1)<br />
+*gs_ztbook-book_id&nbsp;=&nbsp;'24BB123'.<br />
+*DELETE&nbsp;ztbook_b18&nbsp;FROM&nbsp;gs_ztbook.<br />
+*<br />
+**&nbsp;2)&nbsp;특정행의&nbsp;특정&nbsp;필드값&nbsp;변경<br />
+**&nbsp;DELETE&nbsp;FROM&nbsp;ztbook_b18&nbsp;where&nbsp;book_id&nbsp;=&nbsp;'18AA285'<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;book_st&nbsp;=&nbsp;'B'.<br />
+*<br />
+**&nbsp;DELETE&nbsp;FROM&nbsp;ztbook_b18&nbsp;WHERE&nbsp;book_id&nbsp;=&nbsp;'24BB123'.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;0.<br />
+*<br />
+*ELSE.<br />
+*<br />
+*ENDIF.<br />
+<br />
+   </div>
+   <div class="code">
+CLEAR gs_ztbook.<br />
+gs_ztbook-book_id = '24bb123'.<br />
+gs_ztbook-book_nm = '별헤는밤'.<br />
+gs_ztbook-author = '윤동주'.<br />
+gs_ztbook-book_st = 'A'.<br />
+MODIFY ztbook_b18 FROM gs_ztbook.<br />
+<br />
+CLEAR gs_ztbook.<br />
+gs_ztbook-book_id = '24AA123'.<br />
+gs_ztbook-book_nm = '별헤는밤'.<br />
+gs_ztbook-author = '윤동주'.<br />
+gs_ztbook-book_st = 'A'.<br />
+MODIFY ztbook_b18 FROM gs_ztbook.<br />
+<br />
+gs_ztbook-book_id = '24AA234'.<br />
+gs_ztbook-book_nm = '소나기'.<br />
+gs_ztbook-author  = '황순원'.<br />
+gs_ztbook-book_st = 'B'.<br />
+<br />
+APPEND gs_ztbook TO gt_ztbook.<br />
+CLEAR gs_ztbook.<br />
+<br />
+gs_ztbook-book_id = '24DD234'.<br />
+gs_ztbook-book_nm = 'taw12'.<br />
+gs_ztbook-author  = 'sap'.<br />
+gs_ztbook-book_st = 'A'.<br />
+<br />
+APPEND gs_ztbook TO gt_ztbook.<br />
+CLEAR gs_ztbook.<br />
+<br />
+MODIFY ztbook_b18 FROM TABLE gt_ztbook.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

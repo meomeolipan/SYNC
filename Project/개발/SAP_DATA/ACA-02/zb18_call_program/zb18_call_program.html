@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB18_CALL_PROGRAM</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB18_CALL_PROGRAM</h2>
+<h3> Description: 다른 프로그램 호출</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB00_CALL_PROGRAM<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;1.&nbsp;SUBMIT<br />
+*&&nbsp;2.&nbsp;CALL&nbsp;Transaction<br />
+*&&nbsp;3.&nbsp;EXPORT&nbsp;IMPORT<br />
+*&&nbsp;4.&nbsp;SAP&nbsp;/&nbsp;ABAP&nbsp;Memory<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb18_call_program.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Internal&nbsp;table&nbsp;&&nbsp;work&nbsp;area.<br />
+   </div>
+   <div class="code">
+DATA: gt_connect TYPE TABLE OF spfli,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_connect.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;selection&nbsp;screen&nbsp;-&nbsp;input&nbsp;field.<br />
+   </div>
+   <div class="code">
+PARAMETERS: pa_car TYPE spfli-carrid.<br />
+<br />
+SELECT *<br />
+&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;gt_connect<br />
+&nbsp;&nbsp;FROM&nbsp;spfli<br />
+&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;pa_car.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Program&nbsp;호출.&nbsp;-&nbsp;start&nbsp;new&nbsp;program<br />
+*SUBMIT&nbsp;zb00_call_program_&nbsp;&nbsp;&nbsp;"CALLED&nbsp;프로그램<br />
+*&nbsp;&nbsp;WITH&nbsp;so_car&nbsp;=&nbsp;pa_car.<br />
+<br />
+*&nbsp;Program&nbsp;호출.&nbsp;-&nbsp;Insert&nbsp;program<br />
+   </div>
+   <div class="code">
+SUBMIT zb00_call_program_<br />
+&nbsp;&nbsp;WITH&nbsp;so_car&nbsp;=&nbsp;pa_car&nbsp;&nbsp;"값&nbsp;전달<br />
+&nbsp;&nbsp;VIA&nbsp;SELECTION-SCREEN&nbsp;&nbsp;"&nbsp;선택&nbsp;화면&nbsp;거쳐서<br />
+&nbsp;&nbsp;AND&nbsp;RETURN.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;back&nbsp;으로&nbsp;원래&nbsp;로직으로&nbsp;돌아온다.<br />
+<br />
+LOOP AT gt_connect INTO gs_connect.<br />
+&nbsp;&nbsp;WRITE:/&nbsp;gs_connect-carrid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-connid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-countryfr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-cityfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-airpfrom,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-countryto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-cityto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-airpto,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-fltime,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_connect-deptime.<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**--------------------------------------------------------------------*<br />
+**&nbsp;ABAP&nbsp;Memory<br />
+**--------------------------------------------------------------------*<br />
+*<br />
+**&nbsp;internal&nbsp;table.<br />
+*DATA:&nbsp;gt_flight&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;sflight.<br />
+*<br />
+**&nbsp;selection&nbsp;screen&nbsp;-&nbsp;input&nbsp;field.<br />
+*PARAMETERS:&nbsp;pa_car&nbsp;TYPE&nbsp;sflight-carrid&nbsp;MEMORY&nbsp;ID&nbsp;car.<br />
+*<br />
+**&nbsp;DB&nbsp;table&nbsp;데이터&nbsp;취득.<br />
+*SELECT&nbsp;*&nbsp;INTO&nbsp;TABLE&nbsp;gt_flight<br />
+*&nbsp;&nbsp;FROM&nbsp;sflight<br />
+*&nbsp;&nbsp;WHERE&nbsp;carrid&nbsp;=&nbsp;pa_car.<br />
+*<br />
+**&nbsp;ABAP&nbsp;memory&nbsp;data&nbsp;load.<br />
+*EXPORT<br />
+*&nbsp;&nbsp;it_data&nbsp;=&nbsp;gt_flight<br />
+*&nbsp;&nbsp;TO&nbsp;MEMORY&nbsp;ID&nbsp;'FLT'.<br />
+*<br />
+**&nbsp;program&nbsp;호출.<br />
+*SUBMIT&nbsp;zb00_call_program_.<br />
+*<br />
+**--------------------------------------------------------------------*<br />
+**&nbsp;SAP&nbsp;Memory<br />
+**--------------------------------------------------------------------*<br />
+*<br />
+**&nbsp;selection&nbsp;screen&nbsp;-&nbsp;input&nbsp;field.<br />
+*PARAMETERS:&nbsp;pa_car&nbsp;TYPE&nbsp;scarr-carrid.&nbsp;"MEMORY&nbsp;ID&nbsp;CAR.<br />
+*<br />
+**&nbsp;SAP&nbsp;Memory에&nbsp;데이터&nbsp;로드.<br />
+*SET&nbsp;PARAMETER&nbsp;ID&nbsp;'CAR'&nbsp;FIELD&nbsp;pa_car.<br />
+*<br />
+**INITIALIZATION.<br />
+**&nbsp;&nbsp;PA_CAR&nbsp;=&nbsp;'AA'.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*<br />
+**&nbsp;program&nbsp;호출.<br />
+*&nbsp;&nbsp;SUBMIT&nbsp;zb00_call_program_.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

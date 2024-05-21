@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB03_FOR_ALL_ENTRIES</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB03_FOR_ALL_ENTRIES</h2>
+<h3> Description: Program ZB03_FOR_ALL_ENTRIES</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZB03_FOR_ALL_ENTRIES<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zb03_for_all_entries MESSAGE-ID ZB03.<br />
+DATA : go_alv_grid TYPE REF TO   cl_salv_table.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;선언부<br />
+   </div>
+   <div class="code">
+TABLES: ztsubject_b03, ztclass_b03.<br />
+<br />
+" 출력하고자하는 테이블<br />
+TYPES: BEGIN OF gty_ent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub_num&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztclass_b03-sub_num,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub_name&nbsp;&nbsp;TYPE&nbsp;ztsubject_b03-sub_name,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub_close&nbsp;TYPE&nbsp;ztsubject_b03-sub_close,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gty_ENT.<br />
+<br />
+DATA: gt_ent TYPE TABLE OF gty_ent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_ent&nbsp;TYPE&nbsp;gty_ent.<br />
+<br />
+" 수강신청 인터널 테이블<br />
+DATA: gt_class TYPE table of ztclass_b03.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;사용자&nbsp;입력<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: so_sid FOR ztclass_b03-stu_id.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;구현부<br />
+*&nbsp;수강신청&nbsp;인터널&nbsp;테이블&nbsp;조회<br />
+   </div>
+   <div class="code">
+SELECT stu_id sub_num INTO CORRESPONDING FIELDS OF TABLE gt_class<br />
+&nbsp;&nbsp;FROM&nbsp;ztclass_b03<br />
+&nbsp;&nbsp;WHERE&nbsp;SUB_GRADE&nbsp;=&nbsp;1&nbsp;"검색&nbsp;조건&nbsp;1&nbsp;-&nbsp;1학년<br />
+&nbsp;&nbsp;AND&nbsp;APPLY_SEMESTER&nbsp;=&nbsp;2&nbsp;"&nbsp;2&nbsp;-&nbsp;2학기<br />
+&nbsp;&nbsp;AND&nbsp;ztclass_b03~stu_id&nbsp;IN&nbsp;so_sid.&nbsp;"3&nbsp;-&nbsp;입력한&nbsp;학생&nbsp;ID<br />
+<br />
+"정렬<br />
+SORT gt_class BY sub_num.<br />
+"중복 제거<br />
+DELETE ADJACENT DUPLICATES FROM gt_class COMPARING sub_num.<br />
+<br />
+"데이터 여부 확인<br />
+IF gt_class IS NOT INITIAL.<br />
+&nbsp;&nbsp;"인터널&nbsp;테이블을&nbsp;활용하여&nbsp;데이터베이스&nbsp;조회<br />
+&nbsp;&nbsp;SELECT&nbsp;sub_num&nbsp;sub_name&nbsp;sub_close&nbsp;INTO&nbsp;TABLE&nbsp;gt_ent<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;ztsubject_b03&nbsp;FOR&nbsp;ALL&nbsp;ENTRIES&nbsp;IN&nbsp;gt_class<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;sub_num&nbsp;=&nbsp;gt_class-sub_num.<br />
+<br />
+&nbsp;&nbsp;"출력<br />
+&nbsp;&nbsp;cl_salv_table=&gt;factory(<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;=&nbsp;go_alv_grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;=&nbsp;gt_ent&nbsp;).<br />
+<br />
+&nbsp;&nbsp;go_alv_grid-&gt;display(&nbsp;).<br />
+ELSE.<br />
+&nbsp;MESSAGE&nbsp;I001.<br />
+ENDIF.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_SID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;학생&nbsp;ID<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB03<br />
+*001&nbsp;&nbsp;&nbsp;조건에&nbsp;만족하는&nbsp;데이터가&nbsp;없습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZB77_GLOBAL_CLASS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZB77_GLOBAL_CLASS</h2>
+<h3> Description: GLOBAL_CLASS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;zb77_global_class<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZB77_GLOBAL_CLASS.<br />
+<br />
+<br />
+DATA : GO_STUDENT TYPE REF TO ZCL_STUDENT_B00.<br />
+DATA : GK_STUDENT TYPE REF TO ZCL_STUDENT_B77.<br />
+DATA : GS_STUDENT TYPE ZTSTUDENT_B00.<br />
+<br />
+PARAMETERS : PA_SID TYPE ZDSB00_SID.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*START-OF-SELECTION<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*CALL&nbsp;METHOD&nbsp;GK_STUDENT<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_STUDENT.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_STUDENT-&gt;GET_DATA&nbsp;&nbsp;"pattern<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_SID&nbsp;=&nbsp;PA_SID.<br />
+<br />
+<br />
+&nbsp;&nbsp;ZCL_STUDENT_B77=&gt;GET_DATA(&nbsp;PA_SID&nbsp;).<br />
+<br />
+&nbsp;&nbsp;GO_STUDENT-&gt;DISPLAY_DATA(&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;zcl_student_b00=&gt;get_data(&nbsp;pa_sid&nbsp;).&nbsp;&nbsp;&nbsp;&nbsp;"static이&nbsp;아니라서&nbsp;호출&nbsp;불가<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"1)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;go_student-&gt;display_data(&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"2)&nbsp;&nbsp;속성에&nbsp;접근하여&nbsp;값을&nbsp;받는<br />
+&nbsp;&nbsp;GS_STUDENT&nbsp;=&nbsp;GO_STUDENT-&gt;GS_STD.&nbsp;&nbsp;&nbsp;"클래스의&nbsp;속성&nbsp;값을&nbsp;ABAP변수로&nbsp;assign<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;GS_STUDENT-STU_ID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_STUDENT-LAST_NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_STUDENT-FIRST_NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_STUDENT-GENDER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_STUDENT-PHONE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_STUDENT-MAJOR.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_SID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;학번<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

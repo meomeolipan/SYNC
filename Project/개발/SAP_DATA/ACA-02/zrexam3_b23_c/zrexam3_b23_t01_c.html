@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B23_T01_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B23_T01_C</h2>
+<h3> Description: Include ZREXAM3_B23_T01</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B23_T01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+TABLES : ztmember_b23, ztbook_b23, ztrent_b23, sscrfields.<br />
+<br />
+DATA : BEGIN OF gs_rent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b23-mb_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_nm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b23-mb_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_st&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztmember_b23-mb_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_id&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztbook_b23-book_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztbook_b23-book_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_dt&nbsp;&nbsp;&nbsp;LIKE&nbsp;ztrent_b23-rent_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;LIKE&nbsp;ztrent_b23-rplan_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st&nbsp;LIKE&nbsp;ztrent_b23-return_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_dt&nbsp;LIKE&nbsp;ztrent_b23-return_dt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;light&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_rent.<br />
+<br />
+DATA : gt_rent LIKE TABLE OF gs_rent.<br />
+<br />
+DATA : BEGIN OF gs_member,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;LIKE&nbsp;ztmember_b23-mb_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_nm&nbsp;LIKE&nbsp;ztmember_b23-mb_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;telno&nbsp;LIKE&nbsp;ztmember_b23-telno,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;email&nbsp;LIKE&nbsp;ztmember_b23-email,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_member.<br />
+<br />
+DATA : gt_member LIKE TABLE OF gs_member.<br />
+<br />
+<br />
+DATA  ok_code LIKE sy-ucomm.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-----------------------------------screen&nbsp;100------------------------------*<br />
+   </div>
+   <div class="code">
+DATA : go_grid TYPE REF TO cl_gui_alv_grid.<br />
+DATA : go_cont TYPE REF TO cl_gui_custom_container.<br />
+<br />
+DATA : gs_layout    TYPE lvc_s_layo.<br />
+<br />
+DATA : gt_field_cat TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+   </div>
+   <div class="codeComment">
+*-----------------------------------screen&nbsp;100------------------------------*<br />
+<br />
+<br />
+*-----------------------------------screen&nbsp;200-------------------------*<br />
+   </div>
+   <div class="code">
+DATA : gs_layout_02 TYPE lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout_03&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+DATA : gs_field_color TYPE lvc_s_scol.<br />
+<br />
+DATA : gt_field_cat_02 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat_02&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+DATA : gt_field_cat_03 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_field_cat_03&nbsp;TYPE&nbsp;lvc_s_fcat.<br />
+<br />
+DATA : go_dock_cont01 TYPE REF TO cl_gui_docking_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_split&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container.<br />
+<br />
+DATA : go_cont01 TYPE REF TO cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont02&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container.<br />
+<br />
+DATA : go_grid01 TYPE REF TO cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid02&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid.<br />
+<br />
+DATA : gs_variant TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_save&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1.<br />
+   </div>
+   <div class="codeComment">
+*-----------------------------------screen&nbsp;200-------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK bl_opt WITH FRAME TITLE TEXT-009. "첫번째 radio 버튼 블락<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;p1&nbsp;USER-COMMAND&nbsp;radio&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1&nbsp;DEFAULT&nbsp;'X',&nbsp;"sflight기본선택<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;cnt1.<br />
+SELECTION-SCREEN END OF BLOCK bl_opt.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK bl_field WITH FRAME TITLE TEXT-010.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:so_mid&nbsp;FOR&nbsp;ztmember_b23-mb_id&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;&nbsp;&nbsp;&nbsp;so_mst&nbsp;LIKE&nbsp;ztmember_b23-mb_st&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;DEFAULT&nbsp;'A'.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:so_rplan&nbsp;FOR&nbsp;ztrent_b23-rplan_dt&nbsp;MODIF&nbsp;ID&nbsp;fg&nbsp;.<br />
+<br />
+&nbsp;&nbsp;SELECT-OPTIONS:so_mid2&nbsp;FOR&nbsp;ztmember_b23-mb_id&nbsp;MODIF&nbsp;ID&nbsp;pf&nbsp;.<br />
+SELECTION-SCREEN END OF BLOCK bl_field.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

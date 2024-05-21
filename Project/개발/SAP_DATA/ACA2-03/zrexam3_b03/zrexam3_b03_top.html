@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZREXAM3_B03_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZREXAM3_B03_TOP</h2>
+<h3> Description: Include ZREXAM3_B03_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZREXAM3_B03_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS: lcl_event_handler DEFINITION DEFERRED,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lcl_overfee&nbsp;DEFINITION&nbsp;DEFERRED.<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;100&nbsp;Screen&nbsp;Work&nbsp;Area&nbsp;+&nbsp;Internal&nbsp;Table<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_book,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztmember_b03-mb_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_nm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztmember_b03-mb_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_st&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztmember_b03-mb_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztbook_b03-book_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztbook_b03-book_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_dt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b03-rent_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b03-rplan_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b03-return_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_dt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b03-return_dt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;light&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1,&nbsp;"대여상태에&nbsp;대한&nbsp;아이콘<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_st_txt&nbsp;TYPE&nbsp;string,&nbsp;"대여상태&nbsp;Fixed&nbsp;Value<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_book,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_book&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_book.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;110&nbsp;Screen&nbsp;Work&nbsp;Area&nbsp;+&nbsp;Internal&nbsp;Table<br />
+*&nbsp;상단&nbsp;GRID<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_member,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_id&nbsp;TYPE&nbsp;ztmember_b03-mb_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mb_nm&nbsp;TYPE&nbsp;ztmember_b03-mb_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;telno&nbsp;TYPE&nbsp;ztmember_b03-telno,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;email&nbsp;TYPE&nbsp;ztmember_b03-email,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_member,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_member&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_member.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;하단&nbsp;GRID<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_rent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_id&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztbook_b03-book_id,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;book_nm&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztbook_b03-book_nm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_dt&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b03-rent_dt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rplan_dt&nbsp;&nbsp;&nbsp;TYPE&nbsp;ztrent_b03-rplan_dt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rent_cost&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;waers,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell_color&nbsp;TYPE&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_rent,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_rent&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;gs_rent.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;Selection&nbsp;Sreen<br />
+   </div>
+   <div class="code">
+DATA: gv_switch TYPE n VALUE '1'. "flag<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;100&nbsp;Screen&nbsp;ALV&nbsp;GRID<br />
+   </div>
+   <div class="code">
+DATA: go_dock     TYPE REF TO cl_gui_docking_container, "컨테이너 참조 변수 생성<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,&nbsp;"ALV&nbsp;GRID&nbsp;컨트롤&nbsp;생성<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fieldcat&nbsp;TYPE&nbsp;lvc_t_fcat,&nbsp;"필드&nbsp;카탈로그<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo,&nbsp;"레이아웃<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_sort,&nbsp;"정렬<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant&nbsp;&nbsp;TYPE&nbsp;disvariant,&nbsp;"Variant<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filter&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_filt,&nbsp;"필터링<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sy-ucomm.&nbsp;"사용자&nbsp;command<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;110&nbsp;Screen&nbsp;ALV&nbsp;GRID<br />
+*&nbsp;1&nbsp;:&nbsp;상단&nbsp;2:&nbsp;하단<br />
+   </div>
+   <div class="code">
+DATA: go_custom    TYPE REF TO cl_gui_custom_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_split&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_grid2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_cont2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout1&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo,&nbsp;"레이아웃<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layout2&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_sort,&nbsp;"정렬<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fieldcat1&nbsp;TYPE&nbsp;lvc_t_fcat,&nbsp;"필드&nbsp;카탈로그<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fieldcat2&nbsp;TYPE&nbsp;lvc_t_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcol&nbsp;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gs_rent-cell_color,&nbsp;"Color&nbsp;필드<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok_code2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;sy-ucomm,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_answer&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c,&nbsp;"사용자&nbsp;팝업&nbsp;창&nbsp;입력<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_overfee&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_overfee,&nbsp;"Local&nbsp;Class<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_handler&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_event_handler.&nbsp;"Event&nbsp;Handler<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SELECTION-SCREEN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+"조회 조건<br />
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-t01.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;pv_1&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1&nbsp;DEFAULT&nbsp;'X'&nbsp;USER-COMMAND&nbsp;addinfo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pv_2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;r1.<br />
+SELECTION-SCREEN END OF BLOCK b1.<br />
+<br />
+" 선택 조건<br />
+SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-t02.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_mbid&nbsp;FOR&nbsp;gs_book-mb_id.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;pv_mbst&nbsp;LIKE&nbsp;gs_book-mb_st&nbsp;DEFAULT&nbsp;'A'&nbsp;MODIF&nbsp;ID&nbsp;add.&nbsp;"회원상태&nbsp;초기값&nbsp;설정<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_rplan&nbsp;FOR&nbsp;gs_book-rplan_dt&nbsp;MODIF&nbsp;ID&nbsp;add.<br />
+SELECTION-SCREEN END OF BLOCK b2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;INITIALIZATION&nbsp;:&nbsp;Screen&nbsp;초기값&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+&nbsp;&nbsp;"반납&nbsp;예정일&nbsp;초기값&nbsp;설정<br />
+&nbsp;&nbsp;CLEAR&nbsp;so_rplan.<br />
+&nbsp;&nbsp;so_rplan-sign&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;so_rplan-option&nbsp;=&nbsp;'BT'.<br />
+&nbsp;&nbsp;so_rplan-low&nbsp;=&nbsp;sy-datum+0(6)&nbsp;&&&nbsp;'01'.&nbsp;"당월&nbsp;1일~<br />
+&nbsp;&nbsp;so_rplan-high&nbsp;=&nbsp;sy-datum.&nbsp;"~현재&nbsp;날짜<br />
+&nbsp;&nbsp;APPEND&nbsp;so_rplan.<br />
+<br />
+&nbsp;&nbsp;gs_variant-report&nbsp;=&nbsp;sy-cprog.&nbsp;"현재&nbsp;프로그램&nbsp;지정<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

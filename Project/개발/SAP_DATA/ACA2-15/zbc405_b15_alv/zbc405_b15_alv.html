@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC405_B15_ALV</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC405_B15_ALV</h2>
+<h3> Description: Program ZBC405_B15_ALV</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC405_B15_ALV<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zbc405_b15_alv MESSAGE-ID zb15.<br />
+<br />
+include <a href ="zbc405_b15_alv_top.html">zbc405_b15_alv_top</a>.<br />
+include <a href ="zbc405_b15_alv_c01.html">zbc405_b15_alv_c01</a>.<br />
+<br />
+include <a href ="zbc405_b15_alv_e01.html">zbc405_b15_alv_e01</a>.<br />
+include <a href ="zbc405_b15_alv_o01.html">zbc405_b15_alv_O01</a>.<br />
+include <a href ="zbc405_b15_alv_i01.html">zbc405_b15_alv_I01</a>.<br />
+include <a href ="zbc405_b15_alv_f01.html">zbc405_b15_alv_F01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T100&nbsp;--&gt;&nbsp;[CL2-B15]&nbsp;ALV&nbsp;만들기&nbsp;연습<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;OCC&nbsp;Percentage&nbsp;of&nbsp;occupied&nbsp;seats:<br />
+*&nbsp;ONE&nbsp;Please&nbsp;mark&nbsp;at&nbsp;least&nbsp;one&nbsp;row<br />
+*&nbsp;S01&nbsp;조건을&nbsp;만족하는&nbsp;데이터가&nbsp;없습니다.<br />
+*&nbsp;T01&nbsp;조회조건<br />
+*&nbsp;Z01&nbsp;Total&nbsp;occupation&nbsp;economy&nbsp;class<br />
+*&nbsp;Z02&nbsp;Occupation&nbsp;economy&nbsp;class&nbsp;(sel)<br />
+*&nbsp;Z03&nbsp;display&nbsp;airline<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_LV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Layout&nbsp;variant<br />
+*&nbsp;SO_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;항공사코드<br />
+*&nbsp;SO_CON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;항공편<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;BC405_408<br />
+*010&nbsp;&nbsp;&nbsp;Error&nbsp;creating&nbsp;the&nbsp;container&nbsp;object<br />
+*012&nbsp;&nbsp;&nbsp;Error&nbsp;calling&nbsp;the&nbsp;method.<br />
+*075&nbsp;&nbsp;&nbsp;Internal&nbsp;Error<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZB15<br />
+*000&nbsp;&nbsp;&nbsp;&&nbsp;&&nbsp;&<br />
+*001&nbsp;&nbsp;&nbsp;조건에&nbsp;해당하는&nbsp;회원의&nbsp;대여정보가&nbsp;존재하지&nbsp;않습니다.<br />
+*002&nbsp;&nbsp;&nbsp;&건의&nbsp;데이터가&nbsp;조회되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

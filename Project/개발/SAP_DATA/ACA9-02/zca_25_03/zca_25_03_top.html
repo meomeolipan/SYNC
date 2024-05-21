@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZCA_25_03_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCA_25_03_TOP</h2>
+<h3> Description: Include ZCA_25_03_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCA_25_03_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+TABLES : SCARR, SPFLI, SBOOK, SSCRFIELDS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+   </div>
+   <div class="code">
+"SELECT해서 담아올 테이블과 스트럭처를 생성한다,<br />
+<br />
+DATA : BEGIN OF GS_DATA,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;TYPE&nbsp;SCARR-CARRID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공사ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRNAME&nbsp;TYPE&nbsp;SCARR-CARRNAME,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공사명<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CONNID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공편번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNTRYFR&nbsp;TYPE&nbsp;SPFLI-COUNTRYFR,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;출발국가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNTRYTO&nbsp;TYPE&nbsp;SPFLI-COUNTRYTO,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;도착국가<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-FLDATE,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비행일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTOMID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-CUSTOMID,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;고객번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PASSNAME&nbsp;&nbsp;TYPE&nbsp;SBOOK-PASSNAME,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"고객이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOKID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-BOOKID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;예약번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORDER_DATE&nbsp;&nbsp;TYPE&nbsp;SBOOK-ORDER_DATE,&nbsp;&nbsp;"&nbsp;예약일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SMOKER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-SMOKER,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;흡연여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CANCELLED&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-CANCELLED,&nbsp;&nbsp;&nbsp;"&nbsp;취소여부<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DATA,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_DATA&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_DATA.<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+<br />
+<br />
+**********************************************************************<br />
+*필드&nbsp;카탈로그&nbsp;및&nbsp;불러온&nbsp;데이터를&nbsp;한꺼번에&nbsp;출력하기&nbsp;위한&nbsp;스트럭쳐&nbsp;및&nbsp;테이블&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA : BEGIN OF GS_DISPLAY,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;TYPE&nbsp;SCARR-CARRID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공사ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARNAME&nbsp;TYPE&nbsp;SCARR-CARRNAME,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공사명<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CONNID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공편번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNTRYFR&nbsp;TYPE&nbsp;SPFLI-COUNTRYFR,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;출발국가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COUNTRYTO&nbsp;TYPE&nbsp;SPFLI-COUNTRYTO,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;도착국가<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-FLDATE,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비행일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTOMID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-CUSTOMID,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;고객번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PASSNAME&nbsp;&nbsp;TYPE&nbsp;SBOOK-PASSNAME,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"고객이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOKID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-BOOKID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;예약번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORDER_DATE&nbsp;&nbsp;TYPE&nbsp;SBOOK-ORDER_DATE,&nbsp;&nbsp;"&nbsp;예약일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SMOKER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-SMOKER,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;흡연여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CANCELLED&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-CANCELLED,&nbsp;&nbsp;&nbsp;"&nbsp;취소여부<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ICON-ID,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이미&nbsp;출발한&nbsp;비행기는&nbsp;체크표시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;아직&nbsp;출발하지&nbsp;않은&nbsp;비행기는&nbsp;공란<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIGHT&nbsp;TYPE&nbsp;C,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"신호등&nbsp;처리를&nbsp;위한&nbsp;데이터&nbsp;선언&nbsp;(&nbsp;EXCEPTION)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CELL_COLOR&nbsp;TYPE&nbsp;LVC_T_SCOL,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;셀&nbsp;색깔을&nbsp;다루기&nbsp;위한&nbsp;데이터&nbsp;선언.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DISPLAY,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_DISPLAY&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_DISPLAY.<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+**********************************************************************<br />
+*ALV&nbsp;관련&nbsp;변수&nbsp;선언<br />
+**********************************************************************<br />
+   </div>
+   <div class="code">
+DATA : GO_CON TYPE REF TO CL_GUI_DOCKING_CONTAINER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_CON2&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_CUSTOM_CONTAINER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.<br />
+<br />
+<br />
+DATA : GS_LAYOUT TYPE LVC_S_LAYO, " ALV의 전반적인 레이아웃 설정을 위한 변수<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_S_FCAT,&nbsp;"&nbsp;ALV의&nbsp;출력되는&nbsp;컬럼의&nbsp;속성을&nbsp;다루기&nbsp;위한&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_FCAT&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_FCAT,&nbsp;"&nbsp;기존&nbsp;필드의&nbsp;속성&nbsp;변경&nbsp;&&nbsp;신규&nbsp;필드의&nbsp;추가를&nbsp;위해<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_VARIANT&nbsp;TYPE&nbsp;DISVARIANT,&nbsp;"Variant&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SAVE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;C,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SORT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_T_SORT,&nbsp;"SORTING<br />
+&nbsp;	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SORT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;LVC_S_SORT,&nbsp;"SORTING<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FIELD&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;테이블의&nbsp;스트럭쳐.&nbsp;"COLOR&nbsp;FILED<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_UIHIDE&nbsp;&nbsp;TYPE&nbsp;UI_FUNCTIONS.&nbsp;"UI&nbsp;지울용으로&nbsp;사용<br />
+<br />
+   </div>
+   <div class="codeComment">
+**********************************************************************<br />
+*시스템&nbsp;컨트롤&nbsp;선언<br />
+**********************************************************************<br />
+<br />
+   </div>
+   <div class="code">
+DATA : OK_CODE TYPE SY-UCOMM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.4.6 - E.G.Mellodew. 1998-2024. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>
