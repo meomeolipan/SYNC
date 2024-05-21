@@ -1,0 +1,85 @@
+<mvc:View controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:c="sap.ui.core" 
+    xmlns:viz="sap.viz.ui5.controls" 
+    xmlns:viz.data="sap.viz.ui5.data" 
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    <Page id="page" title="{i18n>title}">
+       <f:DynamicPage id="dynamicPageId">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="렌탈 현황 조회"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<fb:FilterBar id="filterbar" search=".onSearch" filterChange=".onFilterChange" filterContainerWidth="12rem" useToolbar="false">
+					<fb:filterGroupItems>
+						<fb:FilterGroupItem name="Matcode" label="제품코드" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+                            <!-- ComboBox 오브젝트에서 filter가 안되는 이유가 무엇인지.. -->
+                                <ComboBox id="ComboOrderID" items="{ path: '/ZBAT_MM010Set',
+                                                                     sorter: { path: 'Matcode' }, 
+                                                                     filters: [
+                                                                        { path: 'Mattype', operator: 'EQ', value1: 'F' }
+                                                                        ] 
+                                                                    }">
+		                            <c:ListItem key="{Matname}" text="{Matname}" additionalText="{Matname}"/>
+                                </ComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+                        <fb:FilterGroupItem name="Type" label="차트유형" groupName="Group1" visibleInFilterBar="true">
+							<fb:control>
+	                            <ComboBox id="ComboType" selectedKey="bar" required="true" change="onChangeComboType" items="{ path: 'typeList>/types', sorter: { path: 'type' } }">
+	                                <c:ListItem key="{typeList>type}" text="{typeList>type}"/>
+                                </ComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+					</fb:filterGroupItems>
+				</fb:FilterBar>
+			</f:DynamicPageHeader>
+		</f:header>
+        <f:content>
+            <viz:VizFrame id="idLineChart" 
+                          vizType="bar" 
+                          uiConfig="{ 'applicationSet' : 'fiori' }" 
+                          selectData="onSelectionChange" width="100%" height="100%"
+                          vizProperties="{
+                            'title' : { 'visible' : true, text : '제품 별 렌탈 현황' },
+                            'legendGroup' : { layout : { position : 'right' } },
+                            'plotArea' : {
+                                drawingEffect : 'glossy',
+                                dataLabel : { visible : true, type : 'value' },
+                                colorPalette : [
+                                    '#B5B2FF', '#B2EBF4', '#B7F0B1', 
+                                    '#FFE08C', '#FFC19E', '#FFA7A7'
+                                ]
+                            }
+                          }"
+            >
+                <viz:dataset>
+                    <viz.data:FlattenedDataset data="{/ZBAT_SD070Set}" id="idDataset">
+                        <viz.data:dimensions>
+                            <viz.data:DimensionDefinition name="Matname" value="{Matname}"/>
+                            <viz.data:DimensionDefinition name="Rentperiod" value="{Rentperiod}"/>
+                            <viz.data:DimensionDefinition name="Rentstate" value="{Rentstate}"/>
+                        </viz.data:dimensions>
+                        <viz.data:measures>
+                            <viz.data:MeasureDefinition name="Quant" value="{Quant}"/>
+                        </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+                <viz:feeds>
+                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Matname,Rentperiod,Rentstate"/>
+                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Quant"/>
+                </viz:feeds>
+            </viz:VizFrame>
+        </f:content>
+	</f:DynamicPage>
+    </Page>
+</mvc:View>

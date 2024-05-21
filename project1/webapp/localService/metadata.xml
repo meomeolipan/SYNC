@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZBA_ODATA_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZBAT_SD100" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Mandt"/>
+                    <PropertyRef Name="Changecode"/>
+                    <PropertyRef Name="Saocode"/>
+                    <PropertyRef Name="Custcode"/>
+                </Key>
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Client" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Changecode" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="반품/교환코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Saocode" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="판매오더 코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Custcode" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="고객 코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Shipcode" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="출하코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vencode" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="거래처코드" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Cancelcharge" Type="Edm.Decimal" Nullable="false" Precision="16" Scale="3" sap:unicode="false" sap:label="위약금" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Currkey" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="통화" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="currency-code"/>
+                <Property Name="Quant" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="수량" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="단위" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Salestate" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="판매상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Okstate" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="확정상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Getstate" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="회수상태" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Crnam" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="생성자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Crdat" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="생성일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Crtim" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="생성시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Banam" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="변경자" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Badat" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="변경일" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Batim" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="변경시간" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZBA_ODATA_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZBAT_SD100Set" EntityType="ZBA_ODATA_SRV.ZBAT_SD100" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZBA_ODATA_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZBA_ODATA_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
