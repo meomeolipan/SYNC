@@ -21,16 +21,13 @@ sap.ui.define([
                     ]
                 }), 'typeList');
             },
-
             onSearch: function (oEvent) {
-                var sSelectedOrderId = this.byId("ComboOrderID").getSelectedKey();
+                var sSelectedMat = this.byId("ComboMat").getSelectedKey();
 
                 this.byId("idDataset").getBinding("data").filter(new Filter({
-                    filters: sSelectedOrderId ? [new Filter('Matname', FilterOperator.EQ, sSelectedOrderId)] : [],
+                    filters: sSelectedMat ? [new Filter('Matcode', FilterOperator.EQ, sSelectedMat)] : [],
                     and: true
                 }));
-
-                this.byId("idLineChart").getModel().refresh(true);
 
                 var sSelectedChartType = this.byId("ComboType").getSelectedKey();
 
@@ -51,6 +48,34 @@ sap.ui.define([
                         Matcode: oSelectData.Matcode,
                         Rentstate: oSelectData.Rentstate
                     }, true);
+                }
+            },
+            formatRentPeriod: function (sValue) {
+                switch (sValue) {
+                    case "1":
+                        return "5년";
+                    case "2":
+                        return "7년";
+                    default:
+                        return sValue;
+                }
+            },
+            formatRenstate: function (sValue) {
+                switch (sValue) {
+                    case "1":
+                        return "렌탈 중";
+                    case "2":
+                        return "렌탈 종료";
+                    case "3":
+                        return "소유권 이전";
+                    case "4":
+                        return "중도해지";
+                    case "5":
+                        return "무단소유";
+                    case "6":
+                        return "렌탈대기";
+                    default:
+                        return sValue;
                 }
             }
         });

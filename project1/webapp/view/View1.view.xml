@@ -20,16 +20,17 @@
 			<f:DynamicPageHeader pinnable="true">
 				<fb:FilterBar id="filterbar" search=".onSearch" filterChange=".onFilterChange" filterContainerWidth="12rem" useToolbar="false">
 					<fb:filterGroupItems>
-						<fb:FilterGroupItem name="Matcode" label="제품코드" groupName="Group1" visibleInFilterBar="true">
+						<fb:FilterGroupItem name="Matname" label="제품명" groupName="Group1" visibleInFilterBar="true">
 							<fb:control>
-                            <!-- ComboBox 오브젝트에서 filter가 안되는 이유가 무엇인지.. -->
-                                <ComboBox id="ComboOrderID" items="{ path: '/ZBAT_MM010Set',
-                                                                     sorter: { path: 'Matcode' }, 
-                                                                     filters: [
-                                                                        { path: 'Mattype', operator: 'EQ', value1: 'F' }
-                                                                        ] 
-                                                                    }">
-		                            <c:ListItem key="{Matname}" text="{Matname}" additionalText="{Matname}"/>
+                            <!-- ComboBox 오브젝트에서 filter가 안되는 이유가 무엇인지 -->
+                            <!-- ZBAT_MM010Set에서 Filter할 Entity에 체크하고 IV_FILTER_STRING 변수로 조건을 걸어야함 -->
+                            <ComboBox id="ComboMat" items="{ path: '/ZBAT_MM010Set',
+                                                                    sorter: { path: 'Matcode' }, 
+                                                                    filters: [ 
+                                                                    { path: 'Mattype', operator: 'EQ', value1: 'F' }
+                                                                    ] 
+                                                                }">
+		                            <c:ListItem key="{Matcode}" text="{Matname}" additionalText="{Matname}"/>
                                 </ComboBox>
 							</fb:control>
 						</fb:FilterGroupItem>
@@ -66,8 +67,10 @@
                     <viz.data:FlattenedDataset data="{/ZBAT_SD070Set}" id="idDataset">
                         <viz.data:dimensions>
                             <viz.data:DimensionDefinition name="Matname" value="{Matname}"/>
-                            <viz.data:DimensionDefinition name="Rentperiod" value="{Rentperiod}"/>
-                            <viz.data:DimensionDefinition name="Rentstate" value="{Rentstate}"/>
+                            <viz.data:DimensionDefinition name="Rentperiod" value="{path : 'Rentperiod',
+                                                                                    formatter : '.formatRentPeriod' }"/>
+                            <viz.data:DimensionDefinition name="Rentstate" value="{path : 'Rentstate',
+                                                                                   formatter : '.formatRenstate'}"/>
                         </viz.data:dimensions>
                         <viz.data:measures>
                             <viz.data:MeasureDefinition name="Quant" value="{Quant}"/>

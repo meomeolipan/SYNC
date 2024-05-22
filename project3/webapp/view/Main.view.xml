@@ -1,0 +1,33 @@
+<mvc:View controllerName="project3.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+         <!-- <VBox>
+        <Input id="inputTelNo" placeholder="Enter Telephone Number"/>
+        <Button text="Search" press="onSearch"/>
+        <Table id="resultTable">
+            <columns>
+                <Column>
+                    <Label text="Product Name"/>
+                </Column>
+                <Column>
+                    <Label text="Quantity"/>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <Text text="{/ZBAT_SD110Set/Matcode}"/>
+                    <Text text="{/ZBAT_SD110Set/Quant}"/>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </VBox> -->
+        <VBox>
+        <Input id="telnoInput" placeholder="XXX-XXXX-XXXX" />
+        <Button text="조회" press="onSearch" />
+        <List id="resultList" items="{path:'result>/', templateShareable:false}">
+            <StandardListItem title="{result>Matcode}" description="{result>Quant}"/>
+        </List>
+    </VBox>
+    </Page>
+</mvc:View>
