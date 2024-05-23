@@ -32,7 +32,7 @@ sap.ui.define([
                     aFilter = [];
 
                 if (oCondition.Telno)
-                    aFilter.push(new Filter('Custcode', 'EQ', oCondition.Telno));
+                    aFilter.push(new Filter('Telno', 'EQ', oCondition.Telno));
 
                 oTable.getBinding("items").filter(aFilter);
                 oTable.removeSelections();
