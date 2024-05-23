@@ -15,11 +15,13 @@ sap.ui.define([
                 // var oModel = new sap.ui.model.odata.v2.ODataModel("/sap/opu/odata/sap/ZBA_ODATA_SRV/");
                 // this.getView().setModel(oModel);
 
-                var oModel = new JSONModel({
-                    Matcode: "",
-                    Quant: ""
-                });
-                this.getView().setModel(oModel, "result");
+                var oDatas = {
+                    list: [
+                        { Matcode: "" },
+                        { Quant: "" }
+                    ]
+                };
+                this.getView().setModel(oDatas, "result");
             },
             // onSearch: function () {
             //     var sTelNo = this.byId("inputTelNo").getValue();
