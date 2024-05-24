@@ -124,6 +124,7 @@ sap.ui.define([
                 oModel.create("/ZBAT_SD100Set", oItem, {
                     success: function (oData, response) {
                         sap.m.MessageToast.show("성공적으로 처리되었습니다.");
+                        onSearch().bind(this);
                     },
                     error: function (oError) {
                         sap.m.MessageToast.show("처리 중 오류가 발생했습니다.");

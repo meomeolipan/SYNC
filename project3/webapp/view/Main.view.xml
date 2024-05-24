@@ -3,7 +3,7 @@
     xmlns="sap.m">
     <Page id="page" title="반품 / 교환 / 회수 신청">
         <HBox >
-            <Label text="전화번호:  " labelFor="telnoInput" class="customLabel"></Label>
+            <Label text="전화번호" labelFor="telnoInput" class="customLabel"></Label>
             <Input id="telnoInput" placeholder="XXX-XXXX-XXXX" maxLength="14" liveChange="onChange"/>
             <Button text="조회" press="onSearch" />
         </HBox>
