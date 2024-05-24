@@ -63,7 +63,6 @@ sap.ui.define([
                     error: function (oError) {
                         var sErrorMessage = JSON.parse(oError.responseText).error.message.value;
                         sap.m.MessageToast.show("Error fetching data from ZBAT_SD020Set: " + sErrorMessage);
-                        // oTable.setVisible(false);
                         oSearchModel.setData({ results: [] });
                     }
                 });
@@ -72,11 +71,9 @@ sap.ui.define([
                 var oItem = oEvent.getSource().getBindingContext("searchModel").getObject();
                 console.log(oItem);
                 var oPayload = {
-                    Changecode: "",
                     Saocode: oItem.Saocode,
                     Custcode: oItem.Custcode,
                     Shipcode: oItem.Shipcode,
-                    Vencode: "",
                     Cancelcharge: "0.00",
                     Currkey: "KRW",
                     Quant: oItem.Quant,
@@ -86,20 +83,18 @@ sap.ui.define([
                     Getstate: "1"
                 };
                 console.log(oPayload);
-                this._createRequest("반품 처리를 진행하시겠습니까?", oPayload);
+                this._createRequest(oPayload);
             },
 
             onExchangePress: function (oEvent) {
                 var oItem = oEvent.getSource().getBindingContext("searchModel").getObject();
                 var oPayload = {
-                    Changecode: "",
-                    Saocode: oItemData.Saocode,
-                    Custcode: oItemData.Custcode,
-                    Shipcode: oItemData.Shipcode,
-                    Vencode: "",
+                    Saocode: oItem.Saocode,
+                    Custcode: oItem.Custcode,
+                    Shipcode: oItem.Shipcode,
                     Cancelcharge: "0.00",
                     Currkey: "KRW",
-                    Quant: oItemData.Quant,
+                    Quant: oItem.Quant,
                     Unit: "EA",
                     Salestate: "C",
                     Okstate: "2",
@@ -111,20 +106,18 @@ sap.ui.define([
             onReclaimPress: function (oEvent) {
                 var oItem = oEvent.getSource().getBindingContext("searchModel").getObject();
                 var oPayload = {
-                    Changecode: "",
-                    Saocode: oItemData.Saocode,
-                    Custcode: oItemData.Custcode,
-                    Shipcode: oItemData.Shipcode,
-                    Vencode: "",
+                    Saocode: oItem.Saocode,
+                    Custcode: oItem.Custcode,
+                    Shipcode: oItem.Shipcode,
                     Cancelcharge: "0.00",
                     Currkey: "KRW",
-                    Quant: oItemData.Quant,
+                    Quant: oItem.Quant,
                     Unit: "EA",
                     Salestate: "W",
                     Okstate: "2",
                     Getstate: "1"
                 };
-                this._createRequest("교환 처리를 진행하시겠습니까?", oPayload);
+                this._createRequest("회수 처리를 진행하시겠습니까?", oPayload);
             },
             _createRequest: function (oItem) {
                 var oModel = this.getView().getModel();
@@ -137,7 +130,26 @@ sap.ui.define([
                     }
                 });
             },
+            onChange: function (oEvent) {
+                var sValue = oEvent.getParameter("value");
+                var sFormattedValue = this._formatPN(sValue);
+                var onIput = this.byId("telnoInput");
+                onIput.setValue(sFormattedValue);
+            },
+            _formatPN(sValue) {
+                var sNumericValue = sValue.replace(/\D/g, '');
 
+                if (sNumericValue.length > 3 && sNumericValue.length <= 7) {
+                    sNumericValue = sNumericValue.replace(/(\d{3})(\d+)/, "$1-$2");
+                } else if (sNumericValue.length > 7) {
+                    sNumericValue = sNumericValue.replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3");
+                }
 
+                if (sNumericValue.length > 13) {
+                    sNumericValue = sNumericValue.substring(0, 13);
+                }
+
+                return sNumericValue;
+            }
         });
     });

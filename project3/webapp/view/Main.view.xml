@@ -2,43 +2,44 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
     <Page id="page" title="반품 / 교환 / 회수 신청">
-    <HBox >
-    <Input id="telnoInput" placeholder="XXX-XXXX-XXXX" />
-        <Button text="조회" press="onSearch" />
-    </HBox>
+        <HBox >
+            <Label text="전화번호:  " labelFor="telnoInput" class="customLabel"></Label>
+            <Input id="telnoInput" placeholder="XXX-XXXX-XXXX" maxLength="14" liveChange="onChange"/>
+            <Button text="조회" press="onSearch" />
+        </HBox>
         <VBox>
-        <Table id="resultsTable" items="{searchModel>/results}">
-            <headerToolbar>
-                <Toolbar>
-                    <Title text="조회 결과"/>
-                </Toolbar>
-            </headerToolbar>
-            <columns>
-                <Column>
-                    <Text text="제품코드"/>
-                </Column>
-                <Column>
-                    <Text text="수량"/>
-                </Column>
-                <Column >
-                </Column>
-                <Column >
-                </Column>
-                <Column >
-                </Column>
-            </columns>
-            <items>
-                <ColumnListItem>
-                    <cells>
-                        <Text text="{searchModel>Matcode}"/>
-                        <Text text="{searchModel>Quant}"/>
-                        <Button text="반품" press="onReturnPress"></Button>
-                        <Button text="교환" press="onExchangePress"></Button>
-                        <Button text="회수" press="onReclaimPress"></Button>
-                    </cells>
-                </ColumnListItem>
-            </items>
-        </Table>
-    </VBox>
+            <Table id="resultsTable" items="{searchModel>/results}">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="조회 결과"/>
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="제품코드"/>
+                    </Column>
+                    <Column>
+                        <Text text="수량"/>
+                    </Column>
+                    <Column >
+                    </Column>
+                    <Column >
+                    </Column>
+                    <Column >
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Label text="{searchModel>Matcode}"/>
+                            <Text text="{searchModel>Quant}"/>
+                            <Button text="반품" press="onReturnPress"></Button>
+                            <Button text="교환" press="onExchangePress"></Button>
+                            <Button text="회수" press="onReclaimPress"></Button>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </VBox>
     </Page>
 </mvc:View>
